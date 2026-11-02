@@ -25,5 +25,13 @@ export * from "./roadmap/progress-calculator";
 export * from "./roadmap/roadmap-adjuster";
 export * from "./roadmap/roadmap-generator";
 export * from "./roadmap/roadmap.service";
+export * from "./explanations/score-breakdown";
+export * from "./explanations/evidence-builder";
+export * from "./explanations/eligibility-explainer";
+export * from "./explanations/confidence-calculator";
+export * from "./explanations/improvement-suggestions";
+export * from "./explanations/explanation-ai";
+export * from "./explanations/explanation.service";
+export * from "./application/application.service";
 
 

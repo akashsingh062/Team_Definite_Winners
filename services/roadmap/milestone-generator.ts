@@ -282,3 +282,4 @@ export async function generateMilestonesForSkills(
 
   return { milestones, totalHours };
 }
+

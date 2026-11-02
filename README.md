@@ -115,6 +115,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 | `npm run test:stage4` | Executes Stage 4 automated test suite (24/24 checks) |
 | `npm run test:stage5` | Executes Stage 5 automated test suite (26/26 checks) |
 | `npm run test:stage6` | Executes Stage 6 automated test suite (29/29 checks) |
+| `npm run test:stage7` | Executes Stage 7 automated test suite (38/38 checks) |
 | `npm run seed:opportunities` | Seeds 35 verified demo opportunities (15 internships, 10 jobs, 10 skill programs) |
 | `npm run promote:admin -- user@email.com` | Securely provisions an existing user with administrator role |
 
@@ -312,9 +313,63 @@ Where:
 
 ---
 
-## 12. Verification & Automated Testing
+## 12. Stage 7: Explainable AI Recommendations
 
-CareerBridge AI maintains comprehensive end-to-end automated verification suites across all 6 stages:
+Stage 7 transforms the black-box matching scores of conventional platforms into completely transparent, evidence-based explainability reports. Students can inspect exactly why an opportunity was recommended, verify evidence sources, review academic criteria satisfaction, evaluate data completeness, and follow actionable next steps linked to Stages 5 and 6.
+
+### 7-Factor Match Score Breakdown
+Every point awarded is mathematically derived from the Stage 4 scoring engine with fixed transparent weights:
+
+| Matching Factor | Weight | Evaluation Method & Evidence Sources |
+|---|---:|---|
+| **Required Technical Skills** | 40% | Mandatory skills matched vs total required $(\text{Matched} / \text{Total}) \times 100$ |
+| **Preferred Technical Skills** | 15% | Bonus skills matched vs total preferred $(\text{Matched} / \text{Total}) \times 100$ |
+| **Projects & Experience** | 15% | Portfolio projects showcasing stack overlap + tenure verification |
+| **Education & Eligibility** | 10% | Degree, branch, and minimum CGPA satisfaction |
+| **Career Role Alignment** | 10% | Semantic congruence with student's preferred job role |
+| **Work Mode & Location** | 5% | Remote, Hybrid, or On-site preference compatibility |
+| **Compensation** | 5% | Stipend or salary alignment against student career expectations |
+
+### Skills Analysis & Verification Policy
+Skills are systematically classified into four categories:
+1. **Matching Skills:** Possessed competencies directly confirmed via profile, approved resume, or project code proof.
+2. **Missing Required Skills:** Mandatory employer requirements not yet demonstrated, prioritized with direct links to the Stage 5 Skill Gap Analyzer (`/dashboard/skill-gap/[skillId]`).
+3. **Missing Preferred Skills:** Optional bonus technologies that enhance candidate competitiveness.
+4. **Skills Requiring Verification:** Ambiguous, partial, or unassessed skills. **Invariant:** The system never assumes a skill is absent simply because it was not detected in a resume.
+
+### Eligibility Transparency & Mandatory Failure Policy
+- Criteria evaluated: Minimum CGPA, degree requirements, academic branch/major, minimum experience, and graduation timeline.
+- **Invariant:** Mandatory eligibility failures (e.g. CGPA below cutoff) cap the overall match score at **45%** and are clearly flagged with explicit explanations rather than misleading the student.
+- Unavailable student data is explicitly marked as "Unknown Data" rather than penalized as a failure.
+
+### Data Completeness Indicator (Separate from Match Score)
+A dedicated 0-100% data completeness indicator evaluates whether the recommendation has sufficient information (skills, academic background, portfolio projects, approved resume, career preferences). It is **strictly distinct from the match score** and is never represented as hiring probability or model confidence.
+
+### Actionable Next Steps
+Generates specific improvement recommendations connected directly to:
+- **Stage 5 Skill Gap Analyzer:** View course recommendations and market demand for missing skills.
+- **Stage 6 Personalized Learning Roadmap:** Advance active roadmap milestones or generate a personalized study plan.
+- **Profile Management:** Update academic records, CGPA, or add portfolio projects.
+
+### Responsible AI & Fairness Safeguards
+- **Deterministic Source of Truth:** Mathematical calculations and database records govern all scores, eligibility statuses, and classifications.
+- **Gemini API Role:** LLM converts structured data into student-friendly explanatory language. It is strictly prohibited from altering scores or inventing qualifications.
+- **100% Deterministic Fallback:** Automatically activates if Gemini API encounters network timeouts, quota limits, or invalid responses.
+- **Pedigree Neutrality:** University prestige, brand names, gender, caste, religion, and socio-economic indicators are completely excluded from matching formulas.
+- **Student Sovereignty & Feedback:** Students can submit "Helpful" or "Not Helpful" audits stored in MongoDB (`ExplanationFeedback`), preventing duplicate spam.
+
+### Key Routes & Endpoints
+- `/dashboard/recommendations/[opportunityId]` — Comprehensive explainability page with 10 interactive sections.
+- `GET /api/explanations/opportunities/[opportunityId]` — Full structured explanation and AI narrative.
+- `GET /api/explanations/methodology` — Transparent methodology overview, exact factor weights, and fairness guarantees.
+- `POST /api/explanations/feedback` — Submits student feedback on explanation quality.
+- `GET /api/explanations/feedback` — Retrieves existing student feedback for an opportunity.
+
+---
+
+## 13. Verification & Automated Testing
+
+CareerBridge AI maintains comprehensive end-to-end automated verification suites across all 7 stages:
 
 ```bash
 # Stage 1: Auth & Student Profile Management (25 assertions)
@@ -334,6 +389,9 @@ npm run test:stage5
 
 # Stage 6: Personalized AI Learning Roadmap & Adaptive Progress (29 assertions)
 npm run test:stage6
+
+# Stage 7: Explainable AI Recommendations & Evidence Breakdown (38 assertions)
+npm run test:stage7
 
 # Strict TypeScript compilation check (0 errors)
 npm run type-check

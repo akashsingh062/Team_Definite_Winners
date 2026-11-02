@@ -1,6 +1,8 @@
 import { connectToDatabase } from "@/lib/db/mongodb";
 import { Resume } from "@/models/Resume";
 import { StudentProfile } from "@/models/StudentProfile";
+import { OpportunityExplanation } from "@/models/OpportunityExplanation";
+import { invalidateStudentMatchCache } from "@/services/matching/matching.service";
 import {
   extractTextFromPdfBuffer,
   ScannedPdfError,
@@ -481,6 +483,14 @@ export async function approveAndMergeResume(
   resume.analysisStatus = "approved";
   resume.approvedAt = new Date();
   await resume.save();
+
+  // Invalidate matching & explanation cache for the student
+  invalidateStudentMatchCache(studentId);
+  try {
+    await OpportunityExplanation.deleteMany({ userId: studentId });
+  } catch (err) {
+    // Non-blocking
+  }
 
   return {
     profile: profile.toObject(),

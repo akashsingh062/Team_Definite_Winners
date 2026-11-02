@@ -1,6 +1,8 @@
 import { connectToDatabase } from "@/lib/db/mongodb";
 import { StudentProfile } from "@/models/StudentProfile";
+import { OpportunityExplanation } from "@/models/OpportunityExplanation";
 import { IStudentProfile, IProfileCompletionBreakdown } from "@/types/student";
+import { invalidateStudentMatchCache } from "@/services/matching/matching.service";
 
 /**
  * Calculates weighted profile completion breakdown according to exact requirements:
@@ -157,6 +159,14 @@ export async function upsertStudentProfile(
     },
     { new: true, upsert: true, runValidators: true }
   ).lean<IStudentProfile>();
+
+  // Invalidate matching and explanation caches so recommendations reflect latest data
+  invalidateStudentMatchCache(userId);
+  try {
+    await OpportunityExplanation.deleteMany({ userId });
+  } catch (err) {
+    // Non-blocking cache clear
+  }
 
   return JSON.parse(JSON.stringify(updated));
 }

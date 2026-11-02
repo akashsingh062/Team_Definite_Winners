@@ -71,3 +71,4 @@ export const geminiRoadmapAiOutputSchema = z.object({
   description: z.string().min(5),
   milestones: z.array(geminiMilestoneOutputSchema).min(1),
 });
+

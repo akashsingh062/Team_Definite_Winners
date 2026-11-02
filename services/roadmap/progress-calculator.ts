@@ -87,3 +87,4 @@ export async function syncSkillProgressWithMilestone(
     console.warn(`Failed to sync StudentSkillProgress for ${skillName}:`, err);
   }
 }
+
