@@ -225,9 +225,96 @@ $$\text{Overall Score} = 0.40 \cdot S_{\text{req}} + 0.15 \cdot S_{\text{pref}} 
 
 ---
 
-## 10. Verification & Automated Testing
+## 10. Stage 5: AI-Powered Skill Gap Analyzer
 
-CareerBridge AI maintains comprehensive end-to-end automated verification suites across all stages:
+Stage 5 bridges the gap between where a student currently stands and what high-value opportunities require. It synthesizes student profile skills, approved resume data, and portfolio project technologies to compute multi-opportunity skill demand, coverage statistics, and personalized learning priorities.
+
+### Skill Coverage Formula
+Skill coverage evaluates technical readiness across target opportunities:
+
+$$\text{Coverage}_{\text{req}} = \left( \frac{|\text{Possessed} \cap \text{Required}|}{|\text{Required}|} \right) \times 100$$
+
+$$\text{Coverage}_{\text{overall}} = 0.70 \cdot \text{Coverage}_{\text{req}} + 0.30 \cdot \text{Coverage}_{\text{pref}}$$
+
+### Multi-Opportunity Demand & Priority Scoring
+When analyzing gaps across multiple target opportunities (or top recommendations for the student's target role):
+
+$$\text{Demand Percentage}(s) = \left( \frac{\text{Count of Opportunities Requiring } s}{\text{Total Opportunities Analyzed}} \right) \times 100$$
+
+- **High Priority:** Required in $\ge 60\%$ of opportunities analyzed, or marked as a required foundational skill in top-ranked roles.
+- **Medium Priority:** Required in $30\% - 59\%$ of opportunities, or listed as a preferred skill in multiple listings.
+- **Low Priority:** Required or preferred in $< 30\%$ of opportunities.
+
+### Key Features
+- **Deterministic Skill Comparator:** Exact matches, case-insensitive mapping, and synonym normalization (e.g. `React.js` $\to$ `React`, `PostgreSQL` $\to$ `Postgres`).
+- **Learning Resource Integration:** High-quality vetted courses, official documentation, and free certifications mapped to missing skills with difficulty ratings and time estimates.
+- **Skill Progress Tracking:** State machine (`not_started` $\to$ `learning` $\to$ `practicing` $\to$ `completed`) with timestamp auditing (`startedAt`, `completedAt`).
+- **Pedigree Neutrality:** Coverage percentages and priority rankings depend exclusively on demonstrated skills and target opportunity requirements.
+
+### Key Routes & Endpoints
+- `/dashboard/skill-gap` — Comprehensive skill gap overview with Recharts radar and bar visualizers, priority queues, and target role benchmarks.
+- `/dashboard/skill-gap/[skillId]` — Deep-dive skill view with market demand rationale, curated courses, and progress tracker.
+- `GET /api/skill-gap/overview` — Aggregated metrics and priority skill breakdowns.
+- `POST /api/skill-gap/analyze` — On-demand multi-opportunity skill gap analysis.
+- `GET /api/skill-gap/resources` — Catalog of curated learning resources.
+- `GET / POST / PATCH /api/skill-gap/progress` — Student skill learning lifecycle management.
+
+---
+
+## 11. Stage 6: Personalized AI Learning Roadmap
+
+Stage 6 transforms the missing skills and priorities identified in Stage 5 into actionable, milestone-driven learning roadmaps structured specifically for student schedules (study hours/day and study days/week).
+
+### Skill Dependency Resolver & Topological Ordering
+To ensure foundational skills are mastered before advanced frameworks:
+1. **Dependency Graph:** Directed acyclic graph (DAG) enforcing industry-standard prerequisites:
+   - `HTML/CSS` $\to$ `JavaScript` $\to$ `React` / `TypeScript` $\to$ `Next.js`
+   - `Python` $\to$ `Django` / `FastAPI` / `Machine Learning` $\to$ `Deep Learning`
+   - `SQL` / `Databases` $\to$ `Backend Engineering`
+2. **Cycle Detection (DFS):** Detects circular dependencies (e.g., $A \to B \to C \to A$) and breaks loops gracefully.
+3. **Priority-Weighted Kahn's Algorithm:** Resolves ties among zero-indegree skills by prioritizing foundational skills with higher downstream impact.
+
+### Milestone & Study Time Allocation
+Weekly milestones adapt dynamically to student availability:
+
+$$\text{Weekly Study Capacity} = \text{Study Hours/Day} \times \text{Study Days/Week}$$
+
+$$\text{Estimated Weeks per Skill} = \max\left(1, \text{round}\left(\frac{\text{Estimated Hours}}{\text{Weekly Study Capacity}}\right)\right)$$
+
+### Comprehensive Progress Formula (0-100%)
+Roadmap progress combines task checklist progress and milestone lifecycle states:
+
+$$\text{Roadmap Progress} = \text{round}\left(0.50 \cdot P_{\text{milestones}} + 0.50 \cdot P_{\text{tasks}}\right)$$
+
+Where:
+- $P_{\text{milestones}} = \frac{100 \times \text{Completed Milestones} + 50 \times \text{In-Progress Milestones}}{\text{Total Milestones}}$
+- $P_{\text{tasks}} = \left( \frac{\text{Completed Subtasks across all milestones}}{\text{Total Subtasks}} \right) \times 100$
+
+### Adaptive Recalculation & History Preservation
+- When a student updates their schedule or requests an adjustment, **completed and skipped milestones are strictly preserved** along with their historical timestamps.
+- Only future pending milestones (`not_started`, `in_progress`) are recalculated and rescheduled, preventing loss of student effort.
+- Completing a milestone automatically updates the student's `StudentSkillProgress` record to `completed`.
+
+### AI Integration & Deterministic Fallback Invariant
+- Roadmaps can be generated via Google Gemini API (`@google/genai`) using structured prompts.
+- All AI responses are validated via strict Zod schema (`geminiRoadmapAiOutputSchema`).
+- In case of API quota limits, network timeouts, or invalid JSON, the system transparently activates the 100% deterministic fallback generator, guaranteeing zero service interruption.
+
+### Key Routes & Endpoints
+- `/dashboard/roadmap` — Main student roadmap timeline with overall progress bar, weekly milestones, actionable checklists, practical assignments, and adjustment controls.
+- `/dashboard/roadmap/[roadmapId]` — Detailed milestone view for active and archived roadmaps.
+- `POST /api/roadmap/generate` — Generates a new personalized roadmap from Stage 5 skill gaps.
+- `GET /api/roadmap` — Retrieves the active roadmap.
+- `GET /api/roadmap/[roadmapId]` — Retrieves specific roadmap.
+- `PATCH /api/roadmap/[roadmapId]/milestones/[milestoneId]` — Updates milestone status and reflection notes.
+- `POST /api/roadmap/[roadmapId]/milestones/[milestoneId]/tasks` — Toggles subtask completion and syncs skill progress.
+- `POST /api/roadmap/[roadmapId]/adjust` — Adapts schedule and re-sequences future milestones while preserving completed history.
+
+---
+
+## 12. Verification & Automated Testing
+
+CareerBridge AI maintains comprehensive end-to-end automated verification suites across all 6 stages:
 
 ```bash
 # Stage 1: Auth & Student Profile Management (25 assertions)
@@ -242,13 +329,19 @@ npm run test:stage3
 # Stage 4: Intelligent Matching Engine & Fairness Invariants (24 assertions)
 npm run test:stage4
 
-# Strict TypeScript compilation check
+# Stage 5: AI-Powered Skill Gap Analyzer & Resource Linking (26 assertions)
+npm run test:stage5
+
+# Stage 6: Personalized AI Learning Roadmap & Adaptive Progress (29 assertions)
+npm run test:stage6
+
+# Strict TypeScript compilation check (0 errors)
 npm run type-check
 
-# Next.js code quality & accessibility linting
+# Next.js code quality & accessibility linting (0 errors)
 npm run lint
 
-# Production Next.js 16 build verification
+# Production Next.js 16 Turbopack build verification (0 errors)
 npm run build
 ```
 
