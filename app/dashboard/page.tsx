@@ -517,6 +517,29 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
+            {/* Active Feature: AI Learning Roadmap (Stage 6) */}
+            <Card className="border-purple-100 bg-purple-50/30">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2 text-purple-950">
+                  <Compass className="w-4 h-4 text-purple-600" />
+                  <CardTitle className="text-sm font-bold">
+                    AI Learning Roadmap
+                  </CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3 text-xs text-slate-600 leading-relaxed">
+                <p>
+                  Convert missing skill gaps into personalized weekly milestones with practical deliverables.
+                </p>
+                <Link href="/dashboard/roadmap" className="block pt-1">
+                  <Button size="sm" variant="outline" className="w-full text-xs font-semibold border-purple-200 text-purple-800 hover:bg-purple-100/50 gap-1.5">
+                    <span>Open My Learning Roadmap</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             {/* Meaningful Empty State 2: Applications Tracker (Stage 2) */}
             <Card className="border-slate-200 bg-slate-50/50">
               <CardHeader className="pb-2">

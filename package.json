@@ -12,6 +12,8 @@
     "test:stage2": "tsx scripts/test-stage2.mjs",
     "test:stage3": "tsx scripts/test-stage3.mjs",
     "test:stage4": "tsx scripts/test-stage4.mjs",
+    "test:stage5": "tsx scripts/test-stage5.mjs",
+    "test:stage6": "tsx scripts/test-stage6.mjs",
     "seed:opportunities": "node scripts/seed-opportunities.mjs",
     "promote:admin": "node scripts/promote-admin.mjs"
   },

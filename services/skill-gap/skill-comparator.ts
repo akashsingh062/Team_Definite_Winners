@@ -62,29 +62,33 @@ export function extractApprovedStudentSkills(
   // 3. Skills from Approved Resume only
   if (
     resume &&
-    (resume.analysisStatus === "completed" || resume.isApproved) &&
-    resume.parsedData?.skills
+    (resume.analysisStatus === "completed" ||
+      resume.analysisStatus === "approved" ||
+      Boolean(resume.approvedAt)) &&
+    (resume.parsedData?.technicalSkills || (resume.parsedData as any)?.skills)
   ) {
-    const rSkills = resume.parsedData.skills;
-    const allResumeTech = [
-      ...(rSkills.programmingLanguages || []),
-      ...(rSkills.frontend || []),
-      ...(rSkills.backend || []),
-      ...(rSkills.databases || []),
-      ...(rSkills.frameworks || []),
-      ...(rSkills.tools || []),
-      ...(rSkills.cloud || []),
-      ...(rSkills.other || []),
+    const tSkills =
+      resume.parsedData?.technicalSkills || (resume.parsedData as any)?.skills;
+    const allResumeTech: (string | { name?: string; category?: string; proficiencyLevel?: string })[] = [
+      ...(tSkills.programmingLanguages || []),
+      ...(tSkills.frontend || []),
+      ...(tSkills.backend || []),
+      ...(tSkills.databases || []),
+      ...(tSkills.frameworks || []),
+      ...(tSkills.tools || []),
+      ...(tSkills.cloud || []),
+      ...(tSkills.other || []),
     ];
 
     for (const item of allResumeTech) {
-      if (item && item.name) {
-        const canonical = normalizeSkill(item.name);
+      const rawName = typeof item === "string" ? item : item?.name;
+      if (rawName) {
+        const canonical = normalizeSkill(rawName);
         if (canonical && !skillMap.has(canonical.toLowerCase())) {
           skillMap.set(canonical.toLowerCase(), {
             name: canonical,
-            category: item.category || "Approved resume",
-            proficiency: item.proficiencyLevel || "Intermediate",
+            category: typeof item === "object" && item?.category ? item.category : "Approved resume",
+            proficiency: typeof item === "object" && item?.proficiencyLevel ? item.proficiencyLevel : "Intermediate",
             source: "resume",
           });
         }

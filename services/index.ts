@@ -18,4 +18,12 @@ export * from "./skill-gap/priority-calculator";
 export * from "./skill-gap/learning-resource.service";
 export * from "./skill-gap/gap-explanation.service";
 export * from "./skill-gap/skill-gap.service";
+export * from "./roadmap/dependency-resolver";
+export * from "./roadmap/learning-sequencer";
+export * from "./roadmap/milestone-generator";
+export * from "./roadmap/progress-calculator";
+export * from "./roadmap/roadmap-adjuster";
+export * from "./roadmap/roadmap-generator";
+export * from "./roadmap/roadmap.service";
+
 

@@ -5,4 +5,6 @@ export * from "./api";
 export * from "./resume";
 export * from "./matching";
 export * from "./skill-gap";
+export * from "./roadmap";
+
 

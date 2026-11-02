@@ -14,6 +14,7 @@ import {
   FileText,
   Sparkles,
   Target,
+  Compass,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -42,6 +43,11 @@ const navigationItems: NavItem[] = [
     name: "Skill Gap Analyzer",
     href: "/dashboard/skill-gap",
     icon: Target,
+  },
+  {
+    name: "AI Learning Roadmap",
+    href: "/dashboard/roadmap",
+    icon: Compass,
   },
   {
     name: "Browse Opportunities",

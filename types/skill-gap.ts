@@ -40,8 +40,8 @@ export interface IStudentSkillProgress {
   skillName: string;
   status: SkillProgressStatus;
   learningResourceIds: string[];
-  startedAt?: Date | string;
-  completedAt?: Date | string;
+  startedAt?: Date | string | null;
+  completedAt?: Date | string | null;
   notes?: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;

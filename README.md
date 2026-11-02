@@ -112,6 +112,9 @@ GEMINI_API_KEY=your_gemini_api_key_here
 | `npm run test:stage1` | Executes Stage 1 automated test suite (25/25 checks) |
 | `npm run test:stage2` | Executes Stage 2 automated test suite (20/20 checks) |
 | `npm run test:stage3` | Executes Stage 3 automated test suite (21/21 checks) |
+| `npm run test:stage4` | Executes Stage 4 automated test suite (24/24 checks) |
+| `npm run test:stage5` | Executes Stage 5 automated test suite (26/26 checks) |
+| `npm run test:stage6` | Executes Stage 6 automated test suite (29/29 checks) |
 | `npm run seed:opportunities` | Seeds 35 verified demo opportunities (15 internships, 10 jobs, 10 skill programs) |
 | `npm run promote:admin -- user@email.com` | Securely provisions an existing user with administrator role |
 

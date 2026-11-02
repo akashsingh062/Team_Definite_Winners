@@ -410,7 +410,7 @@ export async function upsertStudentSkillProgress(
   } else if (input.status === "completed") {
     if (!startedAt) startedAt = now;
     completedAt = now;
-  } else if (input.status !== "completed") {
+  } else {
     completedAt = null;
   }
 
@@ -502,7 +502,7 @@ export async function updateStudentSkillProgress(
     } else if (input.status === "completed") {
       if (!existing.startedAt) existing.startedAt = now;
       existing.completedAt = now;
-    } else if (input.status !== "completed") {
+    } else {
       existing.completedAt = null;
     }
   }
