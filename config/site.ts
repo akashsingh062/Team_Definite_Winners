@@ -1,0 +1,25 @@
+export const siteConfig = {
+  name: "CareerBridge AI",
+  shortName: "CareerBridge",
+  description:
+    "AI-powered campus-to-employment opportunity matcher prioritizing explainable recommendations, accessibility, and fairness for students.",
+  url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  ogImage: "/og.png",
+  links: {
+    github: "https://github.com/careerbridge-ai",
+  },
+  mainNav: [
+    { title: "Home", href: "/" },
+    { title: "Opportunities", href: "/opportunities" },
+    { title: "Dashboard", href: "/dashboard" },
+    { title: "My Profile", href: "/profile" },
+    { title: "Fairness & Ethics", href: "/#fairness" },
+  ],
+  studentNav: [
+    { title: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
+    { title: "Browse Opportunities", href: "/opportunities", icon: "Briefcase" },
+    { title: "Profile Management", href: "/profile", icon: "User" },
+  ],
+} as const;
+
+export type SiteConfig = typeof siteConfig;
