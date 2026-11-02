@@ -30,8 +30,12 @@ const STATUS_DESCRIPTIONS: Record<ApplicationStatus, string> = {
   expired: "Opportunity deadline passed without action",
 };
 
-export function StatusUpdateModal({
-  isOpen,
+export function StatusUpdateModal(props: StatusUpdateModalProps) {
+  if (!props.isOpen) return null;
+  return <StatusUpdateModalContent {...props} />;
+}
+
+function StatusUpdateModalContent({
   onClose,
   applicationId,
   currentStatus,
@@ -42,13 +46,6 @@ export function StatusUpdateModal({
     React.useState<ApplicationStatus>(currentStatus);
   const [note, setNote] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-
-  React.useEffect(() => {
-    setSelectedStatus(currentStatus);
-    setNote("");
-  }, [currentStatus, isOpen]);
-
-  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

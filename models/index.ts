@@ -9,5 +9,9 @@ export * from "./OpportunityExplanation";
 export * from "./ExplanationFeedback";
 export * from "./Application";
 export * from "./ApplicationActivity";
+export * from "./AdminAuditLog";
+export * from "./AnalyticsEvent";
+export * from "./CareerPath";
+export * from "./CareerSimulation";
 
 

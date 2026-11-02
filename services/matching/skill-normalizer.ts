@@ -215,3 +215,5 @@ export function areSkillsEquivalent(skillA: string, skillB: string): boolean {
   return normalizeSkill(skillA).toLowerCase() === normalizeSkill(skillB).toLowerCase();
 }
 
+export { normalizeSkill as normalizeSkillName };
+

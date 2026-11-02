@@ -54,3 +54,4 @@ export const ApplicationActivity: Model<IApplicationActivity> =
   );
 
 export default ApplicationActivity;
+

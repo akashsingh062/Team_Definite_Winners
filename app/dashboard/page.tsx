@@ -19,6 +19,7 @@ import {
   Compass,
   Layers,
   ArrowRight,
+  ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { IStudentProfile, IProfileCompletionBreakdown } from "@/types/student";
@@ -540,23 +541,29 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Meaningful Empty State 2: Applications Tracker (Stage 2) */}
-            <Card className="border-slate-200 bg-slate-50/50">
+            {/* Active Feature: Application Tracking System (Stage 8) */}
+            <Card className="border-blue-100 bg-blue-50/30">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2 text-slate-900">
-                  <Layers className="w-4 h-4 text-slate-600" />
+                  <ClipboardList className="w-4 h-4 text-blue-600" />
                   <CardTitle className="text-sm font-bold">
                     Application History & Tracker
                   </CardTitle>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-2 text-xs text-slate-500 leading-relaxed">
+              <CardContent className="space-y-3 text-xs text-slate-600 leading-relaxed">
                 <p>
-                  You haven&apos;t submitted any campus internship or job applications yet.
+                  Organize saved roles, record application submissions, track interview rounds, and set follow-up reminders.
                 </p>
-                <p className="text-[11px] text-slate-400">
-                  When employers post opportunities in Stage 2, your application milestones and interview invitations will be organized here.
-                </p>
+                <Link href="/dashboard/applications" className="block pt-1">
+                  <Button
+                    size="sm"
+                    className="w-full text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white gap-1.5 shadow-2xs"
+                  >
+                    <span>Open Application Tracker</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

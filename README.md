@@ -367,9 +367,128 @@ Generates specific improvement recommendations connected directly to:
 
 ---
 
-## 13. Verification & Automated Testing
+## 13. Stage 8: Application Tracking System (ATS)
 
-CareerBridge AI maintains comprehensive end-to-end automated verification suites across all 7 stages:
+Stage 8 equips students with a recruitment tracking workspace to manage the entire application journey—from initial bookmarked interests to final offers and onboarding confirmations.
+
+### Recruitment Status Lifecycle
+The tracking system models 10 realistic recruitment states:
+- `saved` — Bookmarked to review or apply later. Saving an opportunity never marks it as applied.
+- `planning` — Active preparation (customizing resume, building portfolio proof, securing referrals).
+- `applied` — Official application recorded by the student with date, submission method, and URL.
+- `assessment` — Online coding test, screening task, or take-home technical challenge.
+- `interview` — Technical interviews, recruiter screenings, or hiring manager rounds.
+- `offer_received` — Formal internship or job offer received with compensation details.
+- `selected` — Offer accepted and onboarding milestones confirmed.
+- `rejected` — Application not selected for this hiring cycle.
+- `withdrawn` — Application voluntarily withdrawn by candidate.
+- `expired` — Application window passed without student action.
+
+### Single Tracking Record Invariant
+Enforced via a compound unique index `{ userId: 1, opportunityId: 1 }` in MongoDB (`models/Application.ts`). A student can have at most one tracking record per opportunity. Status updates, note additions, and follow-up schedules modify this document in-place.
+
+### Append-Only Activity History
+Every recruitment milestone transition, status update, and note change automatically records an immutable event in `models/ApplicationActivity.ts`:
+- Captures `previousStatus`, `newStatus`, `note`, and `createdAt`.
+- Preserves a permanent chronological audit trail, ensuring historical data remains intact even if a student corrects an accidental status change (e.g. `interview` -> `rejected` -> `selected`).
+
+### Deadlines & Follow-Up Reminders
+- Calculates exact days remaining until opportunity application deadlines.
+- Distinguishes upcoming deadlines from passed deadlines with high-contrast color badges (`danger`, `amber`, `slate`).
+- Allows setting custom follow-up reminder dates (`nextFollowUpDate`) with countdown indicators.
+
+### Key Routes & Endpoints
+- `/dashboard/applications` — Centralized application tracking dashboard with overview cards, pipeline funnel bar, upcoming follow-ups, and paginated filterable applications list.
+- `/dashboard/applications/[applicationId]` — Dedicated application detail page featuring opportunity specs, status progression controls, notes editor, follow-up calendar, and full activity timeline.
+- `GET /api/applications` — Paginated list of student applications with status, category, search, and sort filters.
+- `POST /api/applications` — Save opportunities or record confirmed applications ("I Have Applied").
+- `GET /api/applications/statistics` — Aggregated application metrics, response rate, pipeline stage counts, and upcoming follow-ups.
+- `GET /api/applications/check` — Real-time tracking status check for any opportunity.
+- `GET, PATCH, DELETE /api/applications/[applicationId]` — Fetch detail, update metadata/notes/status, or delete application record.
+- `GET, POST /api/applications/[applicationId]/activities` — Retrieve chronological activity history or append manual notes.
+
+---
+
+## 14. Stage 9 Implementation – Admin Analytics & Fairness Dashboard
+
+Stage 9 introduces an enterprise-grade administrative analytics and responsible AI monitoring command center situated at `/admin/analytics`. It empowers platform administrators, institutional career officers, and accreditation bodies to monitor student engagement, hiring pipelines, skill demand trends, and algorithmic non-discrimination metrics in real time.
+
+```text
+app/
+├── admin/
+│   └── analytics/page.tsx               # Main Dashboard with 8 tabs & global date filters
+├── api/admin/
+│   ├── analytics/
+│   │   ├── overview/route.ts            # Platform-wide KPIs & tool interaction stats
+│   │   ├── students/route.ts            # Registration velocity, profiles, & skills
+│   │   ├── opportunities/route.ts       # Postings inventory, categories, & demand
+│   │   ├── matching/route.ts            # Recommendation scores & eligibility breakdowns
+│   │   ├── applications/route.ts        # 6-stage recruitment funnel & conversion rates
+│   │   ├── skills/route.ts              # Skill triangulation & market deficits
+│   │   ├── learning/route.ts            # Roadmap completions & targeted career roles
+│   │   ├── fairness/route.ts            # Non-discrimination audit & quality indicators
+│   │   └── export/route.ts              # Secure sanitized CSV dataset generation
+│   └── audit-logs/route.ts              # Paginated immutable admin action logs
+features/analytics/components/
+├── AnalyticsHeader.tsx                  # Global date filter & CSV export menu
+├── OverviewCardsSection.tsx             # 4 primary KPI card groups
+├── StudentAnalyticsSection.tsx          # Line, bar, and donut charts for student trends
+├── OpportunityAnalyticsSection.tsx      # Category, work mode, and skill demand charts
+├── MatchingAnalyticsSection.tsx         # Score histograms & top recommended postings
+├── ApplicationAnalyticsSection.tsx      # Visual recruitment funnel & status distribution
+├── SkillGapLearningSection.tsx          # Demand vs Gap vs Active learning triangulation
+├── FairnessMonitoringSection.tsx        # 7-factor formula audit & responsible AI notice
+└── AuditLogsSection.tsx                 # Searchable immutable administrative audit trail
+models/
+├── AdminAuditLog.ts                     # Schema for tracking admin verifications & edits
+└── AnalyticsEvent.ts                    # Schema for logging lightweight analytics events
+services/analytics/
+├── dateFilterHelper.ts                  # Date boundaries (today, 7d, 30d, 90d, year, custom)
+├── auditLogService.ts                   # Immutable administrative action logging service
+└── analytics.service.ts                 # MongoDB aggregation pipelines & CSV generator
+```
+
+### Core Capabilities
+
+1. **Strict Server-Side Authorization (`requireAdmin`)**:
+   Every admin analytics and audit log endpoint validates session authenticity and confirms the user possesses the `admin` role. Non-authenticated calls return `401 Unauthorized`; student accounts return `403 Forbidden`.
+
+2. **Real-Time MongoDB Aggregations**:
+   All metrics are computed on-the-fly using MongoDB aggregation pipelines (`$group`, `$cond`, `$dateToString`, `$match`, `$sort`) across `users`, `student_profiles`, `opportunities`, `resumes`, `opportunity_explanations`, `applications`, and `roadmaps`. Zero hardcoded statistics.
+
+3. **Global Temporal Filtering & Boundaries**:
+   Supports standard presets (`today`, `7d`, `30d`, `90d`, `this_year`, `all`) as well as `custom` ISO date ranges with validation ($start \le end$). Safe handling ensures clean numerical reporting (0%, no `NaN` or divide-by-zero errors) even for empty datasets.
+
+4. **Normalized Skill Demand & Strict Java ≠ JavaScript Distinction**:
+   Aggregates employer required and preferred skills using the Stage 4 semantic normalizer (`services/matching/skill-normalizer.ts`), preserving strict boundaries between distinct technologies (e.g. `Java` is never conflated with `JavaScript` or `TypeScript`).
+
+5. **Recruitment Funnel Progression**:
+   Visualizes student application progression across 6 standardized milestones:
+   $$\text{Saved} \longrightarrow \text{Applied} \longrightarrow \text{Under Review} \longrightarrow \text{Interview} \longrightarrow \text{Offer} \longrightarrow \text{Selected}$$
+   Computes both stage-to-stage conversion and initial-to-stage conversion rates alongside a saved-to-applied conversion indicator.
+
+6. **Skill Triangulation**:
+   Correlates real employer demand with diagnosed student deficits and active learning engagements:
+   $$\text{Employer Postings Count} \longleftrightarrow \text{Student Gaps Diagnosed} \longleftrightarrow \text{Actively Learning In Roadmaps}$$
+   Automatically flags "High Deficit" skills where employer demand outstrips qualified candidate availability.
+
+7. **Fairness, Responsible AI & Demographic Quarantine**:
+   - **Demographic Exclusion Audit**: Validates that protected attributes (`gender`, `religion`, `caste`, `ethnicity`, `family_income`, `sexual_orientation`, `disability_status`) are strictly quarantined and excluded from matching and ranking algorithms.
+   - **Explainable 7-Factor Formula Audit**: Reports the transparent weights summing to exactly 100% (Required Skills: 40%, Preferred Skills: 15%, Project Evidence: 15%, Eligibility: 10%, Target Role: 10%, Work Mode: 5%, Compensation: 5%).
+   - **Institutional Pedigree Neutrality**: Confirms tier-blind evaluation; universities are assessed solely for major and accreditation without awarding prestige multipliers.
+   - **Responsible AI Limitations Notice**: Features an honest, clear disclaimer documenting data dependencies and ongoing human audit procedures (refusing naive "100% fair" claims).
+
+8. **Administrative Action Audit Trail**:
+   All administrative actions—such as creating, updating, verifying, publishing, or deleting an opportunity, as well as exporting sensitive analytics datasets—are permanently recorded in an immutable MongoDB collection (`admin_audit_logs`).
+
+9. **Secure CSV Export with Formula Injection Protection**:
+   Enables administrators to download aggregated CSV datasets (`overview`, `students`, `opportunities`, `skills`, `applications`, `fairness`). All cells are sanitized against spreadsheet formula injection attacks by prefixing dangerous characters (`=`, `+`, `-`, `@`, `\t`, `\r`) with a single quote (`'`).
+
+---
+
+## 15. Verification & Automated Testing
+
+CareerBridge AI maintains comprehensive end-to-end automated verification suites across all 9 stages:
 
 ```bash
 # Stage 1: Auth & Student Profile Management (25 assertions)
@@ -393,10 +512,16 @@ npm run test:stage6
 # Stage 7: Explainable AI Recommendations & Evidence Breakdown (38 assertions)
 npm run test:stage7
 
+# Stage 8: Application Tracking System & Activity Auditing (50 assertions)
+npm run test:stage8
+
+# Stage 9: Admin Analytics & Fairness Dashboard (72 assertions)
+npm run test:stage9
+
 # Strict TypeScript compilation check (0 errors)
 npm run type-check
 
-# Next.js code quality & accessibility linting (0 errors)
+# Next.js code quality & React 19 accessibility linting (0 errors)
 npm run lint
 
 # Production Next.js 16 Turbopack build verification (0 errors)

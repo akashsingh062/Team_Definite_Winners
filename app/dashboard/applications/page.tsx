@@ -114,14 +114,25 @@ export default function ApplicationsDashboardPage() {
       return;
     }
 
-    if (isAuthenticated) {
-      setIsLoading(true);
-      Promise.all([fetchApplications(), fetchStatsAndFollowUps()]).finally(
-        () => {
+    let isMounted = true;
+
+    async function loadData() {
+      try {
+        await Promise.all([fetchApplications(), fetchStatsAndFollowUps()]);
+      } finally {
+        if (isMounted) {
           setIsLoading(false);
         }
-      );
+      }
     }
+
+    if (isAuthenticated) {
+      loadData();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [
     isAuthenticated,
     isAuthLoading,

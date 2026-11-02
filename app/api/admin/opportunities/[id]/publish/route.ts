@@ -4,6 +4,7 @@ import {
   publishOpportunity,
   unpublishOpportunity,
 } from "@/services/opportunityService";
+import { recordAdminAuditLog } from "@/services/analytics/auditLogService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -11,7 +12,7 @@ interface RouteParams {
 
 export async function PATCH(req: NextRequest, { params }: RouteParams) {
   try {
-    await requireAdmin();
+    const adminSession = await requireAdmin();
     const { id } = await params;
 
     const body = await req.json();
@@ -20,6 +21,16 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     const updated = shouldPublish
       ? await publishOpportunity(id)
       : await unpublishOpportunity(id);
+
+    // Record admin audit log
+    await recordAdminAuditLog({
+      adminUserId: adminSession.user.id,
+      adminEmail: adminSession.user.email,
+      action: shouldPublish ? "opportunity_published" : "opportunity_updated",
+      entityType: "Opportunity",
+      entityId: id,
+      newValues: { status: shouldPublish ? "published" : "draft" },
+    }).catch((err) => console.error("Audit log failed:", err));
 
     return NextResponse.json({
       success: true,

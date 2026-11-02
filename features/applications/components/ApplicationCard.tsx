@@ -34,7 +34,7 @@ export function ApplicationCard({
   const [isUpdateModalOpen, setIsUpdateModalOpen] = React.useState(false);
 
   const opp = application.opportunity;
-  const appId = application.id || application._id;
+  const appId = String(application.id || application._id || "");
 
   // Deadline countdown calculation
   const deadlineDate = application.deadline
@@ -158,7 +158,7 @@ export function ApplicationCard({
         {/* Notes preview if any */}
         {application.notes && (
           <p className="text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100 line-clamp-2">
-            "{application.notes}"
+            &ldquo;{application.notes}&rdquo;
           </p>
         )}
 

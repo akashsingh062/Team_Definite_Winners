@@ -10,7 +10,7 @@ interface SaveOpportunityButtonProps {
   opportunityId: string;
   initialSaved?: boolean;
   size?: "sm" | "md" | "lg";
-  variant?: "outline" | "ghost" | "default";
+  variant?: "outline" | "ghost" | "primary" | "secondary";
   showLabel?: boolean;
   className?: string;
   onSavedChange?: (isSaved: boolean) => void;
@@ -29,10 +29,29 @@ export function SaveOpportunityButton({
   const [isSaved, setIsSaved] = React.useState(initialSaved);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  // Sync initial prop if provided
+  // Check saved state from API if authenticated and not already marked saved
   React.useEffect(() => {
-    setIsSaved(initialSaved);
-  }, [initialSaved]);
+    let isMounted = true;
+    if (!isAuthenticated || !opportunityId || initialSaved) return;
+
+    async function checkSavedStatus() {
+      try {
+        const res = await fetch(`/api/applications/check?opportunityId=${opportunityId}`);
+        if (!res.ok) return;
+        const json = await res.json();
+        if (isMounted && json.success && json.data) {
+          setIsSaved(Boolean(json.data.isSaved));
+        }
+      } catch {
+        // Silently ignore check errors
+      }
+    }
+
+    checkSavedStatus();
+    return () => {
+      isMounted = false;
+    };
+  }, [opportunityId, isAuthenticated, initialSaved]);
 
   const handleToggleSave = async (e: React.MouseEvent) => {
     e.preventDefault();

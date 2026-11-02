@@ -45,6 +45,10 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   // Ensure default database name is present
   if (uri.endsWith("/")) {
     uri = `${uri}careerbridge-ai?retryWrites=true&w=majority`;
+  } else if (!uri.includes("careerbridge-ai") && uri.includes(".mongodb.net")) {
+    const [base, query] = uri.split("?");
+    const separator = base.endsWith("/") ? "" : "/";
+    uri = `${base}${separator}careerbridge-ai${query ? `?${query}` : "?retryWrites=true&w=majority"}`;
   }
 
   if (cached.conn && cached.conn.connection.readyState === 1) {

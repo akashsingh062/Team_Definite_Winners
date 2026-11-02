@@ -68,61 +68,69 @@ export default function ApplicationDetailPage() {
   const [nextFollowUpDate, setNextFollowUpDate] = React.useState("");
   const [isSavingDetails, setIsSavingDetails] = React.useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = React.useState(false);
+  const [refreshTrigger, setRefreshTrigger] = React.useState(0);
 
-  const loadData = React.useCallback(async () => {
-    if (!applicationId) return;
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const [appRes, actRes] = await Promise.all([
-        fetch(`/api/applications/${applicationId}`),
-        fetch(`/api/applications/${applicationId}/activities`),
-      ]);
-
-      if (appRes.status === 401) {
-        router.push(
-          `/login?callbackUrl=/dashboard/applications/${applicationId}`
-        );
-        return;
-      }
-
-      if (appRes.status === 403) {
-        setError("You do not have permission to view this application.");
-        return;
-      }
-
-      if (!appRes.ok) {
-        setError("Application record not found or unavailable.");
-        return;
-      }
-
-      const appJson = await appRes.json();
-      const actJson = await actRes.json();
-
-      if (appJson.success && appJson.data) {
-        setApplication(appJson.data);
-        setNotes(appJson.data.notes || "");
-        if (appJson.data.nextFollowUpDate) {
-          const d = new Date(appJson.data.nextFollowUpDate);
-          setNextFollowUpDate(d.toISOString().split("T")[0]);
-        } else {
-          setNextFollowUpDate("");
-        }
-      }
-
-      if (actJson.success && actJson.data) {
-        setActivities(actJson.data);
-      }
-    } catch (err: any) {
-      console.error("Failed to load application details:", err);
-      setError("Failed to load application information");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [applicationId, router]);
+  const reloadData = React.useCallback(() => {
+    setRefreshTrigger((prev) => prev + 1);
+  }, []);
 
   React.useEffect(() => {
+    let isMounted = true;
+
+    async function loadData() {
+      if (!applicationId) return;
+      try {
+        setError(null);
+
+        const [appRes, actRes] = await Promise.all([
+          fetch(`/api/applications/${applicationId}`),
+          fetch(`/api/applications/${applicationId}/activities`),
+        ]);
+
+        if (appRes.status === 401) {
+          router.push(
+            `/login?callbackUrl=/dashboard/applications/${applicationId}`
+          );
+          return;
+        }
+
+        if (appRes.status === 403) {
+          if (isMounted) setError("You do not have permission to view this application.");
+          return;
+        }
+
+        if (!appRes.ok) {
+          if (isMounted) setError("Application record not found or unavailable.");
+          return;
+        }
+
+        const appJson = await appRes.json();
+        const actJson = await actRes.json();
+
+        if (isMounted) {
+          if (appJson.success && appJson.data) {
+            setApplication(appJson.data);
+            setNotes(appJson.data.notes || "");
+            if (appJson.data.nextFollowUpDate) {
+              const d = new Date(appJson.data.nextFollowUpDate);
+              setNextFollowUpDate(d.toISOString().split("T")[0]);
+            } else {
+              setNextFollowUpDate("");
+            }
+          }
+
+          if (actJson.success && actJson.data) {
+            setActivities(actJson.data);
+          }
+        }
+      } catch (err: any) {
+        console.error("Failed to load application details:", err);
+        if (isMounted) setError("Failed to load application information");
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    }
+
     if (!isAuthLoading && !isAuthenticated) {
       router.push(
         `/login?callbackUrl=/dashboard/applications/${applicationId}`
@@ -133,7 +141,11 @@ export default function ApplicationDetailPage() {
     if (isAuthenticated) {
       loadData();
     }
-  }, [isAuthenticated, isAuthLoading, loadData, applicationId, router]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [applicationId, isAuthenticated, isAuthLoading, refreshTrigger, router]);
 
   const handleSaveDetails = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,7 +165,7 @@ export default function ApplicationDetailPage() {
       const json = await res.json();
       if (json.success) {
         toast.success("Application notes & follow-up saved!");
-        await loadData();
+        reloadData();
       } else {
         toast.error(json.message || "Failed to update details");
       }
@@ -548,7 +560,7 @@ export default function ApplicationDetailPage() {
           applicationId={applicationId}
           currentStatus={application.status}
           opportunityTitle={opp?.title}
-          onStatusUpdated={() => loadData()}
+          onStatusUpdated={() => reloadData()}
         />
       </div>
     </StudentPortalLayout>

@@ -27,6 +27,7 @@ import {
   Layers,
 } from "lucide-react";
 import { IOpportunity, OpportunityCategory, WorkMode, EmploymentType } from "@/types/opportunity";
+import { SaveOpportunityButton } from "@/features/applications/components";
 
 export default function OpportunitiesBrowsingPage() {
   const [opportunities, setOpportunities] = React.useState<IOpportunity[]>([]);
@@ -515,16 +516,23 @@ export default function OpportunitiesBrowsingPage() {
                             <span className="text-[11px] capitalize text-slate-400 font-medium">
                               {opp.employmentType}
                             </span>
-                            <Link href={`/opportunities/${oppId}`}>
-                              <Button
-                                variant="outline"
+                            <div className="flex items-center gap-1.5">
+                              <SaveOpportunityButton
+                                opportunityId={oppId}
                                 size="sm"
-                                className="group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600 transition-colors text-xs h-8 px-3"
-                              >
-                                View Details & Apply
-                                <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                              </Button>
-                            </Link>
+                                showLabel={false}
+                              />
+                              <Link href={`/opportunities/${oppId}`}>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-600 transition-colors text-xs h-8 px-3"
+                                >
+                                  View Details & Apply
+                                  <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                                </Button>
+                              </Link>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthSession } from "@/lib/auth-server";
+import { getCurrentSession } from "@/lib/auth-server";
 import { checkOpportunityApplicationStatus } from "@/services/application/application.service";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getAuthSession();
+    const session = await getCurrentSession();
     if (!session || !session.user) {
       return NextResponse.json({
         success: true,

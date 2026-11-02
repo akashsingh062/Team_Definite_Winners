@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { SaveOpportunityButton } from "@/features/applications/components";
 
 interface RecommendationCardProps {
   match: IOpportunityMatchResult;
@@ -194,6 +195,12 @@ export function RecommendationCard({ match, className }: RecommendationCardProps
           </span>
 
           <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+            <SaveOpportunityButton
+              opportunityId={match.opportunityId}
+              size="sm"
+              showLabel={false}
+            />
+
             <Link
               href={`/dashboard/recommendations/${match.opportunityId}`}
               className="w-full sm:w-auto"

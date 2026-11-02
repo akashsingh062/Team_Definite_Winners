@@ -8,5 +8,7 @@ export * from "./skill-gap";
 export * from "./roadmap";
 export * from "./explanation";
 export * from "./application";
+export * from "./analytics";
+export * from "./career-path";
 
 

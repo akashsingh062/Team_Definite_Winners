@@ -16,6 +16,10 @@ if (typeof window === "undefined" && rawUri.startsWith("mongodb+srv://")) {
 // Ensure default database name is present
 if (rawUri.endsWith("/")) {
   rawUri = `${rawUri}careerbridge-ai?retryWrites=true&w=majority`;
+} else if (!rawUri.includes("careerbridge-ai") && rawUri.includes(".mongodb.net")) {
+  const [base, query] = rawUri.split("?");
+  const separator = base.endsWith("/") ? "" : "/";
+  rawUri = `${base}${separator}careerbridge-ai${query ? `?${query}` : "?retryWrites=true&w=majority"}`;
 }
 
 declare global {
@@ -24,13 +28,18 @@ declare global {
 
 let client: MongoClient;
 
+const clientOptions = {
+  serverSelectionTimeoutMS: 8000,
+  socketTimeoutMS: 45000,
+};
+
 if (process.env.NODE_ENV === "development") {
   if (!globalThis._mongoClient) {
-    globalThis._mongoClient = new MongoClient(rawUri);
+    globalThis._mongoClient = new MongoClient(rawUri, clientOptions);
   }
   client = globalThis._mongoClient;
 } else {
-  client = new MongoClient(rawUri);
+  client = new MongoClient(rawUri, clientOptions);
 }
 
 export { client };

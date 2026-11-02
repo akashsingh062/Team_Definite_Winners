@@ -69,7 +69,7 @@ export function UpcomingFollowUpsCard({
                   </p>
                   {app.notes && (
                     <p className="text-[11px] text-slate-600 line-clamp-2 italic bg-slate-50 p-2 rounded border border-slate-100">
-                      "{app.notes}"
+                      &ldquo;{app.notes}&rdquo;
                     </p>
                   )}
                 </div>

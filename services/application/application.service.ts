@@ -556,12 +556,30 @@ export async function getApplicationStatistics(
   const expiredCount = countMap["expired"] || 0;
 
   const totalTracked = Object.values(countMap).reduce((a, b) => a + b, 0);
+  const totalApplications = totalTracked;
+  const savedOpportunities = savedCount;
+  const interviewsScheduled = interviewCount;
+  const offersReceived = offerReceivedCount;
+  const activeApplications =
+    appliedCount +
+    assessmentCount +
+    interviewCount +
+    offerReceivedCount +
+    planningCount;
   const submittedTotal =
     appliedCount +
     assessmentCount +
     interviewCount +
     offerReceivedCount +
     selectedCount;
+
+  const responseRate =
+    submittedTotal > 0
+      ? Math.round(
+          ((interviewCount + offerReceivedCount + selectedCount) / submittedTotal) *
+            100
+        )
+      : 0;
 
   // Upcoming follow-ups
   const startOfToday = new Date();
@@ -570,6 +588,67 @@ export async function getApplicationStatistics(
     userId,
     nextFollowUpDate: { $gte: startOfToday },
   });
+
+  const upcomingFollowUpsDocs = await Application.find({
+    userId,
+    nextFollowUpDate: { $gte: startOfToday },
+  })
+    .populate({
+      path: "opportunityId",
+      select: "title companyName category workMode location stipend salaryRange",
+    })
+    .sort({ nextFollowUpDate: 1 })
+    .limit(5)
+    .lean();
+
+  const upcomingFollowUps: IApplication[] = upcomingFollowUpsDocs.map((doc: any) => {
+    const opp = doc.opportunityId || null;
+    return {
+      _id: doc._id.toString(),
+      id: doc._id.toString(),
+      userId: doc.userId,
+      opportunityId: opp ? opp._id.toString() : doc.opportunityId?.toString(),
+      status: doc.status,
+      savedAt: doc.savedAt,
+      appliedAt: doc.appliedAt,
+      applicationMethod: doc.applicationMethod,
+      applicationUrl: doc.applicationUrl,
+      notes: doc.notes,
+      deadline: doc.deadline || (opp ? opp.applicationDeadline : null),
+      nextFollowUpDate: doc.nextFollowUpDate,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+      opportunity: opp
+        ? {
+            _id: opp._id.toString(),
+            id: opp._id.toString(),
+            title: opp.title,
+            companyName: opp.companyName,
+            category: opp.category,
+            workMode: opp.workMode,
+            location: opp.location,
+            stipend: opp.stipend,
+            salaryRange: opp.salaryRange,
+            isPaid: Boolean(opp.isPaid),
+            status: opp.status || "published",
+            verificationStatus: opp.verificationStatus || "verified",
+          }
+        : undefined,
+    };
+  });
+
+  const pipelineCounts: Record<ApplicationStatus, number> = {
+    saved: savedCount,
+    planning: planningCount,
+    applied: appliedCount,
+    assessment: assessmentCount,
+    interview: interviewCount,
+    offer_received: offerReceivedCount,
+    selected: selectedCount,
+    rejected: rejectedCount,
+    withdrawn: withdrawnCount,
+    expired: expiredCount,
+  };
 
   const pipeline = [
     { status: "saved" as ApplicationStatus, label: "Saved", count: savedCount, color: "bg-slate-500" },
@@ -586,6 +665,12 @@ export async function getApplicationStatistics(
 
   return {
     totalTracked,
+    totalApplications,
+    activeApplications,
+    savedOpportunities,
+    interviewsScheduled,
+    offersReceived,
+    responseRate,
     savedCount,
     planningCount,
     appliedCount,
@@ -598,6 +683,8 @@ export async function getApplicationStatistics(
     expiredCount,
     submittedTotal,
     upcomingFollowUpsCount,
+    upcomingFollowUps,
+    pipelineCounts,
     pipeline,
   };
 }

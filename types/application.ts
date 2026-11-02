@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IOpportunity, OpportunityCategory, WorkMode } from "./opportunity";
 
 export type ApplicationStatus =
@@ -22,12 +23,12 @@ export type ApplicationMethod =
 export interface IApplicationActivity {
   _id?: string;
   id?: string;
-  applicationId: string;
+  applicationId: string | Types.ObjectId;
   userId: string;
   previousStatus?: ApplicationStatus;
   newStatus: ApplicationStatus;
   note?: string;
-  createdAt: Date | string;
+  createdAt: Date;
 }
 
 export interface IApplication {
@@ -66,6 +67,12 @@ export interface IApplication {
 
 export interface IApplicationStatistics {
   totalTracked: number;
+  totalApplications: number;
+  activeApplications: number;
+  savedOpportunities: number;
+  interviewsScheduled: number;
+  offersReceived: number;
+  responseRate: number;
   savedCount: number;
   planningCount: number;
   appliedCount: number;
@@ -78,6 +85,8 @@ export interface IApplicationStatistics {
   expiredCount: number;
   submittedTotal: number;
   upcomingFollowUpsCount: number;
+  upcomingFollowUps: IApplication[];
+  pipelineCounts: Record<ApplicationStatus, number>;
   pipeline: Array<{
     status: ApplicationStatus;
     label: string;

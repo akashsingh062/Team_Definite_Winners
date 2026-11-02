@@ -4,6 +4,7 @@ import {
   getAdminOpportunities,
   createOpportunity,
 } from "@/services/opportunityService";
+import { recordAdminAuditLog } from "@/services/analytics/auditLogService";
 import { opportunityFormSchema } from "@/features/opportunity/schemas/opportunitySchema";
 import { OpportunityCategory, OpportunityStatus, VerificationStatus } from "@/types/opportunity";
 
@@ -80,6 +81,20 @@ export async function POST(req: NextRequest) {
       adminSession.user.id,
       validation.data
     );
+
+    // Record admin audit log
+    await recordAdminAuditLog({
+      adminUserId: adminSession.user.id,
+      adminEmail: adminSession.user.email,
+      action: "opportunity_created",
+      entityType: "Opportunity",
+      entityId: created._id?.toString() || created.id,
+      newValues: {
+        title: created.title,
+        companyName: created.companyName,
+        category: created.category,
+      },
+    }).catch((err) => console.error("Audit log failed:", err));
 
     return NextResponse.json(
       {

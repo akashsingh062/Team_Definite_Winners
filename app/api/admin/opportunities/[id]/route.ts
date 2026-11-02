@@ -6,6 +6,7 @@ import {
   deleteOpportunity,
 } from "@/services/opportunityService";
 import { opportunityFormSchema } from "@/features/opportunity/schemas/opportunitySchema";
+import { recordAdminAuditLog } from "@/services/analytics/auditLogService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -57,7 +58,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(req: NextRequest, { params }: RouteParams) {
   try {
-    await requireAdmin();
+    const adminSession = await requireAdmin();
     const { id } = await params;
 
     const body = await req.json();
@@ -81,6 +82,19 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
         { status: 404 }
       );
     }
+
+    // Record admin audit log
+    await recordAdminAuditLog({
+      adminUserId: adminSession.user.id,
+      adminEmail: adminSession.user.email,
+      action: "opportunity_updated",
+      entityType: "Opportunity",
+      entityId: id,
+      newValues: {
+        title: updated.title,
+        status: updated.status,
+      },
+    }).catch((err) => console.error("Audit log failed:", err));
 
     return NextResponse.json({
       success: true,
@@ -122,7 +136,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(req: NextRequest, { params }: RouteParams) {
   try {
-    await requireAdmin();
+    const adminSession = await requireAdmin();
     const { id } = await params;
 
     const deleted = await deleteOpportunity(id);
@@ -132,6 +146,15 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
         { status: 404 }
       );
     }
+
+    // Record admin audit log
+    await recordAdminAuditLog({
+      adminUserId: adminSession.user.id,
+      adminEmail: adminSession.user.email,
+      action: "opportunity_deleted",
+      entityType: "Opportunity",
+      entityId: id,
+    }).catch((err) => console.error("Audit log failed:", err));
 
     return NextResponse.json({
       success: true,

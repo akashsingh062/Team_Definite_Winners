@@ -4,12 +4,26 @@ import client from "@/lib/db/mongoClient";
 import { env } from "@/config/env";
 
 export const auth = betterAuth({
-  database: mongodbAdapter(client.db(), {
+  database: mongodbAdapter(client.db("careerbridge-ai"), {
     client,
     transaction: false, // Ensures compatibility with standalone local MongoDB servers
   }),
   secret: process.env.BETTER_AUTH_SECRET || env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL || env.BETTER_AUTH_URL,
+  baseURL: process.env.BETTER_AUTH_URL || env.BETTER_AUTH_URL || "http://localhost:3000",
+  trustedOrigins: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:3003",
+    "http://localhost:3004",
+    "http://localhost:5173",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3002",
+    "http://127.0.0.1:3003",
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+    ...(process.env.NEXT_PUBLIC_APP_URL ? [process.env.NEXT_PUBLIC_APP_URL] : []),
+  ],
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

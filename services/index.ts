@@ -33,5 +33,15 @@ export * from "./explanations/improvement-suggestions";
 export * from "./explanations/explanation-ai";
 export * from "./explanations/explanation.service";
 export * from "./application/application.service";
+export * from "./analytics/dateFilterHelper";
+export * from "./analytics/auditLogService";
+export * from "./analytics/analytics.service";
+export * from "./career/career-paths-data";
+export * from "./career/career-path.service";
+export * from "./career/career-readiness.service";
+export * from "./career/career-simulator.service";
+export * from "./career/career-comparison.service";
+export * from "./career/career-ai.service";
+export * from "./career/career-simulation-history.service";
 
 

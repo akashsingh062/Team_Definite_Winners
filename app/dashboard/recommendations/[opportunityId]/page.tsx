@@ -22,6 +22,7 @@ import {
   AlertTriangle,
   HelpCircle,
   Bot,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
@@ -31,6 +32,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScoreBadge } from "@/features/matching/components/ScoreBadge";
 import { EligibilityBadge } from "@/features/matching/components/EligibilityBadge";
+import {
+  SaveOpportunityButton,
+  RecordApplicationModal,
+} from "@/features/applications/components";
 import {
   ScoreBreakdownCard,
   SkillsComparisonCard,
@@ -57,6 +62,7 @@ export default function RecommendationDetailPage() {
   const [methodology, setMethodology] =
     React.useState<IMethodologyInfo | null>(null);
   const [isMethodologyOpen, setIsMethodologyOpen] = React.useState(false);
+  const [isRecordModalOpen, setIsRecordModalOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -309,6 +315,22 @@ export default function RecommendationDetailPage() {
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
+                <SaveOpportunityButton
+                  opportunityId={opportunity.id}
+                  size="sm"
+                />
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setIsRecordModalOpen(true)}
+                  className="gap-1.5 text-xs font-semibold cursor-pointer"
+                  title="Record application to start tracking"
+                >
+                  <Send className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>I Applied</span>
+                </Button>
+
                 <Link
                   href={`/opportunities/${opportunity.id}`}
                   className="w-full sm:w-auto"
@@ -317,7 +339,7 @@ export default function RecommendationDetailPage() {
                     size="sm"
                     className="w-full sm:w-auto text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5 shadow-2xs cursor-pointer"
                   >
-                    <span>View Role & Apply</span>
+                    <span>View Role</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </Button>
                 </Link>
@@ -446,6 +468,15 @@ export default function RecommendationDetailPage() {
           isOpen={isMethodologyOpen}
           onClose={() => setIsMethodologyOpen(false)}
           methodology={methodology}
+        />
+
+        {/* Record Application Modal */}
+        <RecordApplicationModal
+          isOpen={isRecordModalOpen}
+          onClose={() => setIsRecordModalOpen(false)}
+          opportunityId={opportunity.id}
+          opportunityTitle={opportunity.title}
+          companyName={opportunity.companyName}
         />
       </div>
     </StudentPortalLayout>

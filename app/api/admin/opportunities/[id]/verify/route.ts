@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth-server";
 import { verifyOpportunity } from "@/services/opportunityService";
+import { recordAdminAuditLog } from "@/services/analytics/auditLogService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -28,6 +29,16 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
         { status: 404 }
       );
     }
+
+    // Record admin audit log
+    await recordAdminAuditLog({
+      adminUserId: adminSession.user.id,
+      adminEmail: adminSession.user.email,
+      action: isVerified ? "opportunity_verified" : "opportunity_rejected",
+      entityType: "Opportunity",
+      entityId: id,
+      newValues: { isVerified, verificationNotes: notes },
+    }).catch((err) => console.error("Audit log failed:", err));
 
     return NextResponse.json({
       success: true,

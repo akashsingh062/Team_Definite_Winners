@@ -18,6 +18,7 @@ export const siteConfig = {
   studentNav: [
     { title: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
     { title: "Smart Matches", href: "/dashboard/recommendations", icon: "Sparkles" },
+    { title: "My Applications", href: "/dashboard/applications", icon: "ClipboardList" },
     { title: "Skill Gap Analyzer", href: "/dashboard/skill-gap", icon: "Target" },
     { title: "AI Learning Roadmap", href: "/dashboard/roadmap", icon: "Compass" },
     { title: "Browse Opportunities", href: "/opportunities", icon: "Briefcase" },

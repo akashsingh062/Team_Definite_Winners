@@ -15,6 +15,7 @@ import {
   Sparkles,
   Target,
   Compass,
+  ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -38,6 +39,11 @@ const navigationItems: NavItem[] = [
     name: "Smart Matches",
     href: "/dashboard/recommendations",
     icon: Sparkles,
+  },
+  {
+    name: "My Applications",
+    href: "/dashboard/applications",
+    icon: ClipboardList,
   },
   {
     name: "Skill Gap Analyzer",

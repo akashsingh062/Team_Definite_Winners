@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Shield,
+  BarChart3,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -32,6 +33,12 @@ const adminNavItems: AdminNavItem[] = [
     href: "/admin/dashboard",
     icon: LayoutDashboard,
     exact: true,
+  },
+  {
+    name: "Analytics & Fairness",
+    href: "/admin/analytics",
+    icon: BarChart3,
+    exact: false,
   },
   {
     name: "All Opportunities",

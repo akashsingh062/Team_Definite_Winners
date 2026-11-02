@@ -204,3 +204,4 @@ export function RecordApplicationModal({
     </div>
   );
 }
+

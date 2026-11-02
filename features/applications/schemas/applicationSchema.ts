@@ -108,3 +108,4 @@ export type UpdateApplicationDetailsInput = z.infer<
   typeof updateApplicationDetailsSchema
 >;
 export type CreateActivityInput = z.infer<typeof createActivitySchema>;
+

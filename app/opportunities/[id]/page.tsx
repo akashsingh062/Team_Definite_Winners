@@ -24,8 +24,13 @@ import {
   Layers,
   Award,
   ArrowRight,
+  Send,
 } from "lucide-react";
 import { IOpportunity } from "@/types/opportunity";
+import {
+  SaveOpportunityButton,
+  RecordApplicationModal,
+} from "@/features/applications/components";
 
 export default function OpportunityDetailsPage() {
   const params = useParams();
@@ -35,6 +40,7 @@ export default function OpportunityDetailsPage() {
   const [opp, setOpp] = React.useState<IOpportunity | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [isRecordModalOpen, setIsRecordModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     async function loadOpportunity() {
@@ -146,7 +152,7 @@ export default function OpportunityDetailsPage() {
                   </div>
 
                   {/* Top Action Box */}
-                  <div className="shrink-0 flex flex-col gap-2">
+                  <div className="shrink-0 flex flex-col gap-2 min-w-[220px]">
                     {opp.externalApplicationUrl ? (
                       <a
                         href={opp.externalApplicationUrl}
@@ -174,6 +180,25 @@ export default function OpportunityDetailsPage() {
                         </Button>
                       </a>
                     )}
+
+                    <div className="flex items-center gap-2">
+                      <SaveOpportunityButton
+                        opportunityId={String(opp._id)}
+                        size="md"
+                        className="flex-1 justify-center"
+                      />
+                      <Button
+                        variant="outline"
+                        size="md"
+                        onClick={() => setIsRecordModalOpen(true)}
+                        className="flex-1 justify-center gap-1.5 text-xs font-semibold cursor-pointer"
+                        title="Record that you applied to track progress"
+                      >
+                        <Send className="h-3.5 w-3.5 text-indigo-600" />
+                        <span>I Applied</span>
+                      </Button>
+                    </div>
+
                     <span className="text-[11px] text-center text-slate-400">
                       Zero fee application guarantee
                     </span>
@@ -398,6 +423,16 @@ export default function OpportunityDetailsPage() {
                 </div>
               </div>
             </div>
+          )}
+
+          {opp && (
+            <RecordApplicationModal
+              isOpen={isRecordModalOpen}
+              onClose={() => setIsRecordModalOpen(false)}
+              opportunityId={String(opp._id)}
+              opportunityTitle={opp.title}
+              companyName={opp.companyName}
+            />
           )}
         </Container>
       </main>

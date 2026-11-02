@@ -49,7 +49,7 @@ export function LoginForm() {
 
     try {
       const response = await signIn.email({
-        email: data.email,
+        email: data.email.toLowerCase().trim(),
         password: data.password,
         rememberMe,
       });
