@@ -13,6 +13,7 @@ import {
   ShieldAlert,
   FileText,
   Sparkles,
+  Target,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -36,6 +37,11 @@ const navigationItems: NavItem[] = [
     name: "Smart Matches",
     href: "/dashboard/recommendations",
     icon: Sparkles,
+  },
+  {
+    name: "Skill Gap Analyzer",
+    href: "/dashboard/skill-gap",
+    icon: Target,
   },
   {
     name: "Browse Opportunities",

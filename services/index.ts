@@ -12,3 +12,10 @@ export * from "./matching/score-calculator";
 export * from "./matching/explanation-generator";
 export * from "./matching/opportunity-ranker";
 export * from "./matching/matching.service";
+export * from "./skill-gap/skill-comparator";
+export * from "./skill-gap/demand-analyzer";
+export * from "./skill-gap/priority-calculator";
+export * from "./skill-gap/learning-resource.service";
+export * from "./skill-gap/gap-explanation.service";
+export * from "./skill-gap/skill-gap.service";
+
