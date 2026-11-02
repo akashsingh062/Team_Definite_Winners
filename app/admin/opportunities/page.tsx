@@ -39,8 +39,12 @@ export default function AdminOpportunitiesPage() {
   });
   const [isLoading, setIsLoading] = React.useState(true);
 
+  const [page, setPage] = React.useState(1);
+  const [refreshKey, setRefreshKey] = React.useState(0);
+
   // Filters
   const [search, setSearch] = React.useState("");
+  const [activeSearch, setActiveSearch] = React.useState("");
   const [category, setCategory] = React.useState<string>("all");
   const [status, setStatus] = React.useState<string>("all");
 
@@ -51,16 +55,16 @@ export default function AdminOpportunitiesPage() {
   // Quick Action loading state
   const [actionLoadingId, setActionLoadingId] = React.useState<string | null>(null);
 
-  const fetchOpportunities = React.useCallback(
-    async (pageToFetch = pagination.page) => {
+  React.useEffect(() => {
+    let isMounted = true;
+    async function loadOpportunities() {
       try {
-        setIsLoading(true);
         const query = new URLSearchParams({
-          page: String(pageToFetch),
+          page: String(page),
           limit: String(pagination.limit),
         });
 
-        if (search.trim()) query.set("search", search.trim());
+        if (activeSearch.trim()) query.set("search", activeSearch.trim());
         if (category !== "all") query.set("category", category);
         if (status !== "all") query.set("status", status);
 
@@ -68,30 +72,34 @@ export default function AdminOpportunitiesPage() {
         if (!res.ok) throw new Error("Failed to load opportunities");
 
         const json = await res.json();
-        setOpportunities(json.data.opportunities || []);
-        setPagination({
-          total: json.data.pagination.total,
-          page: json.data.pagination.page,
-          limit: json.data.pagination.limit,
-          totalPages: json.data.pagination.totalPages,
-        });
+        if (isMounted) {
+          setOpportunities(json.data.opportunities || []);
+          setPagination({
+            total: json.data.pagination.total,
+            page: json.data.pagination.page,
+            limit: json.data.pagination.limit,
+            totalPages: json.data.pagination.totalPages,
+          });
+        }
       } catch (err) {
         console.error("Fetch opportunities error:", err);
         toast.error("Failed to load opportunities");
       } finally {
-        setIsLoading(false);
+        if (isMounted) setIsLoading(false);
       }
-    },
-    [category, status, search, pagination.limit, pagination.page]
-  );
+    }
 
-  React.useEffect(() => {
-    fetchOpportunities(1);
-  }, [category, status]);
+    loadOpportunities();
+    return () => {
+      isMounted = false;
+    };
+  }, [page, category, status, activeSearch, refreshKey, pagination.limit]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchOpportunities(1);
+    setIsLoading(true);
+    setPage(1);
+    setActiveSearch(search);
   };
 
   const handleVerify = async (id: string, action: "verify" | "reject") => {
@@ -107,7 +115,7 @@ export default function AdminOpportunitiesPage() {
       toast.success(
         action === "verify" ? "Opportunity verified successfully" : "Opportunity rejected"
       );
-      fetchOpportunities();
+      setRefreshKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Failed to update verification status");
     } finally {
@@ -128,7 +136,7 @@ export default function AdminOpportunitiesPage() {
       toast.success(
         action === "publish" ? "Opportunity is now live to students" : "Opportunity unpublished"
       );
-      fetchOpportunities();
+      setRefreshKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Failed to update publication status");
     } finally {
@@ -147,7 +155,7 @@ export default function AdminOpportunitiesPage() {
       if (!res.ok) throw new Error(data.message || "Failed to delete opportunity");
       toast.success("Opportunity deleted successfully");
       setDeleteTarget(null);
-      fetchOpportunities();
+      setRefreshKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Failed to delete opportunity");
     } finally {
@@ -223,8 +231,10 @@ export default function AdminOpportunitiesPage() {
                   className="h-10"
                   onClick={() => {
                     setSearch("");
+                    setActiveSearch("");
                     setCategory("all");
                     setStatus("all");
+                    setPage(1);
                   }}
                 >
                   Reset
@@ -251,8 +261,10 @@ export default function AdminOpportunitiesPage() {
                   size="sm"
                   onClick={() => {
                     setSearch("");
+                    setActiveSearch("");
                     setCategory("all");
                     setStatus("all");
+                    setPage(1);
                   }}
                 >
                   Clear Filters
@@ -341,8 +353,9 @@ export default function AdminOpportunitiesPage() {
 
                           <td className="px-5 py-3.5 text-right whitespace-nowrap">
                             <div className="flex items-center justify-end gap-1.5">
-                              {/* Quick Verify / Reject if pending */}
-                              {opp.verificationStatus === "pending" && (
+                              {/* Quick Verify / Reject if pending or unverified */}
+                              {(opp.verificationStatus === "pending" ||
+                                opp.verificationStatus === "unverified") && (
                                 <>
                                   <Button
                                     variant="outline"
@@ -452,7 +465,10 @@ export default function AdminOpportunitiesPage() {
                     size="sm"
                     className="h-8 px-2 text-xs"
                     disabled={pagination.page <= 1}
-                    onClick={() => fetchOpportunities(pagination.page - 1)}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setPage(pagination.page - 1);
+                    }}
                   >
                     <ChevronLeft className="h-3.5 w-3.5 mr-1" /> Previous
                   </Button>
@@ -464,7 +480,10 @@ export default function AdminOpportunitiesPage() {
                     size="sm"
                     className="h-8 px-2 text-xs"
                     disabled={pagination.page >= pagination.totalPages}
-                    onClick={() => fetchOpportunities(pagination.page + 1)}
+                    onClick={() => {
+                      setIsLoading(true);
+                      setPage(pagination.page + 1);
+                    }}
                   >
                     Next <ChevronRight className="h-3.5 w-3.5 ml-1" />
                   </Button>

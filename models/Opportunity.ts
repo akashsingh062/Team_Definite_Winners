@@ -158,7 +158,7 @@ const OpportunitySchema = new Schema<IOpportunity>(
     verificationStatus: {
       type: String,
       required: true,
-      enum: ["unverified", "verified", "rejected"],
+      enum: ["unverified", "pending", "verified", "rejected"],
       default: "unverified",
       index: true,
     },

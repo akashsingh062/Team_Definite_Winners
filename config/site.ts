@@ -17,7 +17,9 @@ export const siteConfig = {
   ],
   studentNav: [
     { title: "Dashboard", href: "/dashboard", icon: "LayoutDashboard" },
+    { title: "Smart Matches", href: "/dashboard/recommendations", icon: "Sparkles" },
     { title: "Browse Opportunities", href: "/opportunities", icon: "Briefcase" },
+    { title: "AI Resume Analyzer", href: "/dashboard/resume", icon: "FileText" },
     { title: "Profile Management", href: "/profile", icon: "User" },
   ],
 } as const;

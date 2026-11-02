@@ -485,28 +485,34 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Meaningful Empty State 1: Opportunity Matcher (Stage 2) */}
-            <Card className="border-indigo-100 bg-indigo-50/30">
+            {/* Active Feature: AI Opportunity Matching Engine (Stage 4) */}
+            <Card className="border-indigo-100 bg-indigo-50/40">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2 text-indigo-900">
-                  <Compass className="w-4 h-4 text-indigo-600" />
+                  <Sparkles className="w-4 h-4 text-indigo-600" />
                   <CardTitle className="text-sm font-bold">
-                    AI Opportunity Matching Engine
+                    Smart Opportunity Matches
                   </CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3 text-xs text-slate-600 leading-relaxed">
                 <p>
-                  No matches generated yet. Opportunity matching will be activated in Stage 2.
+                  Explore skill-weighted recommendations computed from your approved profile and portfolio proof.
                 </p>
-                <div className="p-3 bg-white rounded-lg border border-indigo-100/80 space-y-1">
+                <div className="p-3 bg-white rounded-lg border border-indigo-100/80 space-y-2">
                   <div className="flex items-center gap-1.5 font-semibold text-indigo-950">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>How to prepare:</span>
+                    <span>Explainable & Fair Matching Active</span>
                   </div>
                   <p className="text-slate-500 text-[11px]">
-                    Ensure you have added at least 3 technical skills and 1 project so our explainable AI algorithms can compute accurate match scores.
+                    See exact component weights, missing required skills, and clear reasons for each recommended role.
                   </p>
+                  <Link href="/dashboard/recommendations" className="block pt-1">
+                    <Button size="sm" className="w-full text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5">
+                      <span>View Smart Matches</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

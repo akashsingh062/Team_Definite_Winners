@@ -11,6 +11,8 @@ import {
   ShieldCheck,
   ChevronRight,
   ShieldAlert,
+  FileText,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -31,9 +33,19 @@ const navigationItems: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+    name: "Smart Matches",
+    href: "/dashboard/recommendations",
+    icon: Sparkles,
+  },
+  {
     name: "Browse Opportunities",
     href: "/opportunities",
     icon: Briefcase,
+  },
+  {
+    name: "AI Resume Analyzer",
+    href: "/dashboard/resume",
+    icon: FileText,
   },
   {
     name: "Profile Management",

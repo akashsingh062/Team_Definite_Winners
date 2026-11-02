@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   opportunityFormSchema,
@@ -163,8 +163,7 @@ export function OpportunityForm({
     defaultValues: defaultValues as OpportunityFormData,
   });
 
-  const selectedCategory = watch("category");
-  const isPaidWatch = watch("isPaid");
+  const selectedCategory = useWatch({ control, name: "category" });
 
   const onFormSubmit = async (data: OpportunityFormData) => {
     await onSubmit(data);

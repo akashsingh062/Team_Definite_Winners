@@ -38,25 +38,31 @@ export default function AdminOpportunityDetailsPage() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isActing, setIsActing] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-
-  const fetchOpportunity = React.useCallback(async () => {
-    if (!id) return;
-    try {
-      setIsLoading(true);
-      const res = await fetch(`/api/admin/opportunities/${id}`);
-      if (!res.ok) throw new Error("Failed to load opportunity");
-      const json = await res.json();
-      setOpp(json.data);
-    } catch (err: any) {
-      toast.error(err.message || "Failed to load opportunity details");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
+  const [refreshKey, setRefreshKey] = React.useState(0);
 
   React.useEffect(() => {
+    let isMounted = true;
+    async function fetchOpportunity() {
+      if (!id) return;
+      try {
+        const res = await fetch(`/api/admin/opportunities/${id}`);
+        if (!res.ok) throw new Error("Failed to load opportunity");
+        const json = await res.json();
+        if (isMounted) {
+          setOpp(json.data);
+        }
+      } catch (err: any) {
+        toast.error(err.message || "Failed to load opportunity details");
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    }
+
     fetchOpportunity();
-  }, [fetchOpportunity]);
+    return () => {
+      isMounted = false;
+    };
+  }, [id, refreshKey]);
 
   const handleVerify = async (action: "verify" | "reject") => {
     try {
@@ -71,7 +77,7 @@ export default function AdminOpportunityDetailsPage() {
       toast.success(
         action === "verify" ? "Opportunity verified successfully" : "Opportunity marked as rejected"
       );
-      fetchOpportunity();
+      setRefreshKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Error updating verification");
     } finally {
@@ -92,7 +98,7 @@ export default function AdminOpportunityDetailsPage() {
       toast.success(
         action === "publish" ? "Opportunity is now live to students" : "Opportunity unpublished"
       );
-      fetchOpportunity();
+      setRefreshKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Error updating publication status");
     } finally {
@@ -191,7 +197,8 @@ export default function AdminOpportunityDetailsPage() {
                     <AlertCircle className="h-3 w-3" /> Rejected
                   </Badge>
                 )}
-                {opp.verificationStatus === "pending" && (
+                {(opp.verificationStatus === "pending" ||
+                  opp.verificationStatus === "unverified") && (
                   <Badge variant="amber" className="gap-1">
                     <Clock className="h-3 w-3" /> Pending Review
                   </Badge>
@@ -214,7 +221,8 @@ export default function AdminOpportunityDetailsPage() {
 
             {/* Workflow Action Buttons */}
             <div className="flex items-center gap-2.5 flex-wrap">
-              {opp.verificationStatus === "pending" && (
+              {(opp.verificationStatus === "pending" ||
+                opp.verificationStatus === "unverified") && (
                 <>
                   <Button
                     variant="accent"
@@ -272,7 +280,9 @@ export default function AdminOpportunityDetailsPage() {
             </div>
             <div>
               <span className="block font-semibold text-slate-700">Created On</span>
-              <span>{new Date(opp.createdAt).toLocaleDateString()}</span>
+              <span>
+                {opp.createdAt ? new Date(opp.createdAt).toLocaleDateString() : "Recently"}
+              </span>
             </div>
             <div>
               <span className="block font-semibold text-slate-700">Published On</span>

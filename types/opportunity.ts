@@ -19,7 +19,7 @@ export type OpportunityStatus =
   | "rejected"
   | "expired";
 
-export type VerificationStatus = "unverified" | "verified" | "rejected";
+export type VerificationStatus = "unverified" | "pending" | "verified" | "rejected";
 
 export interface IOpportunity {
   _id?: string;
