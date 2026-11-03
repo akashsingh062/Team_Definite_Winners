@@ -263,7 +263,7 @@ The NexSkill matching engine calculates opportunity compatibility deterministica
 
 $$\text{Overall Compatibility Score} = \text{round}\left( \sum_{i=1}^{7} w_i \times S_i \right)$$
 
-$$\text{Subject to Mandatory Gate: } \quad S_{\text{overall}} = \begin{cases} \min(45, S_{\text{overall}}) & \text{if } \text{Status}(\text{Eligibility}) = \text{"not\_eligible"} \\ S_{\text{overall}} & \text{otherwise} \end{cases}$$
+$$\text{Subject to Mandatory Gate: } \quad S_{\text{overall}} = \begin{cases} \min(45, S_{\text{overall}}) & \text{if Eligibility Status} = \text{Ineligible} \\ S_{\text{overall}} & \text{otherwise} \end{cases}$$
 
 Where each factor weight $w_i \in (0, 1)$ satisfies $\sum_{i=1}^{7} w_i = 1.00$, and each component score $S_i \in [0, 100]$ is computed through specialized deterministic evaluation rubrics.
 
@@ -325,10 +325,10 @@ To resolve prerequisite graphs without infinite loops:
 
 ### 4. Adaptive Learning Roadmap Completion Formula
 
-$$\text{Roadmap Progress (\%)} = \text{round}\left(0.50 \cdot P_{\text{milestones}} + 0.50 \cdot P_{\text{tasks}}\right)$$
+$$\text{Roadmap Progress} = \text{round}\left(0.50 \cdot P_{\text{milestones}} + 0.50 \cdot P_{\text{tasks}}\right)$$
 
 $$\begin{aligned}
-P_{\text{milestones}} &= \frac{100 \times M_{\text{completed}} + 50 \times M_{\text{in\_progress}}}{M_{\text{total}}} \\
+P_{\text{milestones}} &= \frac{100 \times M_{\text{completed}} + 50 \times M_{\text{in-progress}}}{M_{\text{total}}} \\
 P_{\text{tasks}} &= \left( \frac{\sum T_{\text{completed}}}{\sum T_{\text{total}}} \right) \times 100
 \end{aligned}$$
 
