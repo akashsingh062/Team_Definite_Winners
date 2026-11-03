@@ -4,6 +4,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { IMentorshipSession } from "@/types/mentor";
+import { StudentPortalLayout } from "@/components/layout/StudentPortalLayout";
 import { SessionNotesModal } from "@/features/mentorship/components/SessionNotesModal";
 import { FeedbackModal } from "@/features/mentorship/components/FeedbackModal";
 import { Button } from "@/components/ui/button";
@@ -126,7 +127,8 @@ export default function StudentSessionsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <StudentPortalLayout>
+      <div className="max-w-6xl mx-auto space-y-6 pb-12">
       {/* Header & Tabs */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">
@@ -348,6 +350,7 @@ export default function StudentSessionsPage() {
           onSuccess={() => fetchSessions()}
         />
       )}
-    </div>
+      </div>
+    </StudentPortalLayout>
   );
 }

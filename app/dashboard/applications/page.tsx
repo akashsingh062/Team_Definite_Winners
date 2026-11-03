@@ -17,6 +17,8 @@ import {
   RefreshCw,
   Clock,
   Sparkles,
+  RotateCcw,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
@@ -175,18 +177,33 @@ export default function ApplicationsDashboardPage() {
     await Promise.all([fetchApplications(), fetchStatsAndFollowUps()]);
   };
 
+  const handleResetFilters = () => {
+    setStatusFilter("");
+    setCategoryFilter("");
+    setSearch("");
+    setPage(1);
+  };
+
+  const activeFilterCount = React.useMemo(() => {
+    let count = 0;
+    if (statusFilter) count++;
+    if (categoryFilter) count++;
+    if (search.trim()) count++;
+    return count;
+  }, [statusFilter, categoryFilter, search]);
+
   if (isAuthLoading || (isLoading && !statistics)) {
     return (
       <StudentPortalLayout>
         <div className="max-w-6xl mx-auto space-y-6 animate-pulse py-8">
           <div className="h-6 bg-slate-200 rounded w-1/4" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-24 bg-slate-200 rounded-xl" />
+              <div key={i} className="h-24 bg-slate-200 rounded-2xl" />
             ))}
           </div>
-          <div className="h-44 bg-slate-200 rounded-xl" />
-          <div className="h-96 bg-slate-200 rounded-xl" />
+          <div className="h-44 bg-slate-200 rounded-2xl" />
+          <div className="h-96 bg-slate-200 rounded-2xl" />
         </div>
       </StudentPortalLayout>
     );
@@ -195,27 +212,32 @@ export default function ApplicationsDashboardPage() {
   return (
     <StudentPortalLayout>
       <div className="space-y-6 max-w-6xl mx-auto pb-12">
-        {/* Header Section */}
+        {/* --- Header Section --- */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <ClipboardList className="w-6 h-6 text-indigo-600" />
-              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+                <span className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+                  <ClipboardList className="w-5 h-5" />
+                </span>
                 Application Tracking System
               </h1>
+              <Badge variant="indigo" className="text-xs px-2.5 py-0.5 font-semibold">
+                NexSkill ATS
+              </Badge>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Organize saved bookmarks, track recruitment stages, and monitor interview schedules.
+            <p className="text-xs text-slate-500 mt-1">
+              Organize saved bookmarks, track recruitment stages, and monitor interview schedules in one central dashboard.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
               onClick={handleRefresh}
               disabled={isRefreshing}
-              className="text-xs gap-1.5 cursor-pointer text-slate-700"
+              className="text-xs gap-1.5 bg-white text-slate-700"
             >
               <RefreshCw
                 className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin text-indigo-600" : ""}`}
@@ -226,90 +248,90 @@ export default function ApplicationsDashboardPage() {
             <Link href="/opportunities">
               <Button
                 size="sm"
-                className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5 shadow-2xs cursor-pointer"
+                className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5 shadow-xs"
               >
-                <span>Browse Opportunities</span>
+                <span>Explore Opportunities</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
           </div>
         </div>
 
-        {/* Section A: 6 Overview Metric Cards */}
+        {/* --- Section A: 6 Overview Metric Cards --- */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {/* 1. Total Tracked */}
-          <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
+          <Card className="p-3.5 border-slate-200 shadow-xs hover:border-slate-300 transition">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Total Tracked
             </span>
-            <p className="text-xl font-extrabold text-slate-900">
+            <p className="text-2xl font-bold text-slate-900 mt-0.5">
               {statistics?.totalTracked || 0}
             </p>
             <span className="text-[10px] text-slate-400">All saved & applied</span>
-          </div>
+          </Card>
 
           {/* 2. Saved */}
-          <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
+          <Card className="p-3.5 border-slate-200 shadow-xs hover:border-slate-300 transition">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block flex items-center gap-1">
               <Bookmark className="w-3 h-3 text-slate-500" />
               <span>Saved</span>
             </span>
-            <p className="text-xl font-extrabold text-slate-900">
+            <p className="text-2xl font-bold text-slate-900 mt-0.5">
               {statistics?.savedCount || 0}
             </p>
             <span className="text-[10px] text-slate-400">To review / apply</span>
-          </div>
+          </Card>
 
           {/* 3. Submitted */}
-          <div className="p-3.5 rounded-xl border border-purple-100 bg-purple-50/30 shadow-2xs space-y-1">
+          <Card className="p-3.5 border-purple-200 bg-purple-50/20 shadow-xs hover:border-purple-300 transition">
             <span className="text-[11px] font-semibold text-purple-900 uppercase tracking-wider block flex items-center gap-1">
               <Send className="w-3 h-3 text-purple-600" />
               <span>Submitted</span>
             </span>
-            <p className="text-xl font-extrabold text-purple-950">
+            <p className="text-2xl font-bold text-purple-950 mt-0.5">
               {statistics?.submittedTotal || 0}
             </p>
             <span className="text-[10px] text-purple-700">Active applications</span>
-          </div>
+          </Card>
 
           {/* 4. Interviews */}
-          <div className="p-3.5 rounded-xl border border-amber-100 bg-amber-50/30 shadow-2xs space-y-1">
+          <Card className="p-3.5 border-amber-200 bg-amber-50/20 shadow-xs hover:border-amber-300 transition">
             <span className="text-[11px] font-semibold text-amber-900 uppercase tracking-wider block flex items-center gap-1">
               <UserCheck className="w-3 h-3 text-amber-600" />
               <span>Interviews</span>
             </span>
-            <p className="text-xl font-extrabold text-amber-950">
+            <p className="text-2xl font-bold text-amber-950 mt-0.5">
               {statistics?.interviewCount || 0}
             </p>
             <span className="text-[10px] text-amber-700">Rounds in progress</span>
-          </div>
+          </Card>
 
           {/* 5. Offers Received */}
-          <div className="p-3.5 rounded-xl border border-emerald-100 bg-emerald-50/30 shadow-2xs space-y-1">
+          <Card className="p-3.5 border-emerald-200 bg-emerald-50/20 shadow-xs hover:border-emerald-300 transition">
             <span className="text-[11px] font-semibold text-emerald-900 uppercase tracking-wider block flex items-center gap-1">
               <Gift className="w-3 h-3 text-emerald-600" />
               <span>Offers</span>
             </span>
-            <p className="text-xl font-extrabold text-emerald-950">
+            <p className="text-2xl font-bold text-emerald-950 mt-0.5">
               {statistics?.offerReceivedCount || 0}
             </p>
             <span className="text-[10px] text-emerald-700">Offers extended</span>
-          </div>
+          </Card>
 
           {/* 6. Selected */}
-          <div className="p-3.5 rounded-xl border border-green-200 bg-green-50/40 shadow-2xs space-y-1">
-            <span className="text-[11px] font-semibold text-green-900 uppercase tracking-wider block flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-green-600" />
+          <Card className="p-3.5 border-emerald-300 bg-emerald-50/40 shadow-xs hover:border-emerald-400 transition">
+            <span className="text-[11px] font-semibold text-emerald-900 uppercase tracking-wider block flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
               <span>Selected</span>
             </span>
-            <p className="text-xl font-extrabold text-green-950">
+            <p className="text-2xl font-bold text-emerald-950 mt-0.5">
               {statistics?.selectedCount || 0}
             </p>
-            <span className="text-[10px] text-green-700">Confirmed placement</span>
-          </div>
+            <span className="text-[10px] text-emerald-700">Confirmed placement</span>
+          </Card>
         </div>
 
-        {/* Section B: Recruitment Pipeline Visualizer */}
+        {/* --- Section B: Recruitment Pipeline Visualizer --- */}
         {statistics && (
           <ApplicationPipelineBar
             pipeline={statistics.pipeline}
@@ -321,13 +343,13 @@ export default function ApplicationsDashboardPage() {
           />
         )}
 
-        {/* Section C: Upcoming Follow-ups Card */}
+        {/* --- Section C: Upcoming Follow-ups Card --- */}
         {upcomingFollowUps.length > 0 && (
           <UpcomingFollowUpsCard applications={upcomingFollowUps} />
         )}
 
-        {/* Section D: Search, Filter & Application List */}
-        <Card className="border border-slate-200 shadow-2xs">
+        {/* --- Section D: Search, Filter & Application List --- */}
+        <Card className="border border-slate-200 shadow-xs">
           <CardHeader className="pb-3 border-b border-slate-100">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
@@ -352,8 +374,16 @@ export default function ApplicationsDashboardPage() {
                       setSearch(e.target.value);
                       setPage(1);
                     }}
-                    className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full pl-8 pr-8 py-1.5 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
                   />
+                  {search && (
+                    <button
+                      onClick={() => setSearch("")}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  )}
                 </div>
 
                 {/* Status Filter */}
@@ -363,7 +393,7 @@ export default function ApplicationsDashboardPage() {
                     setStatusFilter(e.target.value);
                     setPage(1);
                   }}
-                  className="px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="px-2.5 py-1.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 >
                   <option value="">All Statuses</option>
                   <option value="saved">Saved</option>
@@ -385,7 +415,7 @@ export default function ApplicationsDashboardPage() {
                     setCategoryFilter(e.target.value);
                     setPage(1);
                   }}
-                  className="px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="px-2.5 py-1.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 >
                   <option value="">All Categories</option>
                   <option value="internship">Internships</option>
@@ -400,13 +430,25 @@ export default function ApplicationsDashboardPage() {
                     setSortBy(e.target.value as any);
                     setPage(1);
                   }}
-                  className="px-2.5 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="px-2.5 py-1.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 >
                   <option value="recently_updated">Recently Updated</option>
                   <option value="recently_applied">Recently Applied</option>
                   <option value="deadline_approaching">Deadline Approaching</option>
                   <option value="oldest">Oldest First</option>
                 </select>
+
+                {activeFilterCount > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleResetFilters}
+                    className="h-8 text-xs text-slate-500 hover:text-slate-800"
+                  >
+                    <RotateCcw className="w-3 h-3 mr-1" />
+                    Reset
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -455,7 +497,7 @@ export default function ApplicationsDashboardPage() {
               </div>
             ) : (
               <div className="py-16 text-center space-y-3 max-w-sm mx-auto">
-                <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
                   <ClipboardList className="w-6 h-6" />
                 </div>
                 <h3 className="text-base font-bold text-slate-900">
@@ -473,12 +515,7 @@ export default function ApplicationsDashboardPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => {
-                        setStatusFilter("");
-                        setCategoryFilter("");
-                        setSearch("");
-                        setPage(1);
-                      }}
+                      onClick={handleResetFilters}
                       className="text-xs"
                     >
                       Clear Filters

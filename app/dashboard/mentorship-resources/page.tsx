@@ -3,6 +3,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { StudentPortalLayout } from "@/components/layout/StudentPortalLayout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -85,7 +86,8 @@ export default function StudentResourcesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <StudentPortalLayout>
+      <div className="max-w-6xl mx-auto space-y-6 pb-12">
       {/* Header & Tabs */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">
@@ -258,6 +260,7 @@ export default function StudentResourcesPage() {
           })}
         </div>
       )}
-    </div>
+      </div>
+    </StudentPortalLayout>
   );
 }
