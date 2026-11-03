@@ -45,6 +45,16 @@ export interface IOpportunity {
   workMode: WorkMode;
   location: string;
   eligibleRegions?: string[];
+  state?: string;
+  district?: string;
+  city?: string;
+  locationName?: string;
+  remoteEligibility?: boolean;
+  relocationAvailable?: boolean;
+  coordinates?: {
+    latitude: number;
+    longitude: number;
+  };
 
   // Compensation
   stipend?: string;
@@ -59,7 +69,7 @@ export interface IOpportunity {
   applicationInstructions: string;
   benefits: string[];
 
-  // Verification and Publishing
+  // Verification, Provenance and Publishing
   status: OpportunityStatus;
   verificationStatus: VerificationStatus;
   verificationNotes?: string;
@@ -67,6 +77,29 @@ export interface IOpportunity {
   verifiedBy?: string;
   publishedAt?: string | Date;
   isDemoData?: boolean;
+
+  // Regional & Provenance Extensions (Feature 5)
+  opportunitySource?:
+    | "direct_employer"
+    | "regional_employer"
+    | "skill_india"
+    | "naps"
+    | "ncs"
+    | "state_mission"
+    | "govt_portal"
+    | "partner";
+  sourceUrl?: string;
+  sourceOrganization?: string;
+  isGovernmentProgram?: boolean;
+  governmentProgramDetails?: {
+    schemeName?: string;
+    ministryOrDepartment?: string;
+    stipendProvided?: boolean;
+    certificationOffered?: boolean;
+    targetBeneficiaries?: string;
+  };
+  lastVerifiedAt?: string | Date;
+  isOutdated?: boolean;
 
   createdAt?: Date;
   updatedAt?: Date;

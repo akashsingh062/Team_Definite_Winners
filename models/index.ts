@@ -15,5 +15,18 @@ export * from "./CareerPath";
 export * from "./CareerSimulation";
 export * from "./SkillsPassport";
 export * from "./PassportEvidence";
+export * from "./AssessmentQuestion";
+export * from "./Assessment";
+export * from "./AssessmentAttempt";
+export * from "./AssessmentEvidence";
+export * from "./RegionalTrainingCentre";
 
 
+export * from "./MentorProfile";
+export * from "./MentorshipRequest";
+export * from "./MentorshipSession";
+export * from "./MentorshipFeedback";
+export * from "./MentorshipResourceShare";
+export * from "./MentorshipNote";
+export * from "./MentorshipReport";
+export * from "./InAppNotification";

@@ -11,5 +11,8 @@ export * from "./application";
 export * from "./analytics";
 export * from "./career-path";
 export * from "./skills-passport";
+export * from "./assessment";
+export * from "./local-opportunity";
 
 
+export * from "./mentor";

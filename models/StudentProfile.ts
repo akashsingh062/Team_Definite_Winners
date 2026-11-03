@@ -107,6 +107,19 @@ const StudentProfileSchema = new Schema<IStudentProfile>(
       preferredLocation: { type: String, trim: true, default: "" },
       expectedStipend: { type: String, trim: true, default: "" },
     },
+    locationPreferences: {
+      state: { type: String, trim: true, default: "" },
+      district: { type: String, trim: true, default: "" },
+      city: { type: String, trim: true, default: "" },
+      preferredRadiusKm: { type: Number, default: 50 },
+      willingToRelocate: { type: Boolean, default: false },
+      preferredWorkMode: {
+        type: String,
+        enum: ["remote", "hybrid", "onsite", "any"],
+        default: "any",
+      },
+      preferRemote: { type: Boolean, default: false },
+    },
     additionalInfo: {
       certifications: {
         type: [CertificationSchema],

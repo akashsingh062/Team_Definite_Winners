@@ -52,3 +52,29 @@ export async function requireAdmin() {
   };
 }
 
+/**
+ * Requires an authorized mentor or user with mentor onboarding access.
+ * Throws Error("UNAUTHORIZED") or Error("FORBIDDEN").
+ */
+export async function requireMentor() {
+  const session = await requireAuth();
+
+  await connectToDatabase();
+  const dbUser = await User.findById(session.user.id).select("role").lean();
+  const role = dbUser?.role || (session.user as { role?: string })?.role;
+
+  // If user is already role mentor or admin, allowed
+  if (role === "mentor" || role === "admin") {
+    return session;
+  }
+
+  // Also check if user has an existing mentor profile
+  const { MentorProfile } = await import("@/models/MentorProfile");
+  const profile = await MentorProfile.findOne({ userId: session.user.id }).lean();
+  if (!profile) {
+    throw new Error("FORBIDDEN");
+  }
+
+  return session;
+}
+

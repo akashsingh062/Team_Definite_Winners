@@ -20,6 +20,10 @@ import {
   Sliders,
   GitCompare,
   Award,
+  CheckCircle2,
+  MapPin,
+  Users,
+  CalendarCheck,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -46,9 +50,32 @@ const navigationItems: NavItem[] = [
     badge: "Verified",
   },
   {
+    name: "Skill Assessments",
+    href: "/dashboard/assessments",
+    icon: CheckCircle2,
+    badge: "Tests",
+  },
+  {
+    name: "Mentorship Network",
+    href: "/dashboard/mentors",
+    icon: Users,
+    badge: "Mentors",
+  },
+  {
+    name: "Mentorship Sessions",
+    href: "/dashboard/mentorship-sessions",
+    icon: CalendarCheck,
+  },
+  {
     name: "Smart Matches",
     href: "/dashboard/recommendations",
     icon: Sparkles,
+  },
+  {
+    name: "Local Opportunities",
+    href: "/dashboard/local-opportunities",
+    icon: MapPin,
+    badge: "Nearby",
   },
   {
     name: "My Applications",

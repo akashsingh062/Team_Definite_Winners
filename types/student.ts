@@ -80,6 +80,16 @@ export interface IProfileCompletionBreakdown {
   total: number; // Max 100
 }
 
+export interface ILocationPreferences {
+  state?: string;
+  district?: string;
+  city?: string;
+  preferredRadiusKm?: number;
+  willingToRelocate?: boolean;
+  preferredWorkMode?: "remote" | "hybrid" | "onsite" | "any";
+  preferRemote?: boolean;
+}
+
 export interface IStudentProfile {
   _id?: string;
   userId: string;
@@ -88,6 +98,7 @@ export interface IStudentProfile {
   skills: ITechnicalSkill[];
   projects: IProjectItem[];
   careerPreferences: ICareerPreferences;
+  locationPreferences?: ILocationPreferences;
   additionalInfo: IAdditionalInfo;
   profileCompletionPercentage: number;
   createdAt?: Date;

@@ -99,6 +99,87 @@ const OpportunitySchema = new Schema<IOpportunity>(
       type: [{ type: String, trim: true }],
       default: [],
     },
+    state: {
+      type: String,
+      trim: true,
+      default: "",
+      index: true,
+    },
+    district: {
+      type: String,
+      trim: true,
+      default: "",
+      index: true,
+    },
+    city: {
+      type: String,
+      trim: true,
+      default: "",
+      index: true,
+    },
+    locationName: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    remoteEligibility: {
+      type: Boolean,
+      default: false,
+    },
+    relocationAvailable: {
+      type: Boolean,
+      default: false,
+    },
+    coordinates: {
+      latitude: { type: Number, min: -90, max: 90 },
+      longitude: { type: Number, min: -180, max: 180 },
+    },
+    opportunitySource: {
+      type: String,
+      enum: [
+        "direct_employer",
+        "regional_employer",
+        "skill_india",
+        "naps",
+        "ncs",
+        "state_mission",
+        "govt_portal",
+        "partner",
+      ],
+      default: "direct_employer",
+      index: true,
+    },
+    sourceUrl: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    sourceOrganization: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    isGovernmentProgram: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    governmentProgramDetails: {
+      schemeName: { type: String, trim: true, default: "" },
+      ministryOrDepartment: { type: String, trim: true, default: "" },
+      stipendProvided: { type: Boolean, default: false },
+      certificationOffered: { type: Boolean, default: false },
+      targetBeneficiaries: { type: String, trim: true, default: "" },
+    },
+    lastVerifiedAt: {
+      type: Date,
+      default: null,
+    },
+    isOutdated: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
 
     // Compensation
     stipend: {

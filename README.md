@@ -521,6 +521,15 @@ npm run test:stage9
 # Feature 1: AI Career Pathway & What-If Simulator (45 assertions)
 npm run test:career-simulator
 
+# Feature 2: Verified Digital Skills Passport (78 assertions)
+npm run test:skills-passport
+
+# Feature 4: Practical Skill Readiness Assessment (66 assertions)
+npm run test:skill-assessment
+
+# Feature 5: Local Opportunity & Skill Intelligence (75 assertions)
+npm run test:local-opportunities
+
 # Strict TypeScript compilation check (0 errors)
 npm run type-check
 
@@ -603,3 +612,256 @@ Feature 1 extends CareerBridge AI with an exploratory career intelligence system
 | `GET` | `/api/career-simulator/history` | Retrieve saved simulation snapshots for logged-in student | Yes (Student) |
 | `POST` | `/api/career-simulator/history` | Save a new simulation snapshot | Yes (Student) |
 | `DELETE` | `/api/career-simulator/history/[id]` | Delete a saved simulation snapshot (ownership protected) | Yes (Student) |
+
+
+---
+
+## 17. Feature 2 – Verified Digital Skills Passport
+
+### Overview & Objective
+Feature 2 introduces a professional, shareable **Digital Skills Passport** for every student in CareerBridge AI. The passport acts as a tamper-evident digital credential showcasing verified technical competencies, practical software projects, certifications, curriculum assessments, and academic background. Students can selectively control section visibility, generate high-resolution QR codes, and share their credentials with recruiters via cryptographically secure public URLs.
+
+### Core Capabilities
+
+1. **5-Tier Skill Evidence Hierarchy**:
+   Every skill is classified into an explicit evidence tier rather than being blindly marked as verified:
+   - **`Externally Verified`**: Backed by a validated third-party credential from an authentic issuer.
+   - **`Assessment Verified`**: Validated by a completed CareerBridge AI practical assessment or roadmap capstone.
+   - **`Project Demonstrated`**: Supported by a software project in the student's portfolio utilizing this technology.
+   - **`Resume Extracted`**: Detected in an approved, synchronized student resume.
+   - **`Self-Reported`**: Self-attested by the student in profile without automated corroboration.
+   - *Strict Invariant*: Projects, GitHub URLs, and resume claims are never fabricated as externally verified.
+
+2. **Authoritative Certification Verification**:
+   - Inspects credential URLs against verified third-party issuer registries (`Credly`, `Coursera`, `AWS CertMetrics`, `Google Cloud / Accredible`, `freeCodeCamp`, `HackerRank`, `Microsoft Learn`, `Udacity`).
+   - Automatically checks expiration dates and issuer domain syntax.
+   - Unintegrated or unverified certifications are explicitly marked as `Student-Provided` without fabricating validation.
+
+3. **Project Portfolio Showcase**:
+   - Displays student engineering deliverables with description, technologies, GitHub repository, live deployment, and specific student contribution notes.
+   - Stamped with `Project Demonstrated` evidence status.
+
+4. **Cryptographic Public Identification & URL Safety**:
+   - Generates random public identifiers (`csp_[a-f0-9]{24}`) with high cryptographic entropy.
+   - **Zero ID Exposure**: MongoDB `_id` and internal `userId` are strictly quarantined and never present in public URLs or payloads.
+
+5. **Strict Privacy Protection & Allowlisting**:
+   - **Quarantined PII**: Student email, personal phone number, home address, raw resume storage keys, and private application history are permanently excluded from public endpoints.
+   - Public responses are strictly allowlisted. Contact handles (GitHub, LinkedIn, Portfolio) are opt-in (`visibleSections.contact`).
+
+6. **Granular Section Visibility Controls**:
+   - Students can independently toggle public visibility for:
+     - Skills Matrix
+     - Project Portfolio
+     - Certifications
+     - Academic Education
+     - Practical Assessments
+     - Portfolio / Social Handles
+
+7. **Link Security Management (Revocation & Regeneration)**:
+   - **Revoke Link**: Immediately cuts off public access. Visitors receive an official `410 Revoked` notice with zero student profile leakage.
+   - **Regenerate Link**: Assigns a fresh cryptographically random public ID and immediately invalidates the previous public URL and QR code.
+
+8. **High-Resolution QR Code Generator**:
+   - Built with high error correction (`level: 'H'`).
+   - Generates both PNG Data URLs (`data:image/png;base64,...`) and scalable vector graphics (`<svg>`) pointing directly to `/passport/[publicId]`.
+
+9. **Employer Verification Interface (`/passport/[publicId]/verification`)**:
+   - Provides recruiters and credential verifiers with:
+     - Real-time authenticity status (`authentic`, `revoked`, `private`, `not_found`).
+     - Cryptographic SHA-256 integrity hash sealing verified competencies.
+     - Quantitative breakdown across the 5 evidence tiers.
+     - Verification scope and limitations disclaimer (refusing naive claims of universal accreditation).
+     - Official platform attestation seal.
+
+### Dedicated UI Routes
+
+- `/dashboard/skills-passport`: Interactive student management dashboard with bio editing, section toggles, QR code modal, and privacy controls.
+- `/passport/[publicId]`: Polished, responsive public credential profile for employers and recruiters.
+- `/passport/[publicId]/verification`: Employer-facing credential verification audit report.
+
+### REST API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/passport` | Retrieve student's full passport (auto-initializes if first visit) | Yes (Student) |
+| `PATCH` | `/api/passport` | Update headline, summary, visibility, and section toggles | Yes (Student) |
+| `POST` | `/api/passport/sync` | Resynchronize passport with latest profile and approved resume | Yes (Student) |
+| `POST` | `/api/passport/publish` | Set passport visibility to public | Yes (Student) |
+| `POST` | `/api/passport/revoke` | Revoke public passport link | Yes (Student) |
+| `POST` | `/api/passport/regenerate-link` | Invalidate current public link and generate fresh ID | Yes (Student) |
+| `GET` | `/api/passport/qr` | Get PNG DataURL & SVG QR code for current passport | Yes (Student) |
+| `GET` | `/api/public/passport/[publicId]` | Public sanitized skills passport view (allowlisted) | None (Public) |
+| `GET` | `/api/public/passport/[publicId]/verification` | Public credential authenticity audit report | None (Public) |
+
+---
+
+## 18. Feature 4 – Practical Skill Readiness Assessment
+
+### Overview & Objective
+Feature 4 introduces a structured, secure **Practical Skill Readiness Assessment** platform into CareerBridge AI. It enables students to validate their technical knowledge through rigorous, time-limited tests across 11 core technical domains. The assessment engine provides concrete, measurable evidence of student proficiency, directly upgrading skills in the Digital Skills Passport (`assessment_verified`) and highlighting genuine skill discrepancies in the Stage 5 Skill Gap Analyzer without mutating the student's self-reported profile.
+
+### Core Capabilities
+
+1. **Curriculum Coverage Across 11 Technical Domains**:
+   - **JavaScript**: Closures, event loop, asynchronous promises, prototypes, and scope.
+   - **HTML**: Semantic structure, accessibility standards, form validations, and document parsing.
+   - **CSS**: Flexbox, CSS Grid layouts, specificity cascade, and responsive media queries.
+   - **React**: Component lifecycles, hooks (`useEffect`, `useState`), reconciliation, and state flow.
+   - **Node.js**: Event-driven architecture, non-blocking I/O, streams, and module lifecycles.
+   - **Express.js**: Middleware pipelines, routing error propagation, and HTTP status contracts.
+   - **MongoDB**: Document indexing, aggregation pipelines, schema modeling, and atomicity.
+   - **SQL**: Relational joins, schema normalization, aggregate groupings, and transaction isolation.
+   - **Python**: List comprehensions, generators, mutable default arguments, and decorators.
+   - **Java**: OOP polymorphism, thread synchronization, JVM memory pools, and garbage collection.
+   - **Data Structures and Algorithms**: Time/space complexity analysis, hash tables, trees, and dynamic programming.
+
+2. **3 Safe Assessment Question Categories**:
+   - **Conceptual MCQs**: Tests foundational engineering concepts and operational theory.
+   - **Output Prediction**: Requires students to analyze code snippets and predict exact runtime output.
+   - **Code Debugging**: Identifies syntax bugs, logic flaws, and memory leaks in realistic code segments.
+   - *Security Guarantee*: Arbitrary code is NEVER executed on the application server. All evaluations are deterministically structured with pre-validated options.
+
+3. **Strict Security Invariant (Zero Client-Side Key Leaks)**:
+   - When a student begins or resumes an assessment attempt, questions are filtered through `IAssessmentQuestionPublic`.
+   - `correctAnswer` and `explanation` are strictly stripped from server responses and database attempt snapshots.
+   - Solution reviews and explanations are only accessible via `GET /api/assessments/results/[attemptId]` after the attempt status is finalized (`submitted` or `timed_out`).
+
+4. **Deterministic Server-Side Scoring & Proficiency Categorization**:
+   - Computes total marks, obtained score, and percentage deterministically on the server.
+   - Categorizes student proficiency into four tiers based on score and passing threshold:
+     - **`Advanced`**: $\ge 85\%$
+     - **`Proficient`**: $\ge \text{passingThreshold}$ (typically $60\% - 84\%$)
+     - **`Developing`**: $40\% - (\text{passingThreshold} - 1\%)$
+     - **`Beginner`**: $< 40\%$
+   - Generates topic-wise and difficulty-wise performance breakdowns with strengths and focus recommendations.
+
+5. **Student Assessment Runner Experience**:
+   - Real-time countdown timer with auto-submission when time expires.
+   - Dynamic question navigation palette with color-coded states (Answered, Current, Flagged for Review, Unanswered).
+   - Instant answer auto-saving via `PATCH /api/assessments/attempts/[attemptId]`.
+   - Full post-submission review detailing correct answers, selected answers, and rationale explanations.
+
+6. **Digital Skills Passport Integration**:
+   - Passing an assessment ($\ge \text{passingThreshold}$) writes a verified record to `AssessmentEvidence`.
+   - Automatically synchronizes with Feature 2 Digital Skills Passport:
+     - Adds a verified entry to `SkillsPassport.assessments` with badge and score.
+     - Upgrades matching skills in `SkillsPassport.skills` to `evidenceType: "assessment_verified"` and `verificationStatus: "verified"`.
+
+7. **Stage 5 Skill Gap Analyzer Integration**:
+   - Correlates self-reported skills against verified assessment outcomes.
+   - Transparently flags discrepancies (`verified_gap`, `verified_higher`, `verified_aligned`, `untested`).
+   - Recommends targeted practice without overwriting or penalizing the student's self-reported profile skills.
+
+8. **Stage 4 Matching Engine Non-Mandatory Compatibility**:
+   - Practical assessments are completely voluntary.
+   - Students without completed assessments match smoothly against opportunities using their profile and resume skills without penalties or ranking disqualification.
+
+9. **Administrative Authoring & Question Bank Management**:
+   - Full RBAC protection (`requireAdmin`).
+   - Admin Question Bank (`/admin/assessments/questions`): filter by subject, author conceptual/output/debugging questions with validation.
+   - Assessment Configuration Builder (`/admin/assessments/create`): configure title, subject, passing threshold, duration, retake cooldown, and question selection.
+
+### Dedicated UI Routes
+
+- `/dashboard/assessments`: Student assessment catalog with subject filters, test cards, duration, passing threshold, and active attempt badges.
+- `/dashboard/assessments/[assessmentId]`: Assessment overview, syllabus, guidelines, and start/resume trigger.
+- `/dashboard/assessments/[assessmentId]/attempt`: Interactive test runner with countdown timer, question palette, code snippets, and review flags.
+- `/dashboard/assessments/results/[attemptId]`: Detailed post-submission scorecard with topic breakdowns, question-by-question review, and explanations.
+- `/admin/assessments`: Administrator assessment configuration catalog.
+- `/admin/assessments/create`: Administrator assessment builder form.
+- `/admin/assessments/questions`: Curriculum question bank manager.
+
+### REST API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/assessments` | List published assessments with optional subject and difficulty filters | Optional |
+| `GET` | `/api/assessments/[id]` | Get assessment details and student active attempt status | Optional |
+| `POST` | `/api/assessments/[id]/start` | Start a new attempt or resume an ongoing active attempt | Yes (Student) |
+| `GET` | `/api/assessments/attempts/[attemptId]` | Retrieve active attempt snapshot (sanitized questions) | Yes (Student) |
+| `PATCH` | `/api/assessments/attempts/[attemptId]` | Auto-save answer selections and review flags | Yes (Student) |
+| `POST` | `/api/assessments/attempts/[attemptId]/submit` | Submit attempt for deterministic server-side scoring | Yes (Student) |
+| `GET` | `/api/assessments/results/[attemptId]` | Post-submission score review and explanations | Yes (Student) |
+| `GET` | `/api/assessments/history` | Student test history and verified assessment evidence | Yes (Student) |
+| `GET` | `/api/assessments/skill-gap` | Correlate self-reported skills with verified scores | Yes (Student) |
+| `GET` | `/api/admin/assessments` | Admin list of all assessments | Yes (Admin) |
+| `POST` | `/api/admin/assessments` | Create and publish a new assessment configuration | Yes (Admin) |
+| `PATCH` | `/api/admin/assessments/[id]` | Update an assessment configuration | Yes (Admin) |
+| `GET` | `/api/admin/assessments/questions` | List curriculum question bank with subject filters | Yes (Admin) |
+| `POST` | `/api/admin/assessments/questions` | Author and publish a new question | Yes (Admin) |
+| `PATCH` | `/api/admin/assessments/questions/[id]` | Update an existing question in bank | Yes (Admin) |
+
+---
+
+## 19. Feature 5 – Local Opportunity & Skill Intelligence
+
+### Overview & Objective
+Feature 5 equips CareerBridge AI with geographic discovery and regional skill intelligence designed to democratize access to career opportunities for students outside major metropolitan technology hubs (tier-2, tier-3, and rural districts). It unifies regional internships, apprenticeships under the National Apprenticeship Promotion Scheme (NAPS), government skill missions (Skill India, PMKVY, State Missions), public ITIs, polytechnics, and regional remote employment into a single location-aware discovery platform.
+
+### Core Capabilities
+
+1. **Student Location Profile & Privacy Invariant**:
+   - Allows students to specify optional, coarse geographic preferences: `state`, `district`, `city`, `preferredRadiusKm` (e.g. 50km), `willingToRelocate` (boolean), `preferredWorkMode` (`remote`, `hybrid`, `onsite`, `any`), and `preferRemote` (boolean).
+   - **Privacy Invariant**: Precise street addresses or home GPS coordinates are **NEVER** required or stored. Only the minimum coarse geographic precision necessary for regional opportunity discovery is retained.
+
+2. **Geospatial & Map-Based Discovery (`/dashboard/local-opportunities/map`)**:
+   - Interactive map powered by Leaflet and OpenStreetMap tiles (100% free, requiring zero external API keys).
+   - High-contrast custom vector pin markers with distinct colors:
+     - Blue Pins: Employer opportunities and job postings.
+     - Emerald Pins: Government ITIs, polytechnics, and vocational training centres.
+     - Purple Pins: NAPS apprenticeships and Skill India initiatives.
+   - **No-False-Coordinates Invariant**: Opportunities without verified street coordinates (e.g. Pan-India remote positions, district-wide quotas) are strictly excluded from physical map markers and presented in a dedicated unmapped regional drawer/list without fabricating false coordinates.
+
+3. **Government Skill-Development Programs & Provenance (`/dashboard/local-opportunities/programs`)**:
+   - Dedicated catalog for verified public initiatives: Skill India, NAPS (National Apprenticeship Promotion Scheme), PMKVY 4.0, National Career Service (NCS), State IT Missions (BELTRON, MAP_IT, Naan Mudhalvan, RajCOMP, AMTRON).
+   - Every externally sourced listing preserves full provenance: `sourceOrganization`, `sourceUrl`, `lastVerifiedAt`, and `isGovernmentProgram: true`.
+   - Distinguishes authentic government programs from private providers without making unverified endorsement claims.
+
+4. **Regional Skill Demand Intelligence (`/dashboard/local-opportunities/skills`)**:
+   - Real-time MongoDB aggregations calculating localized skill demands across active opportunities.
+   - Uses the Stage 4 semantic normalizer (`normalizeSkill`) to ensure technology boundaries (e.g. `Java` $\neq$ `JavaScript`).
+   - Visualizes top in-demand technologies, required vs preferred frequencies, work mode distribution (Remote vs Hybrid vs Onsite), and opportunity category breakdowns.
+   - **Sample Size Transparency**: Clearly displays the exact number of verified opportunity records and date range used for the analysis, never claiming a region has "no opportunities" simply due to a small database sample.
+
+5. **Personalized Regional Skill Gap Analysis**:
+   - Compares localized employer demand against the student's demonstrated skills.
+   - Categorizes skills into `Demonstrated`, `Target Gap (High Priority)`, and `Bonus Recommendation`.
+   - Offers one-click action handoffs directly to the Stage 5 Skill Gap Analyzer and Stage 6 Personalized Learning Roadmap.
+
+6. **Stage 4 Matching Engine Integration**:
+   - Does NOT duplicate matching algorithms. Reuses Stage 4 (`matchSkills`, `checkEligibility`, `calculateCompatibilityScore`) to score opportunities when a student is logged in.
+   - Prioritizes local matches and radius proximity alongside technical compatibility.
+
+7. **Admin Regional Opportunity & Training Centre Management**:
+   - `/admin/regional-opportunities`: Manage local opportunities, verify external URLs, update application deadlines, flag outdated listings, and review coordinates.
+   - `/admin/training-centres`: Register and verify regional ITIs, PMKVY Kaushal Kendras, and polytechnics with exact coordinates and curriculum tracks.
+   - `/admin/regional-analytics`: System monitoring dashboard reporting regional coverage, state opportunity distribution, and mapped vs unmapped statistics.
+
+### Dedicated UI Routes
+
+- `/dashboard/local-opportunities`: Main discovery catalog with state, district, work-mode, and radius search filters.
+- `/dashboard/local-opportunities/map`: Interactive map and side panel for opportunities and training centres.
+- `/dashboard/local-opportunities/skills`: Regional skill demand charts and student gap comparison.
+- `/dashboard/local-opportunities/programs`: Dedicated catalog for NAPS and government skill initiatives.
+- `/admin/regional-opportunities`: Administrator regional opportunity authoring and verification.
+- `/admin/training-centres`: Administrator training centre registry and coordinate validator.
+- `/admin/regional-analytics`: Administrator geographic coverage and unmapped indices.
+
+### REST API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/local-opportunities` | Search local opportunities with radius, work-mode, and Stage 4 matching | Optional |
+| `GET` | `/api/local-opportunities/map` | Get verified geo-coordinates for interactive map markers and unmapped counts | Optional |
+| `GET` | `/api/local-opportunities/skills` | Regional skill demand aggregations and student gap analysis | Optional |
+| `GET` | `/api/local-opportunities/programs` | Get verified government initiatives (NAPS, Skill India, State Missions) | Optional |
+| `GET` | `/api/local-opportunities/regions` | List available states, districts, and opportunity volumes | Optional |
+| `POST` | `/api/admin/regional-opportunities` | Create and publish a regional opportunity | Yes (Admin) |
+| `PATCH` | `/api/admin/regional-opportunities/[id]` | Update regional opportunity, coordinates, or outdated status | Yes (Admin) |
+| `GET` | `/api/admin/training-centres` | List all regional training centres | Yes (Admin) |
+| `POST` | `/api/admin/training-centres` | Register a new regional training centre or ITI | Yes (Admin) |
+| `PATCH` | `/api/admin/training-centres/[id]` | Update training centre details or verification | Yes (Admin) |
+| `GET` | `/api/admin/regional-analytics` | Administrative regional analytics and geographic coverage summary | Yes (Admin) |
+
+

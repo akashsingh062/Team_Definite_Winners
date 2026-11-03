@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Shield,
   BarChart3,
+  UserCheck,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -51,6 +52,12 @@ const adminNavItems: AdminNavItem[] = [
     href: "/admin/opportunities/create",
     icon: PlusCircle,
     exact: true,
+  },
+  {
+    name: "Mentor Network",
+    href: "/admin/mentors",
+    icon: UserCheck,
+    exact: false,
   },
 ];
 

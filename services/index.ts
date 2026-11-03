@@ -48,5 +48,21 @@ export * from "./passport/evidence-classifier.service";
 export * from "./passport/qr-generator.service";
 export * from "./passport/passport-generator.service";
 export * from "./passport/passport-public.service";
+export * from "./assessment/assessment-seed-data";
+export * from "./assessment/assessment-scoring.service";
+export * from "./assessment/assessment.service";
+export * from "./assessment/assessment-skill-gap.service";
+export * from "./assessment/assessment-admin.service";
+export * from "./local/local-seed-data";
+export * from "./local/local-opportunity.service";
+export * from "./local/regional-training-centre.service";
 
 
+export * from "./mentor/mentor-seed-data";
+export * from "./mentor/in-app-notification.service";
+export * from "./mentor/mentor.service";
+export * from "./mentor/mentorship-request.service";
+export * from "./mentor/mentorship-session.service";
+export * from "./mentor/mentorship-resource.service";
+export * from "./mentor/mentorship-feedback.service";
+export * from "./mentor/mentor-admin.service";
