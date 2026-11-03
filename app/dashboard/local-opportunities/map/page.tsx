@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { IMapMarkerItem, IAvailableRegion } from "@/types/local-opportunity";
+import { StudentPortalLayout } from "@/components/layout/StudentPortalLayout";
 import InteractiveOpportunityMap from "@/features/local-opportunities/components/InteractiveOpportunityMap";
 import {
   ChevronLeft,
@@ -83,8 +84,8 @@ export default function LocalOpportunitiesMapPage() {
   }, [selectedState, selectedCategory]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 sm:p-10">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <StudentPortalLayout>
+      <div className="max-w-6xl mx-auto space-y-6 pb-12">
         {/* Navigation */}
         <Link
           href="/dashboard/local-opportunities"
@@ -320,7 +321,7 @@ export default function LocalOpportunitiesMapPage() {
           </div>
         )}
       </div>
-    </div>
+    </StudentPortalLayout>
   );
 }
 
