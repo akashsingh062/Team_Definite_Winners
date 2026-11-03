@@ -88,41 +88,45 @@ export default function StudentRequestsPage() {
     switch (status) {
       case "accepted":
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 border border-emerald-200">
             <CheckCircle className="h-3.5 w-3.5 text-emerald-600" />
             Accepted
           </span>
         );
       case "pending":
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-700 border border-amber-200">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-200">
             <Clock className="h-3.5 w-3.5 text-amber-600" />
             Pending Review
           </span>
         );
       case "rejected":
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-semibold text-rose-700 border border-rose-200">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700 border border-rose-200">
             <XCircle className="h-3.5 w-3.5 text-rose-600" />
             Declined
           </span>
         );
       case "cancelled":
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600 border border-slate-200">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 border border-slate-200">
             <Ban className="h-3.5 w-3.5 text-slate-500" />
             Cancelled
           </span>
         );
       case "completed":
         return (
-          <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 border border-indigo-200">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold text-indigo-700 border border-indigo-200">
             <CheckCircle className="h-3.5 w-3.5 text-indigo-600" />
             Completed
           </span>
         );
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700 border border-slate-200">
+            {status}
+          </span>
+        );
     }
   };
 
@@ -142,191 +146,193 @@ export default function StudentRequestsPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5 flex-wrap">
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-                <span className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                  <Send className="w-5 h-5" />
+              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2.5">
+                <span className="p-2 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 shadow-xs">
+                  <Send className="w-5 h-5 sm:w-6 sm:h-6" />
                 </span>
                 My Mentorship Requests
               </h1>
-              <Badge variant="indigo" className="text-xs px-2.5 py-0.5 font-semibold">
+              <span className="text-xs px-3 py-1 rounded-full font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                 Outreach & Advisory Tracker
-              </Badge>
+              </span>
             </div>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Track the live status of your advisory, resume review, and career consultation requests sent to mentors.
+            <p className="text-sm text-slate-600 mt-1.5 max-w-2xl leading-relaxed">
+              Track the live status of your 1-on-1 advisory, resume review, and career consultation requests sent to verified mentors.
             </p>
           </div>
 
           <Link href="/dashboard/mentors">
-            <Button variant="primary" size="sm" className="text-xs gap-1.5">
-              <Users className="w-3.5 h-3.5" />
+            <Button size="sm" className="text-xs gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-4 py-2.5 shadow-xs">
+              <Users className="w-4 h-4" />
               <span>Discover More Mentors</span>
             </Button>
           </Link>
         </div>
 
         {/* --- Mentorship Portal Tabs --- */}
-        <div className="border-b border-slate-200 dark:border-slate-800">
-          <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+        <div className="border-b border-slate-200">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
             <Link
               href="/dashboard/mentors"
-              className="flex items-center gap-2 py-3 px-3.5 border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
+              className="flex items-center gap-2 py-3 px-4 border-b-2 border-transparent text-slate-600 hover:text-slate-900 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
             >
-              <Users className="w-4 h-4" />
+              <Users className="w-4 h-4 text-slate-400" />
               <span>Discover Mentors</span>
             </Link>
 
             <Link
               href="/dashboard/mentorship-requests"
-              className="flex items-center gap-2 py-3 px-3.5 border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold text-xs sm:text-sm whitespace-nowrap transition-colors"
+              className="flex items-center gap-2 py-3 px-4 border-b-2 border-indigo-600 text-indigo-600 font-bold text-xs sm:text-sm whitespace-nowrap transition-colors"
             >
               <Send className="w-4 h-4" />
               <span>My Requests</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+              <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-indigo-100 text-indigo-700">
                 {requests.length}
               </span>
             </Link>
 
             <Link
               href="/dashboard/mentorship-sessions"
-              className="flex items-center gap-2 py-3 px-3.5 border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
+              className="flex items-center gap-2 py-3 px-4 border-b-2 border-transparent text-slate-600 hover:text-slate-900 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
             >
-              <CalendarCheck className="w-4 h-4" />
+              <CalendarCheck className="w-4 h-4 text-slate-400" />
               <span>My Sessions</span>
             </Link>
 
             <Link
               href="/dashboard/mentorship-resources"
-              className="flex items-center gap-2 py-3 px-3.5 border-b-2 border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
+              className="flex items-center gap-2 py-3 px-4 border-b-2 border-transparent text-slate-600 hover:text-slate-900 font-medium text-xs sm:text-sm whitespace-nowrap transition-colors"
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className="w-4 h-4 text-slate-400" />
               <span>Shared Resources</span>
             </Link>
           </div>
         </div>
 
         {/* --- KPI Performance Strip --- */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <Card className="p-4 border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <div className="p-4 sm:p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
             <div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Total Requests
               </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+              <h3 className="text-2xl font-extrabold text-slate-900 mt-1">
                 {metrics.total} Sent
               </h3>
-              <p className="text-[11px] text-indigo-600 dark:text-indigo-400 font-medium mt-0.5">
+              <p className="text-xs text-indigo-600 font-semibold mt-0.5">
                 Lifetime mentorship outreach
               </p>
             </div>
-            <div className="p-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-              <Send className="w-5 h-5" />
+            <div className="p-3 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+              <Send className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </Card>
+          </div>
 
-          <Card className="p-4 border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between">
+          <div className="p-4 sm:p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
             <div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Pending Review
               </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+              <h3 className="text-2xl font-extrabold text-slate-900 mt-1">
                 {metrics.pending} Awaiting
               </h3>
-              <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium mt-0.5">
+              <p className="text-xs text-amber-600 font-semibold mt-0.5">
                 Mentors usually reply within 48h
               </p>
             </div>
-            <div className="p-2.5 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
-              <Clock className="w-5 h-5" />
+            <div className="p-3 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </Card>
+          </div>
 
-          <Card className="p-4 border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between">
+          <div className="p-4 sm:p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
             <div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Accepted Requests
               </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+              <h3 className="text-2xl font-extrabold text-slate-900 mt-1">
                 {metrics.accepted} Ready
               </h3>
-              <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium mt-0.5">
+              <p className="text-xs text-emerald-600 font-semibold mt-0.5">
                 Ready for live booking
               </p>
             </div>
-            <div className="p-2.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle className="w-5 h-5" />
+            <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+              <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </Card>
+          </div>
 
-          <Card className="p-4 border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between">
+          <div className="p-4 sm:p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
             <div>
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Completed Sessions
               </p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">
+              <h3 className="text-2xl font-extrabold text-slate-900 mt-1">
                 {metrics.completed} Done
               </h3>
-              <p className="text-[11px] text-purple-600 dark:text-purple-400 font-medium mt-0.5">
+              <p className="text-xs text-purple-600 font-semibold mt-0.5">
                 Consultations wrapped
               </p>
             </div>
-            <div className="p-2.5 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
-              <CalendarCheck className="w-5 h-5" />
+            <div className="p-3 rounded-2xl bg-purple-50 text-purple-600 border border-purple-100">
+              <CalendarCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </Card>
+          </div>
         </div>
 
         {/* --- Requests List --- */}
         {loading ? (
-          <div className="py-24 text-center space-y-3 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
-            <div className="w-9 h-9 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-sm font-medium text-slate-500">Loading your mentorship requests...</p>
+          <div className="py-24 text-center space-y-3 bg-white rounded-3xl border border-slate-200 shadow-xs">
+            <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-sm font-bold text-slate-700">Loading your mentorship requests...</p>
           </div>
         ) : requests.length === 0 ? (
-          <Card className="text-center py-16 p-8 space-y-3 border-dashed border-2 border-slate-200 dark:border-slate-800">
-            <Send className="w-10 h-10 text-slate-400 mx-auto" />
-            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+          <div className="text-center py-16 p-8 space-y-3 rounded-3xl border-2 border-dashed border-slate-200 bg-white shadow-xs">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center">
+              <Send className="w-7 h-7" />
+            </div>
+            <h3 className="text-lg font-extrabold text-slate-900">
               No mentorship requests sent yet
             </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto">
+            <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
               Browse our directory of verified tech experts, engineering leads, and alumni to send a personalized request for career guidance.
             </p>
             <Link href="/dashboard/mentors">
-              <Button size="sm" className="mt-2 text-xs bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button size="sm" className="mt-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs px-4 py-2">
                 Discover Mentors
               </Button>
             </Link>
-          </Card>
+          </div>
         ) : (
           <div className="space-y-4">
             {requests.map((req) => (
-              <Card
+              <div
                 key={req._id || req.id}
-                className="p-5 border-slate-200 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-800 transition"
+                className="rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs hover:border-indigo-300 hover:shadow-md transition-all duration-200"
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-5">
+                  <div className="space-y-3 flex-1 min-w-0">
+                    <div className="flex items-center gap-2.5 flex-wrap">
                       {getStatusBadge(req.status)}
-                      <span className="text-xs text-slate-300 dark:text-slate-700">•</span>
-                      <span className="text-xs text-slate-500 flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-slate-400" />
+                      <span className="text-xs text-slate-300">•</span>
+                      <span className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         Sent {new Date(req.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                       </span>
-                      <Badge variant="indigo" className="text-[10px] uppercase font-semibold">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100 text-xs font-semibold capitalize">
                         {req.preferredSessionType?.replace(/_/g, " ")}
-                      </Badge>
+                      </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                    <h3 className="text-lg font-extrabold text-slate-900">
                       {req.topic}
                     </h3>
 
                     {req.mentor ? (
-                      <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-                        <Briefcase className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <p className="text-xs sm:text-sm text-slate-600 flex items-center gap-2">
+                        <Briefcase className="w-4 h-4 text-indigo-600 shrink-0" />
                         <span>
-                          Target Mentor: <strong className="text-slate-800 dark:text-slate-200">{req.mentor.displayName}</strong> ({req.mentor.currentRole} at {req.mentor.organization})
+                          Target Mentor: <strong className="text-slate-900 font-bold">{req.mentor.displayName}</strong> ({req.mentor.currentRole} at {req.mentor.organization})
                         </span>
                       </p>
                     ) : (
@@ -334,37 +340,37 @@ export default function StudentRequestsPage() {
                     )}
 
                     {/* Content Box */}
-                    <div className="mt-3 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-2">
+                    <div className="mt-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs sm:text-sm space-y-2.5">
                       <div>
-                        <span className="font-bold text-slate-900 dark:text-slate-100">Target Career Goal: </span>
-                        <span>{req.careerGoal}</span>
+                        <span className="font-bold text-slate-900">Target Career Goal: </span>
+                        <span className="text-slate-700 font-medium">{req.careerGoal}</span>
                       </div>
                       <div>
-                        <span className="font-bold text-slate-900 dark:text-slate-100">Introduction & Query: </span>
-                        <span className="leading-relaxed">{req.introduction}</span>
+                        <span className="font-bold text-slate-900">Introduction & Query: </span>
+                        <span className="text-slate-700 leading-relaxed font-normal">{req.introduction}</span>
                       </div>
                     </div>
 
                     {req.mentorResponse && (
-                      <div className="mt-3 p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-xs text-indigo-900 dark:text-indigo-200 space-y-1">
-                        <span className="font-bold flex items-center gap-1.5 text-indigo-950 dark:text-indigo-100">
-                          <MessageSquare className="w-3.5 h-3.5 text-indigo-600" />
+                      <div className="mt-3 p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 text-xs sm:text-sm text-slate-900 space-y-1.5">
+                        <span className="font-bold flex items-center gap-2 text-indigo-950">
+                          <MessageSquare className="w-4 h-4 text-indigo-600" />
                           Mentor Response / Meeting Note:
                         </span>
-                        <p className="mt-0.5 leading-relaxed">{req.mentorResponse}</p>
+                        <p className="text-slate-800 leading-relaxed font-medium pl-6">{req.mentorResponse}</p>
                       </div>
                     )}
                   </div>
 
                   {/* Actions Column */}
-                  <div className="flex items-center md:flex-col justify-end md:items-end gap-2 shrink-0 pt-2 md:pt-0">
+                  <div className="flex items-center md:flex-col justify-end md:items-end gap-2.5 shrink-0 pt-2 md:pt-0">
                     {req.status === "pending" && (
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => handleCancel(req._id || req.id)}
                         disabled={cancellingId === (req._id || req.id)}
-                        className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200"
+                        className="text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border-rose-200 rounded-xl"
                       >
                         {cancellingId === (req._id || req.id) ? "Cancelling..." : "Cancel Request"}
                       </Button>
@@ -372,15 +378,15 @@ export default function StudentRequestsPage() {
 
                     {req.status === "accepted" && (
                       <Link href="/dashboard/mentorship-sessions">
-                        <Button size="sm" className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white gap-1">
+                        <Button size="sm" className="text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xs gap-1.5 px-3.5 py-2">
                           <span>View Session</span>
-                          <ArrowRight className="w-3 h-3" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
                       </Link>
                     )}
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         )}
