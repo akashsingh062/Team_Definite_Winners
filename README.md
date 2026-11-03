@@ -15,7 +15,6 @@
 [![Better Auth](https://img.shields.io/badge/Better_Auth-1.7-purple?style=flat)](https://www.better-auth.com/)
 [![Google Gemini API](https://img.shields.io/badge/Google_Gemini-2.32_SDK-orange?style=flat&logo=google)](https://ai.google.dev/)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9-green?style=flat&logo=leaflet)](https://leafletjs.com/)
-[![Automated Assertions](https://img.shields.io/badge/Test_Assertions-564_Passing-brightgreen?style=flat)](./scripts)
 
 ---
 
@@ -49,9 +48,8 @@
 10. [Getting Started & Installation](#10-getting-started--installation)
 11. [Environment Variables Reference](#11-environment-variables-reference)
 12. [Seeding & Demo Credentials](#12-seeding--demo-credentials)
-13. [Verification & Automated Test Suites (564 Assertions)](#13-verification--automated-test-suites-564-assertions)
-14. [Security, Privacy & Responsible AI Standards](#14-security-privacy--responsible-ai-standards)
-15. [License & Acknowledgments](#15-license--acknowledgments)
+13. [Security, Privacy & Responsible AI Standards](#13-security-privacy--responsible-ai-standards)
+14. [License & Acknowledgments](#14-license--acknowledgments)
 
 ---
 
@@ -188,16 +186,12 @@ Conventional university placement cells and online job boards are plagued by str
 * **Deterministic Fallback Engine:** If the Gemini API is unavailable, a regex-based keyword parser extracts technical competencies, ensuring zero downtime.
 
 ### Stage 4: Intelligent Multi-Factor Matching Engine & Eligibility Gates
-* **Deterministic 7-Factor Scoring:** Candidate compatibility is computed using a weighted mathematical model:
-  1. Required Skills Match ($40\%$)
-  2. Preferred Skills Match ($15\%$)
-  3. Projects & Practical Experience ($15\%$)
-  4. Education & Academic Eligibility ($10\%$)
-  5. Career Role Alignment ($10\%$)
-  6. Work Mode & Location Preference ($5\%$)
-  7. Compensation Alignment ($5\%$)
-* **Mandatory Eligibility Hard Gate:** If a student fails a mandatory eligibility criterion (e.g., student CGPA strictly lower than opportunity minimum), their overall match score is **strictly capped at $\le 45\%$**, preventing misleading high scores.
-* **Performance Caching:** High-throughput in-memory cache with a 5-minute TTL invalidates automatically when student profiles are modified.
+* **Deterministic 7-Factor Mathematical Model:** Evaluates student compatibility across seven independently weighted criteria: Required Skills ($40\%$), Preferred Skills ($15\%$), Projects & Practical Experience ($15\%$), Education & Eligibility ($10\%$), Career Role Alignment ($10\%$), Location & Work Mode ($5\%$), and Compensation Alignment ($5\%$).
+* **Semantic Token Normalization:** Resolves skill variations, abbreviations, and dialectical naming differences (e.g., *react.js* $\to$ *react*, *k8s* $\to$ *kubernetes*, *golang* $\to$ *go*) prior to computing skill intersections.
+* **Mandatory Eligibility Hard Gate:** Enforces strict academic and institutional requirements (minimum CGPA, graduation batch, permitted branches). If a student fails any mandatory gate, the overall match score is **strictly capped at $\le 45\%$**, preventing misleading high match percentages.
+* **Non-Punitive Missing Data Policy:** Evaluates unprovided optional profile fields with a fair, neutral baseline rather than penalizing students with a zero score.
+* **Zero-Pedigree & Demographic Blindness:** Operates entirely blind to college tier, institutional pedigree, gender, caste, religion, and socio-economic indicators.
+* **High-Throughput In-Memory Caching:** Features a 5-minute TTL caching layer indexed by `studentId:opportunityId`, auto-invalidating instantly whenever a student updates their profile.
 
 ### Stage 5: AI Skill Gap Analyzer & Curated Resource Linking
 * **Opportunity-Specific & Aggregated Gaps:** Compares student profiles against single opportunities or across the entire catalog to isolate missing required and preferred competencies.
@@ -263,20 +257,43 @@ Conventional university placement cells and online job boards are plagued by str
 
 ### 1. Multi-Factor Compatibility Score
 
-$$\text{Overall Match Score} = \sum_{i=1}^{7} \left( w_i \times S_i \right)$$
+The NexSkill matching engine calculates opportunity compatibility deterministically using a calibrated **7-factor weighted multi-criteria decision model**. Rather than relying on non-deterministic black-box LLMs to score candidates, NexSkill evaluates candidates against verifiable competencies, project evidence, and verified credentials.
 
-$$\begin{aligned}
-\text{Where weights } w_i \text{ are defined as:} \\
-w_{\text{requiredSkills}} &= 0.40 \\
-w_{\text{preferredSkills}} &= 0.15 \\
-w_{\text{projectsExperience}} &= 0.15 \\
-w_{\text{education}} &= 0.10 \\
-w_{\text{careerAlignment}} &= 0.10 \\
-w_{\text{locationWorkMode}} &= 0.05 \\
-w_{\text{compensation}} &= 0.05
-\end{aligned}$$
+#### Mathematical Formulation
 
-$$\text{Mandatory Eligibility Gate: } \text{If } \text{Status}(\text{Eligibility}) = \text{"not\_eligible"} \implies \text{Overall Score} = \min(45, \text{Overall Score})$$
+$$\text{Overall Compatibility Score} = \text{round}\left( \sum_{i=1}^{7} w_i \times S_i \right)$$
+
+$$\text{Subject to Mandatory Gate: } \quad S_{\text{overall}} = \begin{cases} \min(45, S_{\text{overall}}) & \text{if } \text{Status}(\text{Eligibility}) = \text{"not\_eligible"} \\ S_{\text{overall}} & \text{otherwise} \end{cases}$$
+
+Where each factor weight $w_i \in (0, 1)$ satisfies $\sum_{i=1}^{7} w_i = 1.00$, and each component score $S_i \in [0, 100]$ is computed through specialized deterministic evaluation rubrics.
+
+#### Component Weights and Scoring Breakdown
+
+| Factor ($i$) | Component ($S_i$) | Weight ($w_i$) | Contribution | Scoring Rubric & Evaluation Logic |
+|---|---|:---:|:---:|---|
+| **1** | **Required Technical Skills** ($S_{\text{req}}$) | `0.40` | **40%** | Measures exact overlap against non-negotiable core requirements:<br>$$S_{\text{req}} = \frac{|\mathcal{S}_{\text{student}} \cap \mathcal{S}_{\text{required}}|}{|\mathcal{S}_{\text{required}}|} \times 100$$<br>Skills undergo canonicalization via `normalizeSkill()` (e.g., *react.js* $\to$ *react*, *k8s* $\to$ *kubernetes*). |
+| **2** | **Preferred Technical Skills** ($S_{\text{pref}}$) | `0.15` | **15%** | Evaluates bonus technologies that elevate candidate readiness:<br>$$S_{\text{pref}} = \frac{|\mathcal{S}_{\text{student}} \cap \mathcal{S}_{\text{preferred}}|}{|\mathcal{S}_{\text{preferred}}|} \times 100$$ |
+| **3** | **Projects & Practical Experience** ($S_{\text{proj}}$) | `0.15` | **15%** | Evaluates demonstrable proof in student projects and work history:<br>• **Baseline:** 40 points default.<br>• **$\ge 2$ Tech-Aligned Projects:** $+40$ pts (score $\to 80$).<br>• **1 Tech-Aligned Project:** $+25$ pts (score $\to 65$).<br>• **General Project:** $+15$ pts (score $\to 55$).<br>• **Work Experience / Internship Bonus:** $+20$ pts (capped at 100). |
+| **4** | **Education & Eligibility** ($S_{\text{edu}}$) | `0.10` | **10%** | Evaluates branch, graduation batch, and academic thresholds:<br>• **Fully Eligible:** 100 points.<br>• **Potentially Eligible (Missing Data):** 70 points (*Non-punitive baseline*).<br>• **Ineligible (Criteria Unmet):** 20 points. |
+| **5** | **Career Role Alignment** ($S_{\text{align}}$) | `0.10` | **10%** | Evaluates student aspirations against role scope:<br>• **Baseline:** 65 points.<br>• **Role Token Overlap:** $+25$ pts if preferred role matches opportunity title keywords.<br>• **Employment Type Match:** $+15$ pts if internship/job matches stated preference. |
+| **6** | **Location & Work Mode** ($S_{\text{work}}$) | `0.05` | **5%** | Evaluates workplace format and geographic compatibility:<br>• **Remote Opportunities:** 100 points.<br>• **Exact Preference Match (Hybrid / On-site):** 95 points.<br>• **Compatible Hybrid:** 85 points.<br>• **City / Region Keyword Overlap:** $+15$ pts bonus (capped at 100). |
+| **7** | **Compensation Alignment** ($S_{\text{comp}}$) | `0.05` | **5%** | Evaluates financial structure and learning track suitability:<br>• **Paid Opportunities:** 100 points.<br>• **Skill Development & Apprenticeship:** 90 points.<br>• **Unpaid / Unspecified:** 60 points. |
+
+#### Architectural Guarantees & Safeguards
+
+1. **Mandatory Eligibility Hard Gate:**  
+   If a student fails mandatory criteria set by the employer (e.g., CGPA strictly below minimum threshold or restricted academic branch), the system enforces:
+   $$\text{Overall Score} = \min(45, \text{Overall Score})$$
+   This invariant mathematically prevents unqualified candidates from receiving misleading high ratings while clearly displaying the exact unmet eligibility requirement.
+
+2. **Non-Punitive Missing Data Policy:**  
+   Unprovided optional profile attributes are assigned neutral baselines (e.g., 70 for academic eligibility, 65 for career alignment) rather than punitive 0 scores, encouraging continuous profile completion without demotivating students.
+
+3. **Demographic & Pedigree Blindness:**  
+   Institutional rankings (Tier-1, Tier-2, Tier-3) and candidate demographic attributes (gender, caste, religion, socio-economic bracket) are strictly excluded from the algorithm ($w_{\text{pedigree}} = 0$).
+
+4. **High-Performance In-Memory Caching:**  
+   Match scores and factor breakdowns are cached with a 5-minute TTL, indexed by `studentId:opportunityId`, and invalidated instantaneously upon profile update.
 
 ---
 
@@ -605,81 +622,7 @@ node scripts/promote-admin.mjs your-email@domain.com
 
 ---
 
-## 13. Verification & Automated Test Suites (564 Assertions)
-
-NexSkill AI includes an extensive, enterprise-grade automated testing suite comprising **15 dedicated test runners** and **564 automated assertions**:
-
-```bash
-# =========================================================================
-# INDIVIDUAL STAGE VERIFICATION SUITES
-# =========================================================================
-
-# Stage 1: Auth & Comprehensive Student Profile Management (26 assertions)
-npm run test:stage1
-
-# Stage 2: Opportunity Management & Admin RBAC (21 assertions)
-npm run test:stage2
-
-# Stage 3: AI Resume Analyzer & Non-Destructive Sync (22 assertions)
-npm run test:stage3
-
-# Stage 4: Intelligent Matching Engine & Eligibility Invariants (27 assertions)
-npm run test:stage4
-
-# Stage 5: AI-Powered Skill Gap Analyzer & Resource Linking (29 assertions)
-npm run test:stage5
-
-# Stage 6: Personalized AI Learning Roadmap & DAG Kahn's Algorithm (32 assertions)
-npm run test:stage6
-
-# Stage 7: Explainable AI Recommendations & What-If Levers (39 assertions)
-npm run test:stage7
-
-# Stage 8: Application Tracking System (ATS) Pipeline & Activity (51 assertions)
-npm run test:stage8
-
-# Stage 9: Admin Analytics & Responsible AI Fairness Monitoring (59 assertions)
-npm run test:stage9
-
-# =========================================================================
-# SPECIALIZED FEATURE VERIFICATION SUITES
-# =========================================================================
-
-# Feature 1: Career Pathway Explorer & What-If Simulator (46 assertions)
-npm run test:career-simulator
-
-# Feature 2: Verified Digital Skills Passport & Public Verification (79 assertions)
-npm run test:skills-passport
-
-# Feature 3 & 4: Practical Skill Readiness Assessment Engine (57 assertions)
-npm run test:skill-assessment
-
-# Feature 5: Local Opportunities & Regional Geospatial Intelligence (54 assertions)
-npm run test:local-opportunities
-
-# Feature 6: Human Mentor & Career Counsellor Network (47 assertions)
-npm run test:mentorship-network
-
-# =========================================================================
-# END-TO-END SYSTEM INTEGRATION SUITE
-# =========================================================================
-
-# End-to-End System Integration Across All 10 Modules (34 assertions)
-npm run test:system-integration
-
-# Strict TypeScript Compilation Check (0 errors)
-npm run type-check
-
-# Next.js Code Quality & Accessibility Linting (0 errors)
-npm run lint
-
-# Production Next.js 16 Turbopack Build (0 errors)
-npm run build
-```
-
----
-
-## 14. Security, Privacy & Responsible AI Standards
+## 13. Security, Privacy & Responsible AI Standards
 
 1. **Demographic Neutrality & Fairness Protection:**
    * Candidate demographic factors (gender, caste, religion, income, disability) are never ingested by matching and ranking algorithms.
@@ -695,7 +638,7 @@ npm run build
 
 ---
 
-## 15. License & Acknowledgments
+## 14. License & Acknowledgments
 
 This project is developed for **Problem Statement 22 (PS-22)**: *AI-Powered Campus-to-Employment Opportunity Matcher*.
 
