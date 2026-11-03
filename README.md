@@ -2,7 +2,10 @@
 
 > **AI-Powered Campus-to-Employment Opportunity Matcher**  
 > *From Skill to Opportunity* — Democratizing student careers through explainable AI recommendations, skills-based verification, regional opportunity intelligence, and demographic neutrality.  
-> **Problem Statement:** PS-22 (Campus Recruitment & Equal Opportunity Employment)
+> **Problem Statement:** PS-22 (Campus Recruitment & Equal Opportunity Employment)  
+> 🌐 **Live Demo Application:** [https://team-definite-winners.vercel.app/](https://team-definite-winners.vercel.app/)
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-team--definite--winners.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://team-definite-winners.vercel.app/)
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.4.4-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19.0.0-61dafb?style=flat&logo=react)](https://react.dev/)
@@ -18,6 +21,7 @@
 
 ## Table of Contents
 
+- [🌐 Live Demo & Deployment](#-live-demo--deployment)
 1. [Executive Summary & Problem Statement (PS-22)](#1-executive-summary--problem-statement-ps-22)
 2. [Key Innovations & Ethical AI Principles](#2-key-innovations--ethical-ai-principles)
 3. [Technology Stack](#3-technology-stack)
@@ -48,6 +52,18 @@
 13. [Verification & Automated Test Suites (564 Assertions)](#13-verification--automated-test-suites-564-assertions)
 14. [Security, Privacy & Responsible AI Standards](#14-security-privacy--responsible-ai-standards)
 15. [License & Acknowledgments](#15-license--acknowledgments)
+
+---
+
+## 🌐 Live Demo & Deployment
+
+NexSkill AI is live and publicly accessible:
+
+| Resource | Link | Notes |
+|---|---|---|
+| **Production Application** | **[https://team-definite-winners.vercel.app/](https://team-definite-winners.vercel.app/)** | Hosted on Vercel Edge & Serverless Infrastructure |
+| **Student & Admin Login** | **[https://team-definite-winners.vercel.app/login](https://team-definite-winners.vercel.app/login)** | Use demo credentials below or register a new student account |
+| **Pre-Seeded Credentials** | [Jump to Demo Accounts](#12-seeding--demo-credentials) | Student, Admin, and Mentor accounts ready for testing |
 
 ---
 
@@ -549,7 +565,8 @@ nexskill-ai/
    ```
 
 6. **Access the Application:**
-   Open your browser and navigate to `http://localhost:3000`.
+   * **Local Environment:** Open your browser and navigate to `http://localhost:3000`.
+   * **Live Production Deployment:** Access immediately at **[https://team-definite-winners.vercel.app/](https://team-definite-winners.vercel.app/)**.
 
 ---
 
@@ -567,6 +584,10 @@ nexskill-ai/
 ---
 
 ## 12. Seeding & Demo Credentials
+
+> [!TIP]
+> You can test all features on the live production deployment using these pre-configured accounts:  
+> **Direct Login:** [https://team-definite-winners.vercel.app/login](https://team-definite-winners.vercel.app/login)
 
 The database seeder (`npm run seed:demo-users`) provisions ready-to-test accounts across all roles:
 
