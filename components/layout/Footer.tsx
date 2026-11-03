@@ -1,8 +1,9 @@
 import * as React from "react";
 import Link from "next/link";
-import { Sparkles, HeartHandshake, ShieldCheck, Accessibility } from "lucide-react";
+import { HeartHandshake, ShieldCheck, Accessibility } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Container } from "@/components/layout/Container";
+import { Logo } from "@/components/ui/Logo";
 
 export function Footer() {
   return (
@@ -11,21 +12,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand Info */}
           <div className="space-y-4 md:col-span-2">
-            <Link
-              href="/"
-              className="flex items-center gap-2 font-bold text-slate-900"
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              <span className="text-lg tracking-tight">{siteConfig.name}</span>
-            </Link>
-            <p className="max-w-md text-sm text-slate-500 leading-relaxed">
+            <Logo size="sm" showTagline={true} />
+            <p className="max-w-md text-sm text-slate-500 leading-relaxed font-normal">
               An AI-powered Campus-to-Employment Opportunity Matcher engineered
               to democratize career access. Powered by explainable recommendations,
               algorithmic fairness, and prioritized support for underserved student communities.
             </p>
-            <div className="flex items-center gap-4 text-xs text-slate-500">
+            <div className="flex items-center gap-4 text-xs text-slate-500 font-medium">
               <span className="flex items-center gap-1">
                 <ShieldCheck className="h-4 w-4 text-emerald-600" />
                 Fairness First
@@ -43,16 +36,24 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
               Platform
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-sm font-medium">
               <li>
                 <Link
                   href="/dashboard"
                   className="hover:text-indigo-600 transition-colors"
                 >
                   Student Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/opportunities"
+                  className="hover:text-indigo-600 transition-colors"
+                >
+                  Browse Opportunities
                 </Link>
               </li>
               <li>
@@ -84,7 +85,7 @@ export function Footer() {
 
           {/* Commitments & Ethics */}
           <div className="space-y-3">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
               Core Pillars
             </h4>
             <ul className="space-y-2 text-sm">
@@ -107,11 +108,10 @@ export function Footer() {
         <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} NexSkill AI. From Skill to Opportunity. All rights reserved.</p>
           <div className="flex gap-4">
-            <span className="text-slate-400">Built for Next-Gen Student Success</span>
+            <span className="text-slate-400 font-medium">Built for Next-Gen Student Success</span>
           </div>
         </div>
       </Container>
     </footer>
   );
 }
-

@@ -9,6 +9,7 @@ import { StudentSidebar } from "@/components/layout/StudentSidebar";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Container } from "@/components/layout/Container";
+import { LogoIcon } from "@/components/ui/Logo";
 
 export function StudentPortalLayout({
   children,
@@ -79,11 +80,9 @@ export function StudentPortalLayout({
     <div className="min-h-[calc(100vh-4rem)] bg-slate-50/50 flex flex-col md:flex-row">
       {/* Mobile Header Bar */}
       <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-2xs">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-            <Sparkles className="w-4 h-4" />
-          </div>
-          <span className="font-bold text-sm text-slate-900">Student Portal</span>
+        <div className="flex items-center gap-2.5">
+          <LogoIcon size={28} />
+          <span className="font-extrabold text-sm text-slate-900">Student Portal</span>
         </div>
         <button
           type="button"
