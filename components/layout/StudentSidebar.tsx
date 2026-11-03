@@ -16,6 +16,10 @@ import {
   Target,
   Compass,
   ClipboardList,
+  Route,
+  Sliders,
+  GitCompare,
+  Award,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar } from "@/components/ui/avatar";
@@ -36,6 +40,12 @@ const navigationItems: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+    name: "Skills Passport",
+    href: "/dashboard/skills-passport",
+    icon: Award,
+    badge: "Verified",
+  },
+  {
     name: "Smart Matches",
     href: "/dashboard/recommendations",
     icon: Sparkles,
@@ -44,6 +54,22 @@ const navigationItems: NavItem[] = [
     name: "My Applications",
     href: "/dashboard/applications",
     icon: ClipboardList,
+  },
+  {
+    name: "Career Explorer",
+    href: "/dashboard/career-explorer",
+    icon: Route,
+  },
+  {
+    name: "What-If Simulator",
+    href: "/dashboard/career-simulator",
+    icon: Sliders,
+    badge: "AI",
+  },
+  {
+    name: "Compare Careers",
+    href: "/dashboard/career-comparison",
+    icon: GitCompare,
   },
   {
     name: "Skill Gap Analyzer",

@@ -13,5 +13,7 @@ export * from "./AdminAuditLog";
 export * from "./AnalyticsEvent";
 export * from "./CareerPath";
 export * from "./CareerSimulation";
+export * from "./SkillsPassport";
+export * from "./PassportEvidence";
 
 

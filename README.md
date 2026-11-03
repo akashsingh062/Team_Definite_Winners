@@ -518,6 +518,9 @@ npm run test:stage8
 # Stage 9: Admin Analytics & Fairness Dashboard (72 assertions)
 npm run test:stage9
 
+# Feature 1: AI Career Pathway & What-If Simulator (45 assertions)
+npm run test:career-simulator
+
 # Strict TypeScript compilation check (0 errors)
 npm run type-check
 
@@ -528,3 +531,75 @@ npm run lint
 npm run build
 ```
 
+
+
+---
+
+## 16. Feature 1 – AI Career Pathway & What-If Simulator
+
+### Overview & Objective
+Feature 1 extends CareerBridge AI with an exploratory career intelligence system that bridges the gap between where students stand today and where they want to go. Students can browse industry-standard career pathways, inspect transparent 4-pillar readiness scores, run hypothetical What-If simulations to test skill additions without modifying their actual profile, compare multiple career paths side-by-side, and immediately generate Stage 6 learning roadmaps.
+
+### Core Capabilities
+
+1. **Curated Career Path Library**:
+   Pre-seeded with 13 comprehensive, industry-standard career profiles:
+   - Frontend Developer, Backend Developer, Full Stack Developer, Software Engineer, Mobile App Developer, QA Engineer
+   - Data Analyst, Data Scientist, AI/ML Engineer
+   - Cloud Engineer, DevOps Engineer, Cybersecurity Analyst
+   - UI/UX Designer
+   Each path defines core responsibilities, difficulty levels, required and preferred skills, recommended portfolio projects with acceptance criteria, and multi-stage career progression milestones (Entry $\to$ Mid $\to$ Senior $\to$ Lead).
+
+2. **Deterministic 4-Pillar Readiness Scoring Engine**:
+   Transparent, explainable scoring with zero black-box calculations:
+   - **Required Skills (45%)**: Core technical competencies essential for the role.
+   - **Preferred Skills (15%)**: Complementary tools, libraries, and workflows that provide competitive edge.
+   - **Portfolio Projects (20%)**: Demonstrable practical project experience related to the career domain.
+   - **Education & Foundational Alignment (20%)**: Degree, branch relevance, and foundational coursework.
+   - **Total Score**: Bounded between 0% and 100%. Fully stamped with methodology version (`v1.0-career-path`).
+   - Integrates Stage 4 semantic normalization (ensuring strict distinction between distinct technologies, e.g. `Java` $\neq$ `JavaScript`).
+
+3. **What-If Skill Simulator**:
+   - Allows students to select one or more hypothetical skills they are considering learning.
+   - Dynamically recomputes simulated readiness score in-memory and displays the alignment score delta ($+\Delta\%$).
+   - Flags newly satisfied career requirements alongside remaining gaps.
+   - Evaluates the live impact on published opportunities in the system, calculating how many more internships or jobs the student would become competitive for.
+   - **Profile Immutability Guarantee**: Simulations operate strictly in-memory. Hypothetical skills are never written to the student's actual database profile.
+   - **Prominent Hypothetical Disclaimer**: Every simulation output is stamped `isSimulated: true` and includes clear guidance that results represent hypothetical projections.
+
+4. **Multi-Career Path Comparison**:
+   - Compare up to 3 career pathways side-by-side.
+   - Automatically computes **Common Prerequisite Skills** shared across all selected paths (e.g. `Git`, `SQL`, core problem solving).
+   - Isolates **Distinct Specializations** unique to each role.
+   - Estimates ramp-up learning effort and queries real-time published opportunity demand for each pathway.
+
+5. **AI Strategic Guidance with Resilient Deterministic Fallback**:
+   - Leverages Google Gemini API (`@google/genai`) to generate empathetic career path summaries, strategic skill values, recommended learning order, and realistic portfolio project ideas.
+   - Guarded with `AbortSignal.timeout(6000)` and comprehensive rule-based fallback generators that produce complete, structured analyses if network delays or service limits occur.
+   - All responses include transparent `isAiGenerated: boolean` tracking.
+
+6. **Simulation History & Student Data Isolation**:
+   - Students can save simulation snapshots with custom notes for future reference.
+   - Strict student data isolation enforced at the service and API layers (students cannot view, access, or delete simulations belonging to other users).
+
+7. **Seamless Learning Roadmap Integration**:
+   - Includes a one-click action handoff from simulation results directly to Stage 6 Personalized Learning Roadmaps (`/dashboard/roadmap`), carrying target skills into structured learning milestones.
+
+### Dedicated UI Routes
+
+- `/dashboard/career-explorer`: Interactive library of career paths with search, domain filtering, and personal readiness badges.
+- `/dashboard/career-explorer/[careerPathId]`: In-depth career path detail page with 4-pillar readiness breakdown, required vs preferred skills, portfolio project recommendations, and milestone progressions.
+- `/dashboard/career-simulator`: Interactive What-If sandbox with multi-skill selector, real-time delta score gauge, live opportunity impact cards, and simulation snapshot saving.
+- `/dashboard/career-comparison`: Side-by-side comparison matrix for 2–3 paths showing shared foundations, distinct requirements, and comparative AI synthesis.
+
+### REST API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/career-paths` | List career paths with search and category filters | Optional |
+| `GET` | `/api/career-paths/[id]` | Get career path details and optional student readiness alignment | Optional |
+| `POST` | `/api/career-simulator/analyze` | Execute What-If simulation with hypothetical skills | Yes (Student) |
+| `POST` | `/api/career-simulator/compare` | Compare 2 to 3 career paths side-by-side | Yes (Student) |
+| `GET` | `/api/career-simulator/history` | Retrieve saved simulation snapshots for logged-in student | Yes (Student) |
+| `POST` | `/api/career-simulator/history` | Save a new simulation snapshot | Yes (Student) |
+| `DELETE` | `/api/career-simulator/history/[id]` | Delete a saved simulation snapshot (ownership protected) | Yes (Student) |

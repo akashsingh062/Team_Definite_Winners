@@ -187,3 +187,4 @@ export interface ICareerSimulationDoc {
   createdAt: Date;
   updatedAt?: Date;
 }
+

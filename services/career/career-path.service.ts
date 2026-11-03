@@ -87,3 +87,4 @@ export async function getCareerPathByIdOrSlug(idOrSlug: string): Promise<ICareer
     _id: path._id.toString(),
   };
 }
+

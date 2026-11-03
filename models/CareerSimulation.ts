@@ -71,3 +71,4 @@ export const CareerSimulation: Model<CareerSimulationDocument> =
   mongoose.model<CareerSimulationDocument>("CareerSimulation", CareerSimulationSchema);
 
 export default CareerSimulation;
+

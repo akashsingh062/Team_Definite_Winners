@@ -43,5 +43,10 @@ export * from "./career/career-simulator.service";
 export * from "./career/career-comparison.service";
 export * from "./career/career-ai.service";
 export * from "./career/career-simulation-history.service";
+export * from "./passport/credential-verifier.service";
+export * from "./passport/evidence-classifier.service";
+export * from "./passport/qr-generator.service";
+export * from "./passport/passport-generator.service";
+export * from "./passport/passport-public.service";
 
 

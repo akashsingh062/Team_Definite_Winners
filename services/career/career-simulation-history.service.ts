@@ -79,3 +79,4 @@ export async function deleteStudentCareerSimulation(
 
   return Boolean(result);
 }
+

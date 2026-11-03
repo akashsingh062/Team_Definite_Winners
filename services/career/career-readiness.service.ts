@@ -38,8 +38,9 @@ export async function getAggregatedStudentProfile(
 
   // 1. Process StudentProfile skills
   if (profile) {
-    if (Array.isArray(profile.technicalSkills)) {
-      profile.technicalSkills.forEach((s: any) => {
+    const profileSkills = (profile as any).skills || (profile as any).technicalSkills || [];
+    if (Array.isArray(profileSkills)) {
+      profileSkills.forEach((s: any) => {
         const rawName = typeof s === "string" ? s : s.name;
         if (rawName) {
           const norm = normalizeSkill(rawName);
@@ -111,11 +112,12 @@ export async function getAggregatedStudentProfile(
 
   // 3. Education resolution
   let education: { degree?: string; fieldOfStudy?: string; gpa?: number } | undefined = undefined;
-  if (profile?.education) {
+  const rawAcademic = (profile as any)?.academicInfo || (profile as any)?.education;
+  if (rawAcademic) {
     education = {
-      degree: profile.education.degree,
-      fieldOfStudy: profile.education.fieldOfStudy || profile.education.branch,
-      gpa: profile.education.cgpa,
+      degree: rawAcademic.degree,
+      fieldOfStudy: rawAcademic.fieldOfStudy || rawAcademic.branch,
+      gpa: rawAcademic.cgpa,
     };
   } else if (resume?.parsedData?.education && resume.parsedData.education.length > 0) {
     const topEdu = resume.parsedData.education[0];

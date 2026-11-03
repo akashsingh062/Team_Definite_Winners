@@ -10,5 +10,6 @@ export * from "./explanation";
 export * from "./application";
 export * from "./analytics";
 export * from "./career-path";
+export * from "./skills-passport";
 
 

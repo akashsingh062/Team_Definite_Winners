@@ -121,3 +121,4 @@ export const CareerPath: Model<CareerPathDocument> =
   mongoose.model<CareerPathDocument>("CareerPath", CareerPathSchema);
 
 export default CareerPath;
+

@@ -98,3 +98,4 @@ export async function compareCareerPaths(
     comparedAt: new Date().toISOString(),
   };
 }
+

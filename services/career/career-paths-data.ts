@@ -727,3 +727,4 @@ export const CURATED_CAREER_PATHS: Omit<ICareerPath, "_id" | "id" | "createdAt" 
     isActive: true,
   },
 ];
+

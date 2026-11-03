@@ -8,6 +8,8 @@ import { IAggregatedStudentSkills } from "./career-readiness.service";
 
 let aiClient: GoogleGenAI | null = null;
 
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+
 function getAIClient(): GoogleGenAI | null {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
@@ -60,11 +62,12 @@ Instructions:
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: GEMINI_MODEL,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
         temperature: 0.2,
+        abortSignal: AbortSignal.timeout(6000),
       },
     });
 
@@ -127,11 +130,12 @@ Instructions:
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: GEMINI_MODEL,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
         temperature: 0.2,
+        abortSignal: AbortSignal.timeout(6000),
       },
     });
 
@@ -193,11 +197,12 @@ Instructions:
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: GEMINI_MODEL,
       contents: prompt,
       config: {
         responseMimeType: "application/json",
         temperature: 0.2,
+        abortSignal: AbortSignal.timeout(6000),
       },
     });
 

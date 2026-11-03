@@ -148,3 +148,4 @@ export async function runCareerWhatIfSimulation(
     calculatedAt: new Date().toISOString(),
   };
 }
+
