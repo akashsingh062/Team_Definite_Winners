@@ -158,16 +158,16 @@ export default function InteractiveOpportunityMap({
             }
           </div>
           <h4 class="font-bold text-sm text-slate-900 leading-snug">${m.title}</h4>
-          <p class="text-slate-600 font-medium">${m.organization}</p>
-          <p class="text-slate-500 text-[11px]">${m.address}</p>
+          <p class="text-slate-700 font-semibold">${m.organization}</p>
+          <p class="text-slate-600 text-[11px]">${m.address}</p>
           ${
             m.stipend
-              ? `<p class="text-emerald-700 font-semibold text-[11px]">Stipend: ${m.stipend}</p>`
+              ? `<p class="text-emerald-700 font-bold text-[11px]">Stipend: ${m.stipend}</p>`
               : ""
           }
           ${
             m.sourceUrl
-              ? `<a href="${m.sourceUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-600 hover:underline font-semibold text-[11px] mt-1">
+              ? `<a href="${m.sourceUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-600 hover:underline font-bold text-[11px] mt-1">
                   View Official Portal &rarr;
                  </a>`
               : ""
@@ -200,25 +200,25 @@ export default function InteractiveOpportunityMap({
   }, [markers, selectedMarkerId, mapLoaded, onSelectMarker]);
 
   return (
-    <div className="relative w-full h-[520px] rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-md">
+    <div className="relative w-full h-[520px] rounded-3xl overflow-hidden border border-slate-200 shadow-md">
       {/* Map Element */}
       <div ref={mapContainerRef} className="w-full h-full z-10" />
 
       {/* Floating Legend */}
-      <div className="absolute bottom-4 left-4 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs p-3 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg text-xs space-y-1.5">
-        <span className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 mb-1">
-          <Layers className="w-3.5 h-3.5 text-blue-600" />
+      <div className="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-xs p-3.5 rounded-2xl border border-slate-200 shadow-lg text-xs space-y-1.5">
+        <span className="font-extrabold text-slate-800 flex items-center gap-1.5 mb-1">
+          <Layers className="w-4 h-4 text-blue-600" />
           Map Legend ({markers.length} Locations)
         </span>
-        <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
           <span className="w-3 h-3 rounded-full bg-blue-600 inline-block shrink-0" />
           <span>Employer Opportunities & Jobs</span>
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
           <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block shrink-0" />
           <span>ITIs & Training Centres</span>
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-300">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
           <span className="w-3 h-3 rounded-full bg-purple-600 inline-block shrink-0" />
           <span>Govt Schemes & NAPS Apprenticeships</span>
         </div>
@@ -226,4 +226,3 @@ export default function InteractiveOpportunityMap({
     </div>
   );
 }
-

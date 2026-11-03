@@ -89,7 +89,7 @@ export default function RegionalSkillsIntelligencePage() {
         {/* Navigation */}
         <Link
           href="/dashboard/local-opportunities"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-indigo-600 transition"
         >
           <ChevronLeft className="w-4 h-4" />
           Back to Local Opportunities Catalog
@@ -98,17 +98,19 @@ export default function RegionalSkillsIntelligencePage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-              <TrendingUp className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 flex items-center gap-2.5">
+              <span className="p-2 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+                <TrendingUp className="w-6 h-6" />
+              </span>
               Regional Skill Demand Intelligence
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-slate-600 mt-1.5 font-medium">
               Data-driven analysis of skills required by employers across specific states and districts
             </p>
           </div>
 
           {/* Region Filter Selector */}
-          <div className="flex items-center gap-2 text-xs bg-white dark:bg-slate-900 p-2 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="flex items-center gap-2 text-xs sm:text-sm bg-white p-2 rounded-2xl border border-slate-200 shadow-xs">
             <MapPin className="w-4 h-4 text-slate-400" />
             <select
               value={selectedState}
@@ -116,7 +118,7 @@ export default function RegionalSkillsIntelligencePage() {
                 setSelectedState(e.target.value);
                 setSelectedDistrict("all");
               }}
-              className="p-1.5 rounded-xl border-none bg-transparent font-semibold text-slate-800 dark:text-slate-200 focus:ring-0"
+              className="p-1.5 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-900 focus:bg-white cursor-pointer"
             >
               <option value="all">All India Overview</option>
               {regions.map((r) => (
@@ -128,11 +130,11 @@ export default function RegionalSkillsIntelligencePage() {
 
             {selectedState !== "all" && availableDistricts.length > 0 && (
               <>
-                <span className="text-slate-300 dark:text-slate-700">/</span>
+                <span className="text-slate-400">/</span>
                 <select
                   value={selectedDistrict}
                   onChange={(e) => setSelectedDistrict(e.target.value)}
-                  className="p-1.5 rounded-xl border-none bg-transparent font-semibold text-slate-800 dark:text-slate-200 focus:ring-0"
+                  className="p-1.5 rounded-xl border border-slate-300 bg-slate-50 font-bold text-slate-900 focus:bg-white cursor-pointer"
                 >
                   <option value="all">All Districts</option>
                   {availableDistricts.map((d) => (
@@ -148,23 +150,22 @@ export default function RegionalSkillsIntelligencePage() {
 
         {/* Content */}
         {isLoading ? (
-          <div className="py-24 flex flex-col items-center justify-center bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+          <div className="py-24 flex flex-col items-center justify-center bg-white rounded-3xl border border-slate-200 shadow-xs">
             <Loader2 className="w-8 h-8 text-emerald-600 animate-spin mb-3" />
-            <p className="text-xs text-slate-500">Aggregating regional opportunity records...</p>
+            <p className="text-xs text-slate-600 font-bold">Aggregating regional opportunity records...</p>
           </div>
         ) : !demand ? (
-          <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-3">
-            <AlertCircle className="w-10 h-10 text-slate-400 mx-auto" />
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8 space-y-3 shadow-xs">
+            <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 mx-auto flex items-center justify-center">
+              <AlertCircle className="w-7 h-7" />
+            </div>
+            <p className="text-sm font-bold text-slate-800">
               No regional opportunity data available for the chosen filters.
             </p>
           </div>
         ) : (
-          <div className="space-y-8">
-            {/* Regional Demand Charts */}
+          <div className="space-y-6">
             <RegionalSkillDemandChart demand={demand} />
-
-            {/* Personalized Student Regional Gap Analysis (if student profile available) */}
             {studentGapAnalysis && (
               <StudentRegionalGapWidget analysis={studentGapAnalysis} />
             )}
@@ -174,4 +175,3 @@ export default function RegionalSkillsIntelligencePage() {
     </StudentPortalLayout>
   );
 }
-
