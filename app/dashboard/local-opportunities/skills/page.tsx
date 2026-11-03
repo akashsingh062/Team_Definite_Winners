@@ -7,6 +7,7 @@ import {
   IRegionalSkillGapAnalysis,
   IAvailableRegion,
 } from "@/types/local-opportunity";
+import { StudentPortalLayout } from "@/components/layout/StudentPortalLayout";
 import RegionalSkillDemandChart from "@/features/local-opportunities/components/RegionalSkillDemandChart";
 import StudentRegionalGapWidget from "@/features/local-opportunities/components/StudentRegionalGapWidget";
 import {
@@ -83,8 +84,8 @@ export default function RegionalSkillsIntelligencePage() {
   const availableDistricts = activeStateData ? activeStateData.districts : [];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 sm:p-10">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <StudentPortalLayout>
+      <div className="max-w-6xl mx-auto space-y-6 pb-12">
         {/* Navigation */}
         <Link
           href="/dashboard/local-opportunities"
@@ -170,7 +171,7 @@ export default function RegionalSkillsIntelligencePage() {
           </div>
         )}
       </div>
-    </div>
+    </StudentPortalLayout>
   );
 }
 

@@ -135,7 +135,7 @@ export default function AssessmentDetailPage() {
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
             <div>
-              <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
                 {assessment.subject} Assessment
               </span>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
@@ -143,8 +143,8 @@ export default function AssessmentDetailPage() {
               </h1>
             </div>
 
-            <span className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shrink-0">
-              <ShieldCheck className="w-4 h-4 text-blue-600" />
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 shrink-0">
+              <ShieldCheck className="w-4 h-4 text-indigo-600" />
               Verified Competency Test
             </span>
           </div>
@@ -247,7 +247,7 @@ export default function AssessmentDetailPage() {
             <button
               onClick={handleStart}
               disabled={isStarting}
-              className="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition flex items-center justify-center gap-2"
             >
               {isStarting ? (
                 <>
