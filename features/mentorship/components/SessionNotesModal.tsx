@@ -47,25 +47,27 @@ export function SessionNotesModal({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (isOpen && sessionId) {
-      fetchNotes();
-    }
-  }, [isOpen, sessionId]);
-
-  const fetchNotes = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/mentorship/sessions/${sessionId}/notes`);
-      const data = await res.json();
-      if (data.success) {
-        setNotes(data.data);
+    let ignore = false;
+    async function loadNotes() {
+      if (!isOpen || !sessionId) return;
+      try {
+        const res = await fetch(`/api/mentorship/sessions/${sessionId}/notes`);
+        const data = await res.json();
+        if (!ignore && data.success) {
+          setNotes(data.data);
+        }
+      } catch (err) {
+        console.error("Failed to load notes", err);
+      } finally {
+        if (!ignore) setLoading(false);
       }
-    } catch (err) {
-      console.error("Failed to load notes", err);
-    } finally {
-      setLoading(false);
     }
-  };
+
+    loadNotes();
+    return () => {
+      ignore = true;
+    };
+  }, [isOpen, sessionId]);
 
   const handleAddActionItem = () => {
     if (actionItemInput.trim()) {

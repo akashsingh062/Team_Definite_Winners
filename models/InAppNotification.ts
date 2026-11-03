@@ -57,3 +57,4 @@ export const InAppNotification: Model<InAppNotificationDocument> =
   );
 
 export default InAppNotification;
+

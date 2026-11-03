@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight, Menu, X, Sparkles } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { StudentSidebar } from "@/components/layout/StudentSidebar";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ export function StudentPortalLayout({
 }) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -75,12 +76,62 @@ export function StudentPortalLayout({
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] bg-slate-50/50">
-      <StudentSidebar />
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl">
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-50/50 flex flex-col md:flex-row">
+      {/* Mobile Header Bar */}
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-2xs">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <span className="font-bold text-sm text-slate-900">Student Portal</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50"
+          aria-label="Toggle navigation menu"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {/* Mobile Drawer Backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Sliding Drawer */}
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl transform transition-transform duration-200 ease-in-out md:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-3 border-b border-slate-200 flex items-center justify-between">
+          <span className="font-bold text-sm text-slate-900">Navigation Menu</span>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-1 rounded-md text-slate-400 hover:text-slate-600"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="h-[calc(100vh-3.5rem)] overflow-y-auto">
+          <StudentSidebar onItemClick={() => setMobileMenuOpen(false)} />
+        </div>
+      </div>
+
+      {/* Desktop Persistent Sidebar */}
+      <div className="hidden md:block">
+        <StudentSidebar />
+      </div>
+
+      {/* Main Content Area */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl min-w-0">
         {children}
       </main>
     </div>
   );
 }
-

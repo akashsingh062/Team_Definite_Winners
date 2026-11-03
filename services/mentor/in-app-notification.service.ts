@@ -24,7 +24,7 @@ export class InAppNotificationService {
       createdAt: new Date(),
     });
 
-    return notif.toObject();
+    return notif.toObject() as unknown as IInAppNotification;
   }
 
   /**

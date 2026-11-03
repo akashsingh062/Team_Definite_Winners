@@ -21,6 +21,8 @@
     "test:skills-passport": "tsx scripts/test-skills-passport.mjs",
     "test:skill-assessment": "tsx scripts/test-skill-assessment.mjs",
     "test:local-opportunities": "tsx scripts/test-local-opportunities.mjs",
+    "test:mentorship-network": "tsx scripts/test-mentorship-network.mjs",
+    "test:system-integration": "tsx scripts/test-system-integration.mjs",
     "seed:opportunities": "node scripts/seed-opportunities.mjs",
     "promote:admin": "node scripts/promote-admin.mjs"
   },

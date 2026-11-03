@@ -8,6 +8,14 @@ import {
   Layers,
   HeartHandshake,
   CheckCircle2,
+  Bot,
+  Award,
+  Sliders,
+  Users,
+  MapPin,
+  ClipboardList,
+  FileText,
+  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,12 +29,12 @@ export default function HomePage() {
       <section className="relative pt-12 md:pt-20 overflow-hidden bg-gradient-to-b from-slate-50/70 to-white">
         <Container size="xl">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2">
+            <div className="inline-flex items-center gap-2 flex-wrap justify-center">
               <Badge variant="indigo" className="px-3 py-1 text-xs">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-                Next-Gen Campus-to-Employment Matcher
+                Comprehensive AI Career Platform
               </Badge>
-              <Badge variant="emerald" className="hidden sm:inline-flex px-3 py-1 text-xs">
+              <Badge variant="emerald" className="px-3 py-1 text-xs">
                 <ShieldCheck className="w-3.5 h-3.5 mr-1.5" />
                 Demographic Neutrality Guaranteed
               </Badge>
@@ -38,9 +46,8 @@ export default function HomePage() {
             </h1>
 
             <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-              CareerBridge AI matches students to internships, entry-level jobs,
-              and tailored skill pathways based on actual skills and verified projects—prioritizing
-              accessibility, algorithmic transparency, and opportunities for underserved students.
+              CareerBridge AI empowers students with verified digital credentials, personalized learning roadmaps,
+              multilingual career counseling, what-if simulators, and alumni mentorship—bridging campus to employment with fairness.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full sm:w-auto justify-center">
@@ -60,81 +67,201 @@ export default function HomePage() {
             {/* Value checklist */}
             <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-600 border-t border-slate-200/80 w-full mt-8">
               <div className="flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Zero Pedigree Bias</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-indigo-600" />
-                <span>Clear &quot;Why You Matched&quot; Insights</span>
+                <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
+                <span>Explainable Match Scores</span>
               </div>
               <div className="flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Underserved Community Support</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Verified Practical Skills</span>
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* Core Pillars Section */}
+      {/* Feature Grid: Full 15-Module Ecosystem */}
       <section id="features" className="scroll-mt-20">
         <Container size="xl">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              Engineered for Fairness, Transparency, and Impact
+              Complete End-to-End Career Intelligence
             </h2>
             <p className="text-sm text-slate-500">
-              Designed from the ground up to solve systemic campus hiring challenges
-              through ethical, explainable artificial intelligence.
+              Every tool and module is integrated into a unified student and administrator workflow.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="hover:border-indigo-200 hover:shadow-md transition-all">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Card 1: Explainable Recommendations */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2">
                   <Compass className="w-5 h-5" />
                 </div>
-                <CardTitle>Explainable Recommendations</CardTitle>
+                <CardTitle className="text-lg">Explainable Recommendations</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-slate-600 leading-relaxed">
-                No black-box algorithms. Every match highlights exact matching criteria,
-                skill compatibility percentages, and actionable gap insights so students
-                understand how to qualify.
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  No black-box algorithms. Every match provides clear percentage breakdowns across required skills, education, and preferences with actionable skill gaps.
+                </p>
+                <Link href="/dashboard/recommendations" className="text-xs font-semibold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                  Explore Smart Matches <ArrowRight className="w-3 h-3" />
+                </Link>
               </CardContent>
             </Card>
 
-            <Card className="hover:border-emerald-200 hover:shadow-md transition-all">
+            {/* Card 2: Multilingual AI Companion */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
-                  <HeartHandshake className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center mb-2">
+                  <Bot className="w-5 h-5" />
                 </div>
-                <CardTitle>Equity for Underserved Students</CardTitle>
+                <CardTitle className="text-lg">Multilingual AI Companion</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-slate-600 leading-relaxed">
-                Dedicated pipelines and priority filtering for first-generation students,
-                tier-2/tier-3 college scholars, and underrepresented talent who lack traditional
-                alumni networks.
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Conversational career counselor in English and Hindi (Devanagari) with voice input, text-to-speech audio, and direct deep links to platform tools.
+                </p>
+                <Link href="/dashboard/companion" className="text-xs font-semibold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                  Chat in English / हिन्दी <ArrowRight className="w-3 h-3" />
+                </Link>
               </CardContent>
             </Card>
 
-            <Card className="hover:border-indigo-200 hover:shadow-md transition-all">
+            {/* Card 3: Verified Digital Skills Passport */}
+            <Card className="hover:border-emerald-300 hover:shadow-md transition-all">
               <CardHeader>
-                <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
+                  <Award className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">Digital Skills Passport</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  A tamper-evident credential showcasing assessed skills, project evidence, and certifications with a shareable public URL and QR code.
+                </p>
+                <Link href="/dashboard/skills-passport" className="text-xs font-semibold text-emerald-600 hover:underline inline-flex items-center gap-1">
+                  View Skills Passport <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 4: What-If Career Simulator */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2">
+                  <Sliders className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">What-If Career Simulator</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Model hypothetical skill gains before investing time. Compare simulated career alignments and generate personalized learning roadmaps.
+                </p>
+                <Link href="/dashboard/career-simulator" className="text-xs font-semibold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                  Launch Simulator <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 5: Practical Skill Assessments */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-2">
                   <Cpu className="w-5 h-5" />
                 </div>
-                <CardTitle>Skills-Based Matching</CardTitle>
+                <CardTitle className="text-lg">Practical Skill Assessments</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-slate-600 leading-relaxed">
-                Positions are recommended based on verified projects, coding samples, and
-                demonstrated competencies—ensuring merit and real ability take center stage.
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Timed, distraction-free technical tests in JavaScript, React, Node.js, SQL, and Python that convert self-reported skills into verified proof.
+                </p>
+                <Link href="/dashboard/assessments" className="text-xs font-semibold text-amber-600 hover:underline inline-flex items-center gap-1">
+                  Take an Assessment <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 6: Human Mentor Network */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-2">
+                  <Users className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">Mentor & Alumni Network</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Connect with verified industry alumni and counselors. Schedule 1-on-1 virtual sessions, request resume critiques, and submit feedback.
+                </p>
+                <Link href="/dashboard/mentors" className="text-xs font-semibold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                  Discover Mentors <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 7: Local Opportunity Intelligence */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">Local Opportunity Intelligence</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Geographic discovery for regional internships, government skill programs, and training centres for students outside metropolitan hubs.
+                </p>
+                <Link href="/dashboard/local-opportunities" className="text-xs font-semibold text-emerald-600 hover:underline inline-flex items-center gap-1">
+                  Explore Nearby <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 8: Application Tracking System */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center mb-2">
+                  <ClipboardList className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">Application Tracking System</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Kanban and pipeline management to save opportunities, record submission dates, track interview schedules, and monitor recruiter response rates.
+                </p>
+                <Link href="/dashboard/applications" className="text-xs font-semibold text-slate-700 hover:underline inline-flex items-center gap-1">
+                  Track Applications <ArrowRight className="w-3 h-3" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Card 9: Admin Analytics & Fairness */}
+            <Card className="hover:border-indigo-300 hover:shadow-md transition-all">
+              <CardHeader>
+                <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-2">
+                  <BarChart3 className="w-5 h-5" />
+                </div>
+                <CardTitle className="text-lg">Admin Analytics & Fairness</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600 leading-relaxed space-y-2">
+                <p>
+                  Continuous monitoring of demographic parity, recommendation fairness ratios, skill demand metrics, and complete audit trail logging.
+                </p>
+                <Link href="/admin/dashboard" className="text-xs font-semibold text-rose-600 hover:underline inline-flex items-center gap-1">
+                  View Admin Console <ArrowRight className="w-3 h-3" />
+                </Link>
               </CardContent>
             </Card>
           </div>
         </Container>
       </section>
 
-      {/* Architecture & Tech Stack Banner */}
+      {/* Tech Stack Banner */}
       <section className="bg-slate-50 border-y border-slate-200 py-12">
         <Container size="xl">
           <div className="space-y-6">
@@ -159,10 +286,10 @@ export default function HomePage() {
               {[
                 { name: "Next.js 16", desc: "App Router & React 19" },
                 { name: "TypeScript", desc: "Strict Type Safety" },
-                { name: "Tailwind CSS v4", desc: "Design System" },
+                { name: "Tailwind CSS v4", desc: "Design System Tokens" },
                 { name: "MongoDB + Mongoose", desc: "Pooled Database" },
-                { name: "Better Auth", desc: "Secure Authentication" },
-                { name: "Google Gemini", desc: "AI Matching Ready" },
+                { name: "Better Auth", desc: "RBAC Authentication" },
+                { name: "Google Gemini", desc: "Career AI Engine" },
               ].map((tech) => (
                 <div
                   key={tech.name}
@@ -190,7 +317,7 @@ export default function HomePage() {
             </p>
             <div className="flex justify-center gap-3">
               <Link href="/register">
-                <Button variant="secondary" size="lg" className="text-indigo-700 font-semibold">
+                <Button variant="secondary" size="lg" className="text-indigo-700 font-semibold shadow-xs">
                   Get Started for Free
                 </Button>
               </Link>

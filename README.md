@@ -865,3 +865,174 @@ Feature 5 equips CareerBridge AI with geographic discovery and regional skill in
 | `GET` | `/api/admin/regional-analytics` | Administrative regional analytics and geographic coverage summary | Yes (Admin) |
 
 
+
+---
+
+## 20. Feature 6 – Human Mentor & Career Counsellor Network
+
+The Human Mentor & Career Counsellor Network connects students with experienced industry professionals, alumni, and career counsellors for personalized guidance, resume and project critiques, mock interviews, and structured career roadmapping.
+
+### Core Architectural Invariants
+
+1. **Role-Based Authorization & Zero Self-Promotion to Admin**:
+   - Built directly on Better Auth with three verified platform roles:
+     - **Student**: Discovers verified mentors, sends requests, schedules sessions, explicitly shares selected resources, and submits post-session reviews.
+     - **Mentor**: Registers professional profile, defines expertise domains, configures weekly availability, accepts/declines requests, hosts sessions with validated external meeting links, and adds guidance notes.
+     - **Administrator**: Audits mentor applications, reviews credentials, verifies/rejects/suspends profiles, and resolves conduct reports.
+   - Prevents unauthorized role escalation: client cannot assign themselves the admin role.
+
+2. **Strict Verification Workflow & Visibility Restrictions**:
+   - Mentors undergo a formal 5-status verification lifecycle: `pending` $\rightarrow$ `under_review` $\rightarrow$ `verified` $\rightarrow$ `rejected` $\rightarrow$ `suspended`.
+   - **Critical Public Invariant**: Unverified mentors (`pending`, `under_review`, `rejected`, `suspended`) **NEVER appear in public discovery** (`GET /api/mentors`). Only mentors verified by an administrator are visible to students.
+
+3. **Explicit Consent & Privacy Control Invariant**:
+   - Student profiles, resumes, and project repositories are **NEVER shared automatically**.
+   - Students must explicitly grant access to specific resources (`resume`, `project`, `portfolio`, `github`) per mentor.
+   - Students can revoke access immediately at any time. Once revoked, the mentor is strictly denied access.
+
+4. **Timezone-Aware Session Management & Safe URL Validation**:
+   - Sessions support customizable durations, agendas, and timezone-aware timestamps (e.g. `Asia/Kolkata`, `UTC`).
+   - Supports external meeting links (Google Meet, Zoom, Microsoft Teams) with strict URL format and protocol validation. Unsafe protocols (e.g. `javascript:`, non-HTTP) are automatically rejected.
+
+5. **Structured Guidance & Dynamic Feedback Ratings**:
+   - Mentors provide private guidance notes and action items visible to the mentee or retained as private mentor-only observations.
+   - Students submit post-session feedback (1–5 star rating, helpfulness assessment, and qualitative tags) upon completion of a session. The mentor's cumulative rating and review count recalculates dynamically.
+
+6. **In-App Notification Dispatcher**:
+   - Real-time in-app notifications generated for request submissions, acceptances, rejections, cancellations, scheduled sessions, shared resources, and feedback submissions.
+
+### Dedicated UI Routes
+
+- `/dashboard/mentors`: Main discovery catalog for students with domain, skill, experience, and availability filters.
+- `/dashboard/mentors/[mentorId]`: Detailed mentor profile with credentials, availability slots, and request form.
+- `/dashboard/mentorship-requests`: Student request tracking dashboard with real-time status.
+- `/dashboard/mentorship-sessions`: Student calendar for scheduled calls, meeting links, notes, and reviews.
+- `/dashboard/mentorship-resources`: Explicit resource sharing management and one-click access revocation.
+- `/mentor/dashboard`: Mentor portal dashboard with active mentees, request metrics, and rating scores.
+- `/mentor/profile`: Mentor onboarding and profile editor with live verification status badge and admin feedback.
+- `/mentor/requests`: Mentor incoming request queue with Accept and Decline controls.
+- `/mentor/sessions`: Mentor session coordination desk with meeting link and guidance note authoring.
+- `/mentor/availability`: Weekly hour commitment and day/timeslot scheduler.
+- `/admin/mentors`: Administrative mentor verification queue and conduct report moderation desk.
+
+### REST API Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/mentors` | Public mentor discovery (strictly verified mentors only) | Optional |
+| `GET` | `/api/mentors/[mentorId]` | Detailed mentor profile | Optional |
+| `GET` | `/api/mentor/profile` | Get logged-in user's mentor profile | Yes (Mentor) |
+| `POST` | `/api/mentor/profile` | Create or update mentor profile (initiates pending verification) | Yes (Mentor) |
+| `PATCH` | `/api/mentor/availability` | Update mentor weekly hours and availability slots | Yes (Mentor) |
+| `GET` | `/api/mentorship/requests` | List mentorship requests (`as=student` or `as=mentor`) | Yes |
+| `POST` | `/api/mentorship/requests` | Submit a new mentorship request to a verified mentor | Yes (Student) |
+| `PATCH` | `/api/mentorship/requests/[requestId]` | Accept, reject, or cancel a mentorship request | Yes |
+| `GET` | `/api/mentorship/sessions` | List mentorship sessions for current user | Yes |
+| `POST` | `/api/mentorship/sessions` | Schedule a new mentorship session | Yes |
+| `PATCH` | `/api/mentorship/sessions/[sessionId]` | Mark session completed, cancelled, or rescheduled | Yes |
+| `GET` | `/api/mentorship/sessions/[sessionId]/notes` | Fetch guidance notes for a session | Yes |
+| `POST` | `/api/mentorship/sessions/[sessionId]/notes` | Add structured guidance note to a session | Yes |
+| `POST` | `/api/mentorship/feedback` | Submit post-session feedback and 1-5 star rating | Yes (Student) |
+| `GET` | `/api/mentorship/resources/share` | List shared resources (active/revoked audit) | Yes |
+| `POST` | `/api/mentorship/resources/share` | Explicitly share a resume or project with a mentor | Yes (Student) |
+| `DELETE` | `/api/mentorship/resources/share/[shareId]` | Revoke a mentor's access to a shared resource | Yes (Student) |
+| `POST` | `/api/mentorship/reports` | Submit a conduct or moderation report | Yes |
+| `GET` | `/api/notifications` | Fetch current user's in-app notifications | Yes |
+| `PATCH` | `/api/notifications` | Mark notifications as read | Yes |
+| `GET` | `/api/admin/mentors` | Admin view of all mentors across verification states | Yes (Admin) |
+| `PATCH` | `/api/admin/mentors/[mentorId]/verification` | Admin approve, reject, or suspend a mentor | Yes (Admin) |
+| `GET` | `/api/admin/mentors/reports` | Admin view of conduct and moderation reports | Yes (Admin) |
+| `PATCH` | `/api/admin/mentors/reports` | Resolve or dismiss conduct reports | Yes (Admin) |
+
+### Testing Instructions
+
+Execute the automated test suite verifying all 17 scenarios:
+```bash
+npm run test:mentorship-network
+```
+
+
+---
+
+## Stage 10: Complete UI/UX Redesign & System Integration
+
+### Overview
+Stage 10 transforms CareerBridge AI into a cohesive, professional, responsive, and production-ready career platform integrating all 15 core modules and features:
+1. Authentication & Student Profile Management
+2. Opportunity Management
+3. AI ATS Resume Analyzer
+4. Intelligent Opportunity Matching Engine (Stage 4 deterministic scoring)
+5. AI-Powered Skill Gap Analyzer
+6. Personalized AI Learning Roadmap
+7. Explainable AI Recommendations
+8. Application Tracking System
+9. Admin Analytics & Fairness Monitoring Dashboard
+10. AI Career Pathway & What-If Simulator
+11. Verified Digital Skills Passport & Public QR Code
+12. Multilingual AI Career Companion (English / हिन्दी)
+13. Practical Skill Readiness Assessments
+14. Local Opportunity & Skill Intelligence
+15. Human Mentor & Career Counsellor Network
+
+### Global Design System & Component Library
+- **Visual Identity**: Modern enterprise SaaS aesthetic using Tailwind CSS v4 design tokens:
+  - **Primary**: Deep Indigo (`#4f46e5`, `indigo-600` / `indigo-700`)
+  - **Neutral Surfaces**: Slate (`#f8fafc` to `#0f172a`, `slate-50` to `slate-900`)
+  - **Accent**: Violet (`violet-600`)
+  - **Success / Verified**: Emerald (`emerald-600`)
+  - **Warning**: Amber (`amber-600`)
+  - **Danger / Destructive**: Rose (`rose-600`)
+- **Reusable Component Library (`components/ui/`)**:
+  - `PageHeader`: Standard header with title, description, semantic breadcrumbs, and action slot.
+  - `StatCard`: Standard metric card with icon container, main value, subtext/badge, and click handler.
+  - `EmptyState`: Standard empty state with icon, title, description, and primary/secondary CTA buttons.
+  - `StatusBadge`: Unified status pill handling recruitment, verification, assessment, and mentorship statuses.
+  - `ProgressBar`: Accessible animated progress bar with colored variants and percentage labels.
+  - `Skeleton`: Shimmer placeholder loader for dashboards, cards, and tables.
+  - `Breadcrumb`: Semantic `<nav aria-label="Breadcrumb">` navigation.
+  - `ConfirmationDialog`: Accessible modal for destructive or confirm actions.
+
+### Multilingual AI Career Companion (Module 12)
+- **Service**: `services/companion/career-companion.service.ts` connecting with Google Gemini API with conversational context from the student's profile, target role, and registered skills.
+- **Resilience**: Full deterministic fallback mechanism responding intelligently in English and Hindi when offline or when Gemini rate limits (429) occur.
+- **API Endpoint**: `POST /api/companion/chat` validating session authentication and returning structured responses with suggested follow-up chips and deep links.
+- **Frontend**: `app/dashboard/companion/page.tsx` featuring:
+  - English / हिन्दी language toggle pill.
+  - Suggested question chips dynamically tailored to active language.
+  - Speech-to-Text (STT) mic button utilizing browser Web Speech API with fallback notice.
+  - Text-to-Speech (TTS) speaker playback using browser `speechSynthesis` matching language tags (`hi-IN` / `en-US`).
+  - Copy response button with visual confirmation.
+  - Clear conversation button.
+
+### Navigation & Layout Architecture
+- **Student Sidebar (`components/layout/StudentSidebar.tsx`)**:
+  - **Overview**: Dashboard (`/dashboard`)
+  - **Career Development**: Career Explorer (`/dashboard/career-explorer`), What-If Simulator (`/dashboard/career-simulator`), Smart Matches (`/dashboard/recommendations`), Opportunities (`/opportunities`), Local Intelligence (`/dashboard/local-opportunities`)
+  - **Skills & Learning**: My Profile (`/profile`), AI Resume Analyzer (`/dashboard/resume`), Skill Gap Analysis (`/dashboard/skill-gap`), Learning Roadmap (`/dashboard/roadmap`), Skill Assessments (`/dashboard/assessments`), Digital Skills Passport (`/dashboard/skills-passport`)
+  - **Career Support**: AI Career Companion (`/dashboard/companion`), Mentorship Network (`/dashboard/mentors`), Mentorship Requests (`/dashboard/mentorship-requests`), Mentorship Sessions (`/dashboard/mentorship-sessions`), My Applications (`/dashboard/applications`)
+- **Admin Sidebar (`components/layout/AdminSidebar.tsx`)**:
+  - **Platform Management**: Dashboard Overview (`/admin/dashboard`), Opportunities (`/admin/opportunities`), Regional Opportunities (`/admin/regional-opportunities`), Training Centres (`/admin/training-centres`)
+  - **Analytics & Responsible AI**: Platform & Fairness (`/admin/analytics`), Regional Analytics (`/admin/regional-analytics`)
+  - **Quality & Moderation**: Skill Assessments (`/admin/assessments`), Mentors & Verification (`/admin/mentors`), View Student Portal (`/dashboard`)
+- **Mobile Responsiveness**: Slidable navigation drawers with accessible hamburger toggle buttons across both student and admin layouts.
+
+### Central Student Dashboard (`app/dashboard/page.tsx`)
+- Dynamic greeting with time of day and student name.
+- 4 core KPI StatCards: Profile Readiness %, Active Applications, Smart Matches count, Verified Skills count.
+- **Smart Next Best Action Engine**: Dynamic guidance banner based on student status (prompting profile completion, resume upload, practical skill assessments, roadmap generation, or opportunity exploration).
+- Recent application pipeline mini-table with unified status badges.
+- Top recommended opportunity cards with explainable match scores.
+- Upcoming scheduled mentorship sessions with direct virtual meeting join links.
+- Quick navigation grid linking to Career Companion, What-If Simulator, Skills Passport, and Local Opportunities.
+
+### Verification & Testing
+Execute the end-to-end integration test suite verifying all 8 workflows:
+```bash
+npm run test:system-integration
+```
+Run type-checking, linting, and build verification:
+```bash
+npm run type-check   # 0 errors
+npm run lint         # 0 errors, 0 warnings
+npm run build        # 96/96 routes compiled cleanly
+```

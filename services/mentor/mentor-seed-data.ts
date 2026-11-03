@@ -335,3 +335,4 @@ export const SEED_MENTORS: Partial<IMentorProfile>[] = [
     rating: { average: 0, count: 0 },
   },
 ];
+

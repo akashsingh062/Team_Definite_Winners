@@ -67,3 +67,4 @@ export const MentorshipNote: Model<MentorshipNoteDocument> =
   mongoose.model<MentorshipNoteDocument>("MentorshipNote", MentorshipNoteSchema);
 
 export default MentorshipNote;
+

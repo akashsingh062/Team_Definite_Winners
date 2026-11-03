@@ -12,20 +12,23 @@ export function InAppNotificationBell() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchNotifications();
-  }, []);
-
-  const fetchNotifications = async () => {
-    try {
-      const res = await fetch("/api/notifications");
-      const data = await res.json();
-      if (data.success) {
-        setNotifications(data.data || []);
+    let ignore = false;
+    async function loadNotifications() {
+      try {
+        const res = await fetch("/api/notifications");
+        const data = await res.json();
+        if (!ignore && data.success) {
+          setNotifications(data.data || []);
+        }
+      } catch {
+        // ignore
       }
-    } catch {
-      // ignore
     }
-  };
+    loadNotifications();
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 

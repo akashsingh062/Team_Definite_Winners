@@ -34,7 +34,7 @@ export function Navbar() {
                 {siteConfig.name}
               </span>
               <Badge variant="indigo" className="hidden sm:inline-flex">
-                Matcher
+                AI Platform
               </Badge>
             </div>
           </Link>

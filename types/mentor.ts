@@ -241,3 +241,4 @@ export interface IInAppNotification {
   read: boolean;
   createdAt?: Date | string;
 }
+
