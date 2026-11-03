@@ -179,7 +179,7 @@ export function LoginForm() {
             onClick={() => fillCredentials("admin@careerbridge.ai", "Password123!")}
             className="px-2 py-1.5 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 hover:border-purple-300 border border-purple-200 rounded text-purple-700 text-left transition-colors"
           >
-            <div className="font-semibold truncate">Admin</div>
+            <div className="font-semibold truncate">TPO Officer</div>
             <div className="text-[10px] text-purple-400">Password123!</div>
           </button>
         </div>

@@ -219,7 +219,7 @@ export function StudentSidebar({
             </div>
             <div className="flex items-center gap-1 mt-1">
               <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-100">
-                {isAdmin ? "Admin • Student" : "Active Student"}
+                {isAdmin ? "TPO • Student" : "Active Student"}
               </span>
             </div>
           </div>
@@ -298,7 +298,7 @@ export function StudentSidebar({
           {isAdmin && (
             <div className="pt-2">
               <p className="px-3 pb-1 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
-                Platform Administration
+                TPO Administration
               </p>
               <Link
                 href="/admin/dashboard"
@@ -307,7 +307,7 @@ export function StudentSidebar({
               >
                 <div className="flex items-center gap-2.5">
                   <ShieldAlert className="h-4 w-4 text-amber-600 shrink-0" />
-                  <span>Admin Portal</span>
+                  <span>TPO Portal</span>
                 </div>
                 <ChevronRight className="h-3.5 w-3.5 text-amber-600 shrink-0" />
               </Link>

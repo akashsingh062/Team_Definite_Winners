@@ -129,7 +129,7 @@ export function AuditLogsSection() {
               <tr>
                 <th className="py-2.5 px-3 font-semibold">Timestamp</th>
                 <th className="py-2.5 px-3 font-semibold">Action</th>
-                <th className="py-2.5 px-3 font-semibold">Admin Account</th>
+                <th className="py-2.5 px-3 font-semibold">TPO Account</th>
                 <th className="py-2.5 px-3 font-semibold">Entity Type</th>
                 <th className="py-2.5 px-3 font-semibold">Entity ID</th>
                 <th className="py-2.5 px-3 font-semibold">Details / New Values</th>

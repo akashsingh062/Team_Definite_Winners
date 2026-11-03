@@ -26,7 +26,7 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
       <div className="min-h-[calc(100vh-4rem)] bg-slate-50 flex items-center justify-center p-8">
         <div className="flex flex-col items-center gap-3 text-slate-500">
           <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-          <p className="text-sm font-medium">Verifying administrator authorization...</p>
+          <p className="text-sm font-medium">Verifying TPO authorization...</p>
         </div>
       </div>
     );
@@ -45,7 +45,7 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
           </div>
           <h2 className="text-xl font-bold text-slate-900">Access Restricted</h2>
           <p className="text-sm text-slate-600">
-            This area requires administrator privileges. Your account ({user?.email}) is registered as a student.
+            This area requires TPO privileges. Your account ({user?.email}) is registered as a student.
           </p>
           <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
             <Button
@@ -68,13 +68,13 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
           <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
             <Shield className="w-4 h-4" />
           </div>
-          <span className="font-bold text-sm text-white">Admin Management</span>
+          <span className="font-bold text-sm text-white">TPO Management</span>
         </div>
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-1.5 rounded-lg border border-slate-700 text-slate-200 hover:bg-slate-800"
-          aria-label="Toggle admin navigation"
+          aria-label="Toggle TPO navigation"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -95,7 +95,7 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="p-3 border-b border-slate-200 flex items-center justify-between bg-slate-900 text-white">
-          <span className="font-bold text-sm">Admin Navigation</span>
+          <span className="font-bold text-sm">TPO Navigation</span>
           <button
             onClick={() => setMobileMenuOpen(false)}
             className="p-1 rounded-md text-slate-400 hover:text-white"

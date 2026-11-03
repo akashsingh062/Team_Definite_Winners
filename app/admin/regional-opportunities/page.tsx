@@ -181,7 +181,7 @@ export default function AdminRegionalOpportunitiesPage() {
           className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition"
         >
           <ChevronLeft className="w-4 h-4" />
-          Back to Admin Opportunity Dashboard
+          Back to TPO Opportunity Dashboard
         </Link>
 
         {/* Header */}

@@ -37,7 +37,7 @@ interface AdminNavGroup {
 
 const adminNavGroups: AdminNavGroup[] = [
   {
-    title: "Platform Management",
+    title: "TPO Management",
     items: [
       {
         name: "Dashboard Overview",
@@ -120,7 +120,7 @@ export function AdminSidebar({
         {/* Admin Identifier Widget */}
         <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-900 text-white shadow-xs">
           <Avatar
-            name={user?.name || "Admin"}
+            name={user?.name || "TPO Officer"}
             size="md"
             className="bg-indigo-600 text-white font-bold"
           />
@@ -128,11 +128,11 @@ export function AdminSidebar({
             <div className="flex items-center gap-1.5">
               <Shield className="h-3.5 w-3.5 text-emerald-400" />
               <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">
-                Administrator
+                TPO Officer
               </span>
             </div>
             <h4 className="text-xs sm:text-sm font-extrabold text-white truncate">
-              {user?.name || "Admin User"}
+              {user?.name || "TPO Officer"}
             </h4>
             <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
           </div>

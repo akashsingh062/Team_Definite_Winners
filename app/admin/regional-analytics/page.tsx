@@ -73,7 +73,7 @@ export default function AdminRegionalAnalyticsPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
             <TrendingUp className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-            Administrative Regional Opportunity & Geospatial Intelligence
+            TPO Regional Opportunity & Geospatial Intelligence
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             System overview of regional opportunity distributions, verified training centres, and map coverage integrity

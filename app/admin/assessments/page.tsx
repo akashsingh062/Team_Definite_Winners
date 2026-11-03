@@ -30,11 +30,11 @@ export default function AdminAssessmentsDashboardPage() {
         if (!ignore && json.success && json.data) {
           setAssessments(json.data);
         } else if (!json.success) {
-          toast.error(json.error || "Failed to load admin assessments.");
+          toast.error(json.error || "Failed to load TPO assessments.");
         }
       } catch (err) {
         if (!ignore) {
-          console.error("Admin assessments load error:", err);
+          console.error("TPO assessments load error:", err);
           toast.error("Network error loading assessments.");
         }
       } finally {
@@ -56,7 +56,7 @@ export default function AdminAssessmentsDashboardPage() {
           <div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
               <Award className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-              Assessment Administration & Question Bank
+              TPO Assessment & Question Bank
             </h1>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               Configure practical skill tests, passing thresholds, and question curriculum

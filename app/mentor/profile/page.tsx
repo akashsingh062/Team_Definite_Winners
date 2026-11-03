@@ -155,7 +155,7 @@ export default function MentorProfileManagementPage() {
         return (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 border border-amber-300">
             <AlertCircle className="h-4 w-4 text-amber-600" />
-            Pending Admin Review
+            Pending TPO Review
           </span>
         );
     }
@@ -198,7 +198,7 @@ export default function MentorProfileManagementPage() {
 
       {profile.verificationNotes && (
         <div className="rounded-2xl bg-indigo-50 border border-indigo-200 p-4 text-xs text-indigo-900">
-          <span className="font-bold">Administrative Note: </span>
+          <span className="font-bold">TPO Review Note: </span>
           <span>{profile.verificationNotes}</span>
         </div>
       )}

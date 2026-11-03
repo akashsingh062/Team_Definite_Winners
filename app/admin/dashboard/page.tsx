@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-              Admin Governance & Operations
+              TPO Governance & Placement Operations
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               Verify, audit, and publish campus-to-employment opportunities with full algorithmic integrity.

@@ -283,7 +283,7 @@ export function Navbar() {
                       className="gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border-amber-200 rounded-xl"
                     >
                       <ShieldAlert className="h-3.5 w-3.5 text-amber-600" />
-                      <span>Admin</span>
+                      <span>TPO Portal</span>
                     </Button>
                   </Link>
                 )}
@@ -327,7 +327,7 @@ export function Navbar() {
                           {user.email}
                         </p>
                         <span className="inline-flex items-center mt-1.5 px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 text-[10px] font-bold capitalize">
-                          {userRole || "Student"} Portal
+                          {isAdmin ? "TPO Officer" : `${userRole || "Student"} Portal`}
                         </span>
                       </div>
 
@@ -438,7 +438,7 @@ export function Navbar() {
                   </div>
                 </div>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 capitalize">
-                  {userRole || "Student"}
+                  {isAdmin ? "TPO Officer" : (userRole || "Student")}
                 </span>
               </div>
             )}
@@ -576,7 +576,7 @@ export function Navbar() {
                     >
                       <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl">
                         <ShieldAlert className="h-3.5 w-3.5 mr-1.5" />
-                        Admin Portal
+                        TPO Portal
                       </Button>
                     </Link>
                   )}

@@ -68,7 +68,7 @@ export function OpportunityAnalyticsSection({
         <div className="bg-white p-4 rounded-xl border border-slate-200">
           <span className="text-xs text-slate-500 font-medium">Verified Listings</span>
           <div className="text-2xl font-bold text-emerald-600 mt-1">{verifiedOpportunities}</div>
-          <p className="text-xs text-slate-400 mt-0.5">Admin authenticated</p>
+          <p className="text-xs text-slate-400 mt-0.5">TPO authenticated</p>
         </div>
 
         <div className="bg-white p-4 rounded-xl border border-slate-200">

@@ -81,11 +81,11 @@ export default function MentorDashboardPage() {
               </span>
             </h4>
             <p className="text-amber-800 mt-0.5 leading-relaxed">
-              Your mentor profile is awaiting administrative review. Verified mentors are displayed in student search and discovery. You can preview and edit your profile credentials at any time.
+              Your mentor profile is awaiting TPO review. Verified mentors are displayed in student search and discovery. You can preview and edit your profile credentials at any time.
             </p>
             {profile?.verificationNotes && (
               <p className="mt-1 text-amber-950 font-medium">
-                Admin Notes: {profile.verificationNotes}
+                TPO Notes: {profile.verificationNotes}
               </p>
             )}
           </div>

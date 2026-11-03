@@ -278,7 +278,7 @@ export default function AdminMentorsPage() {
                 Mentor Network & Credential Verification
               </h1>
               <span className="text-xs px-3 py-1 rounded-full font-bold bg-slate-900 text-emerald-400 border border-slate-800">
-                Administrative Desk
+                TPO Desk
               </span>
             </div>
             <p className="text-sm text-slate-600 mt-1.5 max-w-3xl leading-relaxed font-medium">
@@ -584,7 +584,7 @@ export default function AdminMentorsPage() {
                           <div className="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 space-y-1">
                             <span className="font-extrabold flex items-center gap-1.5 text-amber-950">
                               <MessageSquare className="w-3.5 h-3.5 text-amber-600" />
-                              Administrative Review Audit Note:
+                              TPO Review Audit Note:
                             </span>
                             <p className="leading-relaxed font-medium pl-5">{m.verificationNotes}</p>
                           </div>
@@ -759,7 +759,7 @@ export default function AdminMentorsPage() {
               <form onSubmit={handleConfirmVerification} className="space-y-4 mt-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-800 mb-1.5">
-                    Administrative Review Notes / Decision Feedback <span className="text-rose-500">*</span>
+                    TPO Review Notes / Decision Feedback <span className="text-rose-500">*</span>
                   </label>
                   <textarea
                     rows={4}

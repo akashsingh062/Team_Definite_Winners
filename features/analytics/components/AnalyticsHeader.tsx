@@ -117,7 +117,7 @@ export function AnalyticsHeader({
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-slate-900">
-              Admin Analytics & Fairness Dashboard
+              TPO Analytics & Placement Fairness Dashboard
             </h1>
           </div>
           <p className="text-sm text-slate-500 mt-1">

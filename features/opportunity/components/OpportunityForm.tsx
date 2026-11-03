@@ -484,7 +484,7 @@ export function OpportunityForm({
               {...register("status")}
             >
               <option value="draft">Draft (Saved privately)</option>
-              <option value="pending">Pending Verification (Queued for admin audit)</option>
+              <option value="pending">Pending Verification (Queued for TPO audit)</option>
               {isEdit && (
                 <>
                   <option value="published">Published (Publicly visible)</option>
@@ -495,7 +495,7 @@ export function OpportunityForm({
             </Select>
 
             <Input
-              label="Admin / Verification Notes (Internal)"
+              label="TPO / Verification Notes (Internal)"
               placeholder="Notes on company legitimacy, college outreach or sponsor..."
               error={errors.verificationNotes?.message}
               {...register("verificationNotes")}
