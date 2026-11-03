@@ -85,7 +85,7 @@ export async function generatePersonalizedRoadmapPlan(
       .join("\n");
 
     const prompt = `
-You are CareerBridge AI's Senior Curriculum Architect. Enhance this personalized student learning roadmap.
+You are NexSkill AI's Senior Curriculum Architect. Enhance this personalized student learning roadmap.
 
 Context:
 - Target Career Role: ${targetRole}

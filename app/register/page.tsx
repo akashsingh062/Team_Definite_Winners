@@ -4,7 +4,7 @@ import { Container } from "@/components/layout/Container";
 
 export const metadata = {
   title: "Create Account",
-  description: "Join CareerBridge AI for skills-based campus opportunity matching",
+  description: "Join NexSkill AI for skills-based opportunity matching - From Skill to Opportunity",
 };
 
 export default function RegisterPage() {

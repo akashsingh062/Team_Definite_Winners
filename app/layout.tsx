@@ -14,18 +14,21 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteConfig.name} - AI-Powered Opportunity Matcher`,
+    default: `${siteConfig.name} - From Skill to Opportunity`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [
+    "NexSkill AI",
+    "From Skill to Opportunity",
     "campus placements",
     "internship matcher",
     "AI career assistant",
-    "underserved student opportunities",
+    "digital skills passport",
+    "skills assessment",
     "explainable AI recommendations",
   ],
-  authors: [{ name: "CareerBridge AI Team" }],
+  authors: [{ name: "NexSkill AI Team" }],
   icons: {
     icon: "/favicon.ico",
   },

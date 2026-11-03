@@ -29,13 +29,13 @@ export function Navbar() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-xs">
               <Sparkles className="h-5 w-5" />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg tracking-tight font-semibold">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+              <span className="text-lg tracking-tight font-bold bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 bg-clip-text text-transparent">
                 {siteConfig.name}
               </span>
-              <Badge variant="indigo" className="hidden sm:inline-flex">
-                AI Platform
-              </Badge>
+              <span className="hidden sm:inline-flex text-[11px] font-medium text-slate-500 border-l border-slate-300 pl-2">
+                From Skill to Opportunity
+              </span>
             </div>
           </Link>
 

@@ -83,7 +83,7 @@ export async function getPublicPassport(
 
   const publicView: IPublicPassportView = {
     publicId: passport.publicId,
-    displayName: passport.displayName || "CareerBridge Student",
+    displayName: passport.displayName || "NexSkill Student",
     headline: passport.headline || "Aspiring Tech Professional",
     summary: passport.summary || "",
     visibility: passport.visibility,
@@ -210,10 +210,10 @@ export async function getPassportVerificationReport(
         externallyVerifiedCerts: 0,
         studentProvidedCerts: 0,
       },
-      verificationDisclaimer: "The requested passport does not exist in the CareerBridge AI registry.",
+      verificationDisclaimer: "The requested passport does not exist in the NexSkill AI registry.",
       platformAttestation: {
-        issuingPlatform: "CareerBridge AI Digital Skills Registry",
-        verifiedDomain: "careerbridge.ai",
+        issuingPlatform: "NexSkill AI Digital Skills Registry",
+        verifiedDomain: "nexskill.ai",
         protocolVersion: "v1.0-cdp",
         timestamp: new Date().toISOString(),
       },
@@ -239,8 +239,8 @@ export async function getPassportVerificationReport(
       },
       verificationDisclaimer: "This digital passport was revoked by its owner and its verification attestation is no longer valid.",
       platformAttestation: {
-        issuingPlatform: "CareerBridge AI Digital Skills Registry",
-        verifiedDomain: "careerbridge.ai",
+        issuingPlatform: "NexSkill AI Digital Skills Registry",
+        verifiedDomain: "nexskill.ai",
         protocolVersion: "v1.0-cdp",
         timestamp: new Date().toISOString(),
       },
@@ -266,8 +266,8 @@ export async function getPassportVerificationReport(
       },
       verificationDisclaimer: "This digital passport is set to private by its owner.",
       platformAttestation: {
-        issuingPlatform: "CareerBridge AI Digital Skills Registry",
-        verifiedDomain: "careerbridge.ai",
+        issuingPlatform: "NexSkill AI Digital Skills Registry",
+        verifiedDomain: "nexskill.ai",
         protocolVersion: "v1.0-cdp",
         timestamp: new Date().toISOString(),
       },
@@ -280,7 +280,7 @@ export async function getPassportVerificationReport(
   return {
     publicId,
     authenticityStatus: "authentic",
-    studentDisplayName: passport.displayName || "CareerBridge Student",
+    studentDisplayName: passport.displayName || "NexSkill Student",
     headline: passport.headline || "Aspiring Tech Professional",
     issuedAt: new Date(passport.issuedAt).toISOString(),
     updatedAt: new Date(passport.updatedAt).toISOString(),
@@ -294,10 +294,10 @@ export async function getPassportVerificationReport(
       studentProvidedCerts: certs.filter((c) => c.verificationStatus === "student_provided").length,
     },
     verificationDisclaimer:
-      "CareerBridge AI attests that assessment-verified milestones and internal project demonstrations were completed within the platform. Third-party certifications were confirmed via authorized external issuer URL schemes. Self-reported and resume-extracted items represent student-provided claims and should be verified during interview stages.",
+      "NexSkill AI attests that assessment-verified milestones and internal project demonstrations were completed within the platform. Third-party certifications were confirmed via authorized external issuer URL schemes. Self-reported and resume-extracted items represent student-provided claims and should be verified during interview stages.",
     platformAttestation: {
-      issuingPlatform: "CareerBridge AI Digital Skills Registry",
-      verifiedDomain: "careerbridge.ai",
+      issuingPlatform: "NexSkill AI Digital Skills Registry",
+      verifiedDomain: "nexskill.ai",
       protocolVersion: "v1.0-cdp",
       timestamp: new Date().toISOString(),
     },

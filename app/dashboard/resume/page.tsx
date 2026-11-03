@@ -444,7 +444,7 @@ export default function ResumeUploadPage() {
                   Ready to update your student profile?
                 </h4>
                 <p className="text-xs text-slate-600">
-                  Review the extracted skills, projects, and education. You choose exactly which entries to merge into your CareerBridge profile.
+                  Review the extracted skills, projects, and education. You choose exactly which entries to merge into your NexSkill profile.
                 </p>
               </div>
               <Link href="/dashboard/resume/review">

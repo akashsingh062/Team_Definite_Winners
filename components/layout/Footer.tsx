@@ -105,7 +105,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} CareerBridge AI. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} NexSkill AI. From Skill to Opportunity. All rights reserved.</p>
           <div className="flex gap-4">
             <span className="text-slate-400">Built for Next-Gen Student Success</span>
           </div>

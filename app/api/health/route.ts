@@ -15,7 +15,8 @@ export async function GET() {
   }
 
   const responsePayload = {
-    service: "CareerBridge AI Platform",
+    service: "NexSkill AI Platform",
+    tagline: "From Skill to Opportunity",
     status: dbStatus === "connected" ? "healthy" : "degraded",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",

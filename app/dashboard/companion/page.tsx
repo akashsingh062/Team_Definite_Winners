@@ -61,7 +61,7 @@ export default function CareerCompanionPage() {
       id: "welcome-1",
       role: "assistant",
       content:
-        "Welcome to CareerBridge AI Career Companion! I can help you explore career pathways, identify high-impact skill gaps, optimize your resume for applicant tracking systems, and connect with experienced mentors. How can I assist your career journey today?",
+        "Welcome to NexSkill AI Career Companion — From Skill to Opportunity! I can help you explore career pathways, identify high-impact skill gaps, optimize your resume for applicant tracking systems, and connect with experienced mentors. How can I assist your career journey today?",
       language: "en",
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       deepLinks: [
@@ -150,7 +150,7 @@ export default function CareerCompanionPage() {
             id: "welcome-1",
             role: "assistant",
             content:
-              "Welcome to CareerBridge AI Career Companion! I can help you explore career pathways, identify high-impact skill gaps, optimize your resume for applicant tracking systems, and connect with experienced mentors. How can I assist your career journey today?",
+              "Welcome to NexSkill AI Career Companion — From Skill to Opportunity! I can help you explore career pathways, identify high-impact skill gaps, optimize your resume for applicant tracking systems, and connect with experienced mentors. How can I assist your career journey today?",
             language: "en",
             timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
             deepLinks: [

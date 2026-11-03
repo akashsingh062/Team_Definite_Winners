@@ -399,7 +399,7 @@ async function recordAssessmentEvidence(
           skill.evidenceType = "assessment_verified";
           skill.verificationStatus = "verified";
           skill.verificationDate = new Date();
-          skill.issuingSource = "CareerBridge AI Assessment Engine";
+          skill.issuingSource = "NexSkill AI Assessment Engine";
           skill.evidenceReference = `Scored ${percentage}% on ${attempt.assessmentTitle}`;
         }
       });

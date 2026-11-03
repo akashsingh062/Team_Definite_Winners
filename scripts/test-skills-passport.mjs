@@ -418,7 +418,11 @@ async function runTests() {
     assert(report.evidenceBreakdown.assessmentVerified >= 1, `Assessment verified count tracked: ${report.evidenceBreakdown.assessmentVerified}`);
     assert(report.evidenceBreakdown.projectDemonstrated >= 1, `Project demonstrated count tracked: ${report.evidenceBreakdown.projectDemonstrated}`);
     assert(report.evidenceBreakdown.externallyVerifiedCerts >= 1, `Verified certifications count tracked: ${report.evidenceBreakdown.externallyVerifiedCerts}`);
-    assert(report.platformAttestation.issuingPlatform.includes("CareerBridge AI"), "Official platform attestation seal present");
+    assert(
+      report.platformAttestation.issuingPlatform.includes("NexSkill AI") ||
+      report.platformAttestation.issuingPlatform.includes("CareerBridge AI"),
+      "Official platform attestation seal present"
+    );
     assert(report.verificationDisclaimer.length > 50, "Clear verification scope and limitations disclaimer present");
 
     // -------------------------------------------------------------

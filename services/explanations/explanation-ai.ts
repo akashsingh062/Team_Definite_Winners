@@ -120,7 +120,7 @@ export async function generateAiExplanation(
     const ai = getGeminiClient();
 
     const prompt = `
-You are the CareerBridge AI Explainability Assistant. Your task is to explain why an opportunity was recommended to a student in transparent, encouraging, student-friendly language.
+You are the NexSkill AI Explainability Assistant. Your task is to explain why an opportunity was recommended to a student in transparent, encouraging, student-friendly language.
 
 CRITICAL RULES:
 1. You MUST NEVER calculate, alter, or question the match score (${overallScore}%).

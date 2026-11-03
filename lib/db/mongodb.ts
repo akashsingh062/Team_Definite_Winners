@@ -34,9 +34,12 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   }
 
   // Set public DNS fallback for Windows SRV record resolution when connecting to Atlas
-  if (typeof window === "undefined" && uri.startsWith("mongodb+srv://")) {
+  if (typeof window === "undefined") {
     try {
-      dns.setServers(["8.8.8.8", "8.8.4.4"]);
+      dns.setDefaultResultOrder("ipv4first");
+      if (uri.startsWith("mongodb+srv://")) {
+        dns.setServers(["8.8.8.8", "8.8.4.4"]);
+      }
     } catch {
       // Graceful fallback if restricted
     }

@@ -36,7 +36,19 @@ export async function GET(req: NextRequest) {
     };
 
     const result = await getPublicOpportunities(filters);
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({
+      success: true,
+      ...result,
+      data: {
+        opportunities: result.items,
+        pagination: {
+          total: result.total,
+          page: result.page,
+          limit: filters.limit,
+          totalPages: result.totalPages,
+        },
+      },
+    });
   } catch (error) {
     console.error("GET /api/opportunities error:", error);
     return NextResponse.json(

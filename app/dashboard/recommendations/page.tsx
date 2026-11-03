@@ -88,9 +88,13 @@ export default function RecommendationsPage() {
 
         if (isMounted) {
           if (recsJson.success) {
-            setRecommendations(recsJson.data || []);
-            if (recsJson.pagination) {
-              setPagination(recsJson.pagination);
+            const rawList = Array.isArray(recsJson.data)
+              ? recsJson.data
+              : (recsJson.data?.recommendations || recsJson.recommendations || []);
+            setRecommendations(Array.isArray(rawList) ? rawList : []);
+            const pag = recsJson.pagination || recsJson.data?.pagination;
+            if (pag) {
+              setPagination(pag);
             }
           }
           if (summaryJson.success) {
@@ -351,65 +355,76 @@ export default function RecommendationsPage() {
         </div>
 
         {/* Recommendations List Feed */}
-        {isLoading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="p-6 animate-pulse border-slate-200">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-2.5 w-2/3">
-                    <div className="h-4 bg-slate-200 rounded w-1/4" />
-                    <div className="h-6 bg-slate-200 rounded w-1/2" />
-                    <div className="h-3 bg-slate-200 rounded w-3/4" />
+        {(() => {
+          const recsList = Array.isArray(recommendations) ? recommendations : [];
+          if (isLoading) {
+            return (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <Card key={i} className="p-6 animate-pulse border-slate-200">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-2.5 w-2/3">
+                        <div className="h-4 bg-slate-200 rounded w-1/4" />
+                        <div className="h-6 bg-slate-200 rounded w-1/2" />
+                        <div className="h-3 bg-slate-200 rounded w-3/4" />
+                      </div>
+                      <div className="h-10 w-24 bg-slate-200 rounded-full" />
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            );
+          }
+
+          if (recsList.length === 0) {
+            return (
+              <Card className="border-dashed border-2 border-slate-200 bg-slate-50/50 p-12 text-center">
+                <div className="max-w-md mx-auto space-y-3">
+                  <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+                    <Sparkles className="w-6 h-6" />
                   </div>
-                  <div className="h-10 w-24 bg-slate-200 rounded-full" />
+                  <h3 className="text-base font-bold text-slate-900">
+                    {hasActiveFilters ? "No matching opportunities found" : "No recommendations available yet"}
+                  </h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    {hasActiveFilters
+                      ? "Try adjusting your filters or resetting them to view more recommendations."
+                      : "To receive high-confidence recommendations, make sure your profile includes at least 3 technical skills, academic information, and portfolio projects."}
+                  </p>
+                  <div className="flex items-center justify-center gap-3 pt-2">
+                    {hasActiveFilters ? (
+                      <Button variant="outline" size="sm" onClick={clearFilters} className="text-xs">
+                        Reset All Filters
+                      </Button>
+                    ) : (
+                      <>
+                        <Link href="/profile">
+                          <Button size="sm" className="text-xs bg-indigo-600 text-white">
+                            Complete Profile
+                          </Button>
+                        </Link>
+                        <Link href="/dashboard/resume">
+                          <Button variant="outline" size="sm" className="text-xs gap-1.5">
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Upload Resume</span>
+                          </Button>
+                        </Link>
+                      </>
+                    )}
+                  </div>
                 </div>
               </Card>
-            ))}
-          </div>
-        ) : recommendations.length === 0 ? (
-          <Card className="border-dashed border-2 border-slate-200 bg-slate-50/50 p-12 text-center">
-            <div className="max-w-md mx-auto space-y-3">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-slate-900">
-                {hasActiveFilters ? "No matching opportunities found" : "No recommendations available yet"}
-              </h3>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                {hasActiveFilters
-                  ? "Try adjusting your filters or resetting them to view more recommendations."
-                  : "To receive high-confidence recommendations, make sure your profile includes at least 3 technical skills, academic information, and portfolio projects."}
-              </p>
-              <div className="flex items-center justify-center gap-3 pt-2">
-                {hasActiveFilters ? (
-                  <Button variant="outline" size="sm" onClick={clearFilters} className="text-xs">
-                    Reset All Filters
-                  </Button>
-                ) : (
-                  <>
-                    <Link href="/profile">
-                      <Button size="sm" className="text-xs bg-indigo-600 text-white">
-                        Complete Profile
-                      </Button>
-                    </Link>
-                    <Link href="/dashboard/resume">
-                      <Button variant="outline" size="sm" className="text-xs gap-1.5">
-                        <FileText className="w-3.5 h-3.5" />
-                        <span>Upload Resume</span>
-                      </Button>
-                    </Link>
-                  </>
-                )}
-              </div>
+            );
+          }
+
+          return (
+            <div className="space-y-4">
+              {recsList.map((match) => (
+                <RecommendationCard key={match.opportunityId} match={match} />
+              ))}
             </div>
-          </Card>
-        ) : (
-          <div className="space-y-4">
-            {recommendations.map((match) => (
-              <RecommendationCard key={match.opportunityId} match={match} />
-            ))}
-          </div>
-        )}
+          );
+        })()}
 
         {/* Pagination Controls */}
         {pagination.totalPages > 1 && (

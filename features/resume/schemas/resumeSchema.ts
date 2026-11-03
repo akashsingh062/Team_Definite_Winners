@@ -1,7 +1,14 @@
 import { z } from "zod";
 
-const stringOrEmpty = z.string().trim().default("");
-const stringArray = z.array(z.string().trim()).default([]);
+const stringOrEmpty = z
+  .union([z.string(), z.null()])
+  .optional()
+  .transform((v) => (v ? v.trim() : ""));
+
+const stringArray = z
+  .union([z.array(z.string().trim()), z.null()])
+  .optional()
+  .transform((v) => (Array.isArray(v) ? v.filter(Boolean) : []));
 
 export const resumePersonalInfoSchema = z.object({
   fullName: stringOrEmpty,
@@ -16,9 +23,9 @@ export const resumeEducationSchema = z.object({
   institution: stringOrEmpty,
   degree: stringOrEmpty,
   branch: stringOrEmpty,
-  startYear: z.union([z.number(), z.string()]).optional(),
-  graduationYear: z.union([z.number(), z.string()]).optional(),
-  cgpa: z.union([z.number(), z.string()]).optional(),
+  startYear: z.union([z.number(), z.string(), z.null()]).optional().transform((v) => v ?? undefined),
+  graduationYear: z.union([z.number(), z.string(), z.null()]).optional().transform((v) => v ?? undefined),
+  cgpa: z.union([z.number(), z.string(), z.null()]).optional().transform((v) => v ?? undefined),
 });
 
 export const resumeTechnicalSkillsSchema = z.object({

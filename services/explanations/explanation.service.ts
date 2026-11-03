@@ -429,7 +429,7 @@ export function getMethodologyInfo(): IMethodologyInfo {
       },
     ],
     methodologyOverview:
-      "CareerBridge AI employs a transparent, deterministic matching engine where mathematical formulas calculate candidate alignment directly from verified database records. AI models are used solely to generate student-friendly explanations and are strictly prohibited from calculating or modifying scores.",
+      "NexSkill AI employs a transparent, deterministic matching engine where mathematical formulas calculate candidate alignment directly from verified database records. AI models are used solely to generate student-friendly explanations and are strictly prohibited from calculating or modifying scores.",
     fairnessGuarantees: [
       "Pedigree Neutrality: University tier, college prestige, and institutional rankings are strictly omitted from matching calculations.",
       "Socio-Economic Blindness: Matching formulas do not process gender, caste, religion, family income, disability, or personal demographic attributes.",

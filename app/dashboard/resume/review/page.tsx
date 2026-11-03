@@ -902,7 +902,7 @@ export default function ResumeReviewPage() {
               <CardTitle className="text-base">Profile Merge Preferences</CardTitle>
             </div>
             <p className="text-xs text-slate-500">
-              Control exactly which categories of extracted data will be integrated into your active CareerBridge profile.
+              Control exactly which categories of extracted data will be integrated into your active NexSkill profile.
             </p>
           </CardHeader>
           <CardContent className="space-y-3">

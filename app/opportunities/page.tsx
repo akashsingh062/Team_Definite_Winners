@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -74,12 +73,13 @@ export default function OpportunitiesBrowsingPage() {
 
         const json = await res.json();
         if (isMounted) {
-          setOpportunities(json.data.opportunities || []);
+          const list = json.data?.opportunities || json.items || [];
+          setOpportunities(list);
           setPagination({
-            total: json.data.pagination.total,
-            page: json.data.pagination.page,
-            limit: json.data.pagination.limit,
-            totalPages: json.data.pagination.totalPages,
+            total: json.data?.pagination?.total ?? json.total ?? list.length,
+            page: json.data?.pagination?.page ?? json.page ?? 1,
+            limit: json.data?.pagination?.limit ?? json.limit ?? 12,
+            totalPages: json.data?.pagination?.totalPages ?? json.totalPages ?? 1,
           });
         }
       } catch (err) {
@@ -136,8 +136,6 @@ export default function OpportunitiesBrowsingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
-
       {/* Hero Banner */}
       <section className="bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 text-white py-12 md:py-16">
         <Container size="xl">

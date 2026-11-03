@@ -5,7 +5,7 @@ import { Container } from "@/components/layout/Container";
 
 export const metadata = {
   title: "Sign In",
-  description: "Sign in to your CareerBridge AI student account",
+  description: "Sign in to your NexSkill AI student account - From Skill to Opportunity",
 };
 
 export default function LoginPage() {

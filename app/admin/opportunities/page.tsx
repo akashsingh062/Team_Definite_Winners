@@ -73,12 +73,13 @@ export default function AdminOpportunitiesPage() {
 
         const json = await res.json();
         if (isMounted) {
-          setOpportunities(json.data.opportunities || []);
+          const list = json.data?.opportunities || json.items || [];
+          setOpportunities(list);
           setPagination({
-            total: json.data.pagination.total,
-            page: json.data.pagination.page,
-            limit: json.data.pagination.limit,
-            totalPages: json.data.pagination.totalPages,
+            total: json.data?.pagination?.total ?? json.total ?? list.length,
+            page: json.data?.pagination?.page ?? json.page ?? 1,
+            limit: json.data?.pagination?.limit ?? json.limit ?? 20,
+            totalPages: json.data?.pagination?.totalPages ?? json.totalPages ?? 1,
           });
         }
       } catch (err) {

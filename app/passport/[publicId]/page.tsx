@@ -57,7 +57,7 @@ export default async function PublicPassportPage({
             href="/"
             className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-medium"
           >
-            Return to CareerBridge AI
+            Return to NexSkill AI
           </Link>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default async function PublicPassportPage({
             href="/"
             className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-medium"
           >
-            Return to CareerBridge AI
+            Return to NexSkill AI
           </Link>
         </div>
       </div>
@@ -108,11 +108,11 @@ export default async function PublicPassportPage({
         {/* Navigation Bar / Issuer Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
-              CB
+            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+              NX
             </div>
             <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-slate-100">
-              CareerBridge AI
+              NexSkill AI
             </span>
           </Link>
 
@@ -518,10 +518,10 @@ export default async function PublicPassportPage({
         {/* Footer Seal & Verification Callout */}
         <div className="pt-8 pb-4 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
           <p className="mb-2">
-            Issued by <strong className="text-slate-700 dark:text-slate-300">CareerBridge AI Digital Skills Registry</strong>.
+            Issued by <strong className="text-slate-700 dark:text-slate-300">NexSkill AI Digital Skills Registry</strong>.
           </p>
           <p className="text-[11px] text-slate-400 max-w-xl mx-auto">
-            CareerBridge AI validates platform assessment milestones and project demonstrations. Third-party credentials are confirmed via authorized issuer portal protocols. Self-reported items represent student claims.
+            NexSkill AI validates platform assessment milestones and project demonstrations. Third-party credentials are confirmed via authorized issuer portal protocols. Self-reported items represent student claims.
           </p>
         </div>
       </div>

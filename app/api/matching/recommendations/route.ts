@@ -27,16 +27,28 @@ export async function GET(req: NextRequest) {
       parsedFilters
     );
 
+    const normalizedItems = (result.items || []).map((item) => ({
+      ...item,
+      overallScore: item.overallScore,
+      matchScore: {
+        overall: item.overallScore,
+        skillsScore: item.componentScores?.requiredSkills ?? item.overallScore,
+      },
+      opportunity: {
+        ...item.opportunity,
+        company: item.opportunity?.companyName,
+      },
+    }));
+
     return NextResponse.json({
       success: true,
-      data: {
-        recommendations: result.items,
-        pagination: {
-          total: result.total,
-          page: result.page,
-          limit: result.limit,
-          totalPages: result.totalPages,
-        },
+      data: normalizedItems,
+      recommendations: normalizedItems,
+      pagination: {
+        total: result.total,
+        page: result.page,
+        limit: result.limit,
+        totalPages: result.totalPages,
       },
     });
   } catch (err: any) {

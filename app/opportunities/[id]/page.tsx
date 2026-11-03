@@ -3,7 +3,6 @@
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
 import { Container } from "@/components/layout/Container";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -81,8 +80,6 @@ export default function OpportunityDetailsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
-
       <main className="flex-1 py-8">
         <Container size="lg">
           {/* Back Navigation */}
@@ -414,7 +411,7 @@ export default function OpportunityDetailsPage() {
                   <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5 space-y-2 text-xs">
                     <div className="flex items-center gap-2 text-emerald-900 font-bold">
                       <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
-                      <span>CareerBridge Fairness Guarantee</span>
+                      <span>NexSkill Fairness Guarantee</span>
                     </div>
                     <p className="text-slate-600 leading-relaxed">
                       This opportunity has been vetted for recruitment legitimacy. In Stage 3, recommendations are computed with demographic neutrality, highlighting skill matches and actionable learning pathways.

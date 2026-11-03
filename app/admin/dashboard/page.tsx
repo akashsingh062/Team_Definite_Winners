@@ -44,7 +44,8 @@ export default function AdminDashboardPage() {
 
         if (oppsRes.ok) {
           const oppsJson = await oppsRes.json();
-          setRecentOpportunities(oppsJson.data.opportunities || []);
+          const opps = oppsJson.data?.opportunities || oppsJson.items || [];
+          setRecentOpportunities(opps);
         }
       } catch (err) {
         console.error("Dashboard data load error:", err);

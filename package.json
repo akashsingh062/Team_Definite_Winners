@@ -1,5 +1,5 @@
 {
-  "name": "careerbridge-ai",
+  "name": "nexskill-ai",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,6 +24,7 @@
     "test:mentorship-network": "tsx scripts/test-mentorship-network.mjs",
     "test:system-integration": "tsx scripts/test-system-integration.mjs",
     "seed:opportunities": "node scripts/seed-opportunities.mjs",
+    "seed:demo-users": "tsx scripts/seed-demo-users.ts",
     "promote:admin": "node scripts/promote-admin.mjs"
   },
   "dependencies": {

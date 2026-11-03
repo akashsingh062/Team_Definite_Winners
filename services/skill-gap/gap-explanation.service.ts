@@ -109,7 +109,7 @@ export async function generateSkillGapExplanation(
     const oppTitles = relevantOpportunities.map((o) => `${o.title} at ${o.companyName}`).join("; ");
 
     const prompt = `
-You are CareerBridge AI's explainable learning advisor. Explain why a student should learn the missing technical skill "${skillName}" (${category}).
+You are NexSkill AI's explainable learning advisor. Explain why a student should learn the missing technical skill "${skillName}" (${category}).
 
 Context:
 - Target career role: ${targetRole || "Software Engineering"}

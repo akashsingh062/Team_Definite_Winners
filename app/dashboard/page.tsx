@@ -39,16 +39,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 interface RecommendedItem {
+  opportunityId?: string;
   opportunity: {
-    _id: string;
+    _id?: string;
+    id?: string;
     title: string;
-    company: string;
+    company?: string;
+    companyName?: string;
     location?: string;
     workMode?: string;
     employmentType?: string;
     deadline?: string;
   };
-  matchScore: {
+  overallScore?: number;
+  matchScore?: {
     overall: number;
     skillsScore?: number;
   };
@@ -154,7 +158,11 @@ export default function StudentDashboardPage() {
         }
 
         if (recsRes.status === "fulfilled" && recsRes.value?.success) {
-          setRecommendations(recsRes.value.data?.recommendations || []);
+          const recsData = recsRes.value;
+          const recsList = Array.isArray(recsData.data)
+            ? recsData.data
+            : (recsData.data?.recommendations || recsData.recommendations || []);
+          setRecommendations(Array.isArray(recsList) ? recsList : []);
         }
 
         if (assessmentsRes.status === "fulfilled" && assessmentsRes.value?.success) {
@@ -194,7 +202,7 @@ export default function StudentDashboardPage() {
       <StudentPortalLayout>
         <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
-          <p className="text-sm text-slate-500 font-medium">Aggregating your CareerBridge command center...</p>
+          <p className="text-sm text-slate-500 font-medium">Aggregating your NexSkill command center...</p>
         </div>
       </StudentPortalLayout>
     );
@@ -410,41 +418,50 @@ export default function StudentDashboardPage() {
               <CardContent>
                 {recommendations.length > 0 ? (
                   <div className="space-y-3">
-                    {recommendations.map((rec) => (
-                      <div
-                        key={rec.opportunity._id}
-                        className="p-4 rounded-xl border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                      >
-                        <div className="space-y-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <h4 className="text-sm font-bold text-slate-900 truncate">
-                              {rec.opportunity.title}
-                            </h4>
-                            <Badge variant="indigo" className="text-[11px] font-semibold py-0">
-                              {rec.matchScore.overall}% Match
-                            </Badge>
+                    {recommendations.map((rec, idx) => {
+                      const oppId = rec.opportunityId || rec.opportunity?._id || rec.opportunity?.id || `rec-${idx}`;
+                      const oppScore = rec.overallScore ?? rec.matchScore?.overall ?? 0;
+                      const oppCompany = rec.opportunity?.companyName || rec.opportunity?.company || "Company";
+                      const oppTitle = rec.opportunity?.title || "Opportunity";
+
+                      return (
+                        <div
+                          key={oppId}
+                          className="p-4 rounded-xl border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                        >
+                          <div className="space-y-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h4 className="text-sm font-bold text-slate-900 truncate">
+                                {oppTitle}
+                              </h4>
+                              <Badge variant="indigo" className="text-[11px] font-semibold py-0">
+                                {oppScore}% Match
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-slate-500 flex items-center gap-2 flex-wrap">
+                              <span className="font-medium text-slate-700">{oppCompany}</span>
+                              {rec.opportunity?.location && (
+                                <span className="flex items-center gap-1">
+                                  <MapPin className="w-3 h-3 text-slate-400" />
+                                  {rec.opportunity.location}
+                                </span>
+                              )}
+                              {rec.opportunity?.workMode && (
+                                <span className="capitalize">• {rec.opportunity.workMode}</span>
+                              )}
+                            </p>
                           </div>
-                          <p className="text-xs text-slate-500 flex items-center gap-2 flex-wrap">
-                            <span className="font-medium text-slate-700">{rec.opportunity.company}</span>
-                            {rec.opportunity.location && (
-                              <span className="flex items-center gap-1">
-                                <MapPin className="w-3 h-3 text-slate-400" />
-                                {rec.opportunity.location}
-                              </span>
-                            )}
-                            {rec.opportunity.workMode && (
-                              <span className="capitalize">• {rec.opportunity.workMode}</span>
-                            )}
-                          </p>
+                          {oppId && (
+                            <Link href={`/dashboard/recommendations/${oppId}`}>
+                              <Button variant="outline" size="sm" className="gap-1 text-xs whitespace-nowrap">
+                                View Explanation
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </Button>
+                            </Link>
+                          )}
                         </div>
-                        <Link href={`/dashboard/recommendations/${rec.opportunity._id}`}>
-                          <Button variant="outline" size="sm" className="gap-1 text-xs whitespace-nowrap">
-                            View Explanation
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Button>
-                        </Link>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <EmptyState

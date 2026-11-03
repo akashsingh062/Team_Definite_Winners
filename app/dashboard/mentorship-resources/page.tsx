@@ -135,7 +135,7 @@ export default function StudentResourcesPage() {
             Explicit Consent & Privacy Control Invariant
           </h4>
           <p className="text-emerald-800 mt-0.5 leading-relaxed">
-            CareerBridge AI guarantees that your resume, project repos, and personal profiles are never shared automatically. You maintain full ownership and can revoke any mentor&apos;s access immediately below.
+            NexSkill AI guarantees that your resume, project repos, and personal profiles are never shared automatically. You maintain full ownership and can revoke any mentor&apos;s access immediately below.
           </p>
         </div>
       </div>

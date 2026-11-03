@@ -1,12 +1,13 @@
 export const siteConfig = {
-  name: "CareerBridge AI",
-  shortName: "CareerBridge",
+  name: "NexSkill AI",
+  shortName: "NexSkill",
+  tagline: "From Skill to Opportunity",
   description:
-    "AI-powered campus-to-employment opportunity matcher prioritizing explainable recommendations, accessibility, and fairness for students.",
+    "NexSkill AI - From Skill to Opportunity. AI-powered campus-to-employment opportunity matcher prioritizing explainable recommendations, accessibility, verified credentials, and fairness for students.",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   ogImage: "/og.png",
   links: {
-    github: "https://github.com/careerbridge-ai",
+    github: "https://github.com/nexskill-ai",
   },
   mainNav: [
     { title: "Home", href: "/" },

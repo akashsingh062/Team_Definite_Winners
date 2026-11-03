@@ -34,6 +34,7 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -42,6 +43,12 @@ export function LoginForm() {
       password: "",
     },
   });
+
+  const fillCredentials = (email: string, pass: string) => {
+    setValue("email", email, { shouldValidate: true });
+    setValue("password", pass, { shouldValidate: true });
+    setGeneralError(null);
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
@@ -59,7 +66,7 @@ export function LoginForm() {
           response.error.status === 401 ||
           response.error.message?.toLowerCase().includes("invalid") ||
           response.error.message?.toLowerCase().includes("credential")
-            ? "Invalid email or password. Please verify your credentials."
+            ? "Invalid email or password. Please verify your credentials or use the quick demo accounts below."
             : response.error.message || "Login failed. Please try again.";
 
         setGeneralError(errorMsg);
@@ -68,7 +75,14 @@ export function LoginForm() {
       }
 
       toast.success("Welcome back! Signing you in...");
-      router.push(callbackUrl);
+      const userRole = (response.data?.user as { role?: string } | undefined)?.role;
+      const targetUrl =
+        userRole === "admin" && callbackUrl === "/dashboard"
+          ? "/admin/dashboard"
+          : callbackUrl;
+
+      // Navigate and refresh session state
+      router.push(targetUrl);
       router.refresh();
     } catch (error: unknown) {
       const message =
@@ -140,6 +154,36 @@ export function LoginForm() {
       >
         Sign In to CareerBridge
       </Button>
+
+      <div className="pt-3 border-t border-slate-100">
+        <p className="text-xs font-semibold text-slate-500 mb-2">Quick Demo Accounts (1-Click Fill):</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-xs">
+          <button
+            type="button"
+            onClick={() => fillCredentials("akash@gmail.com", "Akash@123")}
+            className="px-2 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 border border-slate-200 rounded text-slate-700 text-left transition-colors"
+          >
+            <div className="font-semibold truncate">Akash (Student)</div>
+            <div className="text-[10px] text-slate-400">Akash@123</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => fillCredentials("student@careerbridge.ai", "Password123!")}
+            className="px-2 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 border border-slate-200 rounded text-slate-700 text-left transition-colors"
+          >
+            <div className="font-semibold truncate">Alex (Student)</div>
+            <div className="text-[10px] text-slate-400">Password123!</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => fillCredentials("admin@careerbridge.ai", "Password123!")}
+            className="px-2 py-1.5 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 hover:border-purple-300 border border-purple-200 rounded text-purple-700 text-left transition-colors"
+          >
+            <div className="font-semibold truncate">Admin</div>
+            <div className="text-[10px] text-purple-400">Password123!</div>
+          </button>
+        </div>
+      </div>
     </form>
   );
 }

@@ -39,11 +39,11 @@ export default async function PassportVerificationPage({
         {/* Navigation & Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">
-              CB
+            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+              NX
             </div>
             <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-slate-100">
-              CareerBridge AI
+              NexSkill AI
             </span>
           </Link>
 
@@ -226,7 +226,7 @@ export default async function PassportVerificationPage({
             </h3>
             <p>{report.verificationDisclaimer}</p>
             <p className="text-[11px] text-slate-400">
-              CareerBridge AI does not claim or fabricate external accreditation beyond validated issuer API/URL protocols. Employers are advised to conduct standard interviews to confirm depth of mastery.
+              NexSkill AI does not claim or fabricate external accreditation beyond validated issuer API/URL protocols. Employers are advised to conduct standard interviews to confirm depth of mastery.
             </p>
           </div>
 

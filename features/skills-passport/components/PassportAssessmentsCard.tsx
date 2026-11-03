@@ -31,7 +31,7 @@ export function PassportAssessmentsCard({
             Practical Platform Assessments ({assessments.length})
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Validated by CareerBridge AI curriculum capstones and learning milestones
+            Validated by NexSkill AI curriculum capstones and practical skill readiness assessments
           </p>
         </div>
       </div>

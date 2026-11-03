@@ -30,7 +30,7 @@ export function EvidenceBadge({
       return (
         <span
           className={`inline-flex items-center gap-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/60 ${sizeClasses} ${className}`}
-          title="Verified through completed CareerBridge AI practical assessment or milestone capstone."
+          title="Verified through completed NexSkill AI practical assessment or milestone capstone."
         >
           {showIcon && <ShieldCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />}
           Assessment Verified

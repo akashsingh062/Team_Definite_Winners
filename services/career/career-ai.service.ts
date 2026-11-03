@@ -39,7 +39,7 @@ export async function generateCareerPathExplanation(
     return generateDeterministicPathFallback(careerPath, alignment);
   }
 
-  const prompt = `You are a supportive, knowledgeable technical career advisor at CareerBridge AI.
+  const prompt = `You are a supportive, knowledgeable technical career advisor at NexSkill AI (From Skill to Opportunity).
 Analyze this student's alignment with the "${careerPath.title}" career path.
 
 Career Requirements:
@@ -110,7 +110,7 @@ export async function generateSimulationExplanation(
     return generateDeterministicSimulationFallback(careerPath, baseline, simulated, hypotheticalSkills);
   }
 
-  const prompt = `You are an expert career mentor at CareerBridge AI explaining a What-If skill simulation.
+  const prompt = `You are an expert career mentor at NexSkill AI explaining a What-If skill simulation.
 The student tested adding the following hypothetical skills for the "${careerPath.title}" career path:
 Hypothetical Skills Added: ${hypotheticalSkills.join(", ")}
 
@@ -183,7 +183,7 @@ export async function generateCareerComparisonExplanation(
     difficulty: c.careerPath.learningDifficulty,
   }));
 
-  const prompt = `You are a senior career strategist at CareerBridge AI comparing multiple career pathways for a student.
+  const prompt = `You are a senior career strategist at NexSkill AI comparing multiple career pathways for a student.
 
 Career Paths Being Compared:
 ${JSON.stringify(comparisonSummaries, null, 2)}

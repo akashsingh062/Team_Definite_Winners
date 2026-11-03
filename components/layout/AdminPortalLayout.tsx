@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Navbar } from "@/components/layout/Navbar";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader2, ShieldAlert, Menu, X, Shield } from "lucide-react";
@@ -24,13 +23,10 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center p-8">
-          <div className="flex flex-col items-center gap-3 text-slate-500">
-            <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-            <p className="text-sm font-medium">Verifying administrator authorization...</p>
-          </div>
+      <div className="min-h-[calc(100vh-4rem)] bg-slate-50 flex items-center justify-center p-8">
+        <div className="flex flex-col items-center gap-3 text-slate-500">
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+          <p className="text-sm font-medium">Verifying administrator authorization...</p>
         </div>
       </div>
     );
@@ -42,25 +38,22 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="max-w-md w-full bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-xs space-y-4">
-            <div className="mx-auto w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center text-rose-600">
-              <ShieldAlert className="h-6 w-6" />
-            </div>
-            <h2 className="text-xl font-bold text-slate-900">Access Restricted</h2>
-            <p className="text-sm text-slate-600">
-              This area requires administrator privileges. Your account ({user?.email}) is registered as a student.
-            </p>
-            <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
-              <Button
-                variant="primary"
-                onClick={() => router.push("/dashboard")}
-              >
-                Go to Student Dashboard
-              </Button>
-            </div>
+      <div className="min-h-[calc(100vh-4rem)] bg-slate-50 flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-xs space-y-4">
+          <div className="mx-auto w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center text-rose-600">
+            <ShieldAlert className="h-6 w-6" />
+          </div>
+          <h2 className="text-xl font-bold text-slate-900">Access Restricted</h2>
+          <p className="text-sm text-slate-600">
+            This area requires administrator privileges. Your account ({user?.email}) is registered as a student.
+          </p>
+          <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button
+              variant="primary"
+              onClick={() => router.push("/dashboard")}
+            >
+              Go to Student Dashboard
+            </Button>
           </div>
         </div>
       </div>
@@ -68,11 +61,9 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 flex flex-col">
-      <Navbar />
-
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-50/50 flex flex-col md:flex-row">
       {/* Admin Mobile Header Bar */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white sticky top-16 z-30 shadow-xs">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white sticky top-16 z-30 shadow-xs w-full">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
             <Shield className="w-4 h-4" />
@@ -117,15 +108,15 @@ export function AdminPortalLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Main Content Layout */}
-      <div className="flex-1 flex flex-col md:flex-row">
-        <div className="hidden md:block">
-          <AdminSidebar />
-        </div>
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl min-w-0">
-          {children}
-        </main>
+      {/* Desktop Persistent Sidebar */}
+      <div className="hidden md:block">
+        <AdminSidebar />
       </div>
+
+      {/* Main Content Area */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl min-w-0">
+        {children}
+      </main>
     </div>
   );
 }

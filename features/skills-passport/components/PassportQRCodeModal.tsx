@@ -38,7 +38,7 @@ export function PassportQRCodeModal({
     if (!qrDataUrl) return;
     const a = document.createElement("a");
     a.href = qrDataUrl;
-    a.download = `careerbridge-passport-${publicId}.png`;
+    a.download = `nexskill-passport-${publicId}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

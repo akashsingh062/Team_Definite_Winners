@@ -77,7 +77,7 @@ export function classifySkillEvidence(
       evidenceReference: `Platform Assessment: ${matchingAssessment.assessmentTitle}`,
       verificationStatus: "verified",
       verificationDate: new Date(matchingAssessment.completedAt),
-      issuingSource: "CareerBridge AI Assessment Engine",
+      issuingSource: "NexSkill AI Assessment Engine",
     };
   }
 

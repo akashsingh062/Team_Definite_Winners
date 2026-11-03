@@ -5,9 +5,12 @@ import { env } from "@/config/env";
 let rawUri = process.env.MONGODB_URI || env.MONGODB_URI;
 
 // Set public DNS fallback for Windows SRV record resolution when connecting to Atlas
-if (typeof window === "undefined" && rawUri.startsWith("mongodb+srv://")) {
+if (typeof window === "undefined") {
   try {
-    dns.setServers(["8.8.8.8", "8.8.4.4"]);
+    dns.setDefaultResultOrder("ipv4first");
+    if (rawUri.startsWith("mongodb+srv://")) {
+      dns.setServers(["8.8.8.8", "8.8.4.4"]);
+    }
   } catch {
     // Graceful fallback if restricted
   }

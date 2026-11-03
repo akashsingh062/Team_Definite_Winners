@@ -32,7 +32,7 @@ export default function HomePage() {
             <div className="inline-flex items-center gap-2 flex-wrap justify-center">
               <Badge variant="indigo" className="px-3 py-1 text-xs">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-                Comprehensive AI Career Platform
+                NexSkill AI — From Skill to Opportunity
               </Badge>
               <Badge variant="emerald" className="px-3 py-1 text-xs">
                 <ShieldCheck className="w-3.5 h-3.5 mr-1.5" />
@@ -46,8 +46,8 @@ export default function HomePage() {
             </h1>
 
             <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-              CareerBridge AI empowers students with verified digital credentials, personalized learning roadmaps,
-              multilingual career counseling, what-if simulators, and alumni mentorship—bridging campus to employment with fairness.
+              NexSkill AI empowers students with verified digital credentials, personalized learning roadmaps,
+              multilingual career counseling, what-if simulators, and alumni mentorship—connecting talent from skill to opportunity.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full sm:w-auto justify-center">
