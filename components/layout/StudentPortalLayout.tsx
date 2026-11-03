@@ -79,7 +79,7 @@ export function StudentPortalLayout({
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-50/50 flex flex-col md:flex-row">
       {/* Mobile Header Bar */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 sticky top-16 z-30 shadow-2xs">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 sticky top-[68px] z-30 shadow-2xs">
         <div className="flex items-center gap-2.5">
           <LogoIcon size={28} />
           <span className="font-extrabold text-sm text-slate-900">Student Portal</span>

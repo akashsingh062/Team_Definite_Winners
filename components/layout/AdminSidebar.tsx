@@ -112,29 +112,29 @@ export function AdminSidebar({
   return (
     <aside
       className={cn(
-        "w-full md:w-68 shrink-0 border-r border-slate-200 bg-white min-h-[calc(100vh-4rem)] flex flex-col justify-between p-4",
+        "w-full md:w-72 shrink-0 border-r border-slate-200/80 bg-white min-h-[calc(100vh-68px)] flex flex-col justify-between p-4 md:sticky md:top-[68px] overflow-y-auto",
         className
       )}
     >
       <div className="space-y-5">
         {/* Admin Identifier Widget */}
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900 text-white shadow-xs">
+        <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-900 text-white shadow-xs">
           <Avatar
             name={user?.name || "Admin"}
             size="md"
-            className="bg-indigo-500 text-white"
+            className="bg-indigo-600 text-white font-bold"
           />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <Shield className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">
                 Administrator
               </span>
             </div>
-            <h4 className="text-sm font-semibold text-white truncate">
+            <h4 className="text-xs sm:text-sm font-extrabold text-white truncate">
               {user?.name || "Admin User"}
             </h4>
-            <p className="text-xs text-slate-400 truncate">{user?.email}</p>
+            <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
           </div>
         </div>
 
@@ -142,7 +142,7 @@ export function AdminSidebar({
         <nav className="space-y-4">
           {adminNavGroups.map((group) => (
             <div key={group.title} className="space-y-1">
-              <p className="px-3 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              <p className="px-3 pb-1 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
                 {group.title}
               </p>
               <div className="space-y-0.5">
@@ -158,38 +158,34 @@ export function AdminSidebar({
                       href={item.href}
                       onClick={onItemClick}
                       className={cn(
-                        "flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors group",
+                        "relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-150 group select-none",
                         isActive
-                          ? "bg-indigo-50 text-indigo-700 font-semibold shadow-2xs"
+                          ? "bg-indigo-50 text-indigo-900 font-extrabold border border-indigo-100 shadow-2xs"
                           : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                       )}
                     >
-                      <div className="flex items-center gap-2.5 min-w-0">
+                      {isActive && (
+                        <span className="absolute left-1 top-2.5 bottom-2.5 w-1 bg-indigo-600 rounded-full" />
+                      )}
+
+                      <div className="flex items-center gap-2.5 min-w-0 pl-1">
                         <Icon
                           className={cn(
-                            "h-4 w-4 shrink-0",
+                            "h-4 w-4 shrink-0 transition-colors",
                             isActive
                               ? "text-indigo-600"
-                              : "text-slate-400 group-hover:text-slate-600"
+                              : "text-slate-400 group-hover:text-slate-700"
                           )}
                         />
                         <span className="truncate">{item.name}</span>
                       </div>
-                      {item.badge ? (
-                        <Badge
-                          variant={isActive ? "indigo" : "slate"}
-                          className="text-[10px] py-0 px-1.5 shrink-0"
-                        >
-                          {item.badge}
-                        </Badge>
-                      ) : (
-                        <ChevronRight
-                          className={cn(
-                            "h-3 w-3 text-slate-300 group-hover:text-slate-500 shrink-0",
-                            isActive && "text-indigo-600"
-                          )}
-                        />
-                      )}
+
+                      <ChevronRight
+                        className={cn(
+                          "h-3.5 w-3.5 text-slate-300 group-hover:text-slate-500 shrink-0 transition-transform group-hover:translate-x-0.5",
+                          isActive && "text-indigo-600"
+                        )}
+                      />
                     </Link>
                   );
                 })}
@@ -200,12 +196,12 @@ export function AdminSidebar({
       </div>
 
       {/* Logout Action */}
-      <div className="pt-3 mt-4 border-t border-slate-200">
+      <div className="pt-3 mt-4 border-t border-slate-100">
         <button
           onClick={() => signOut()}
-          className="flex w-full items-center gap-2.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+          className="flex w-full items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
         >
-          <LogOut className="h-4 w-4" />
+          <LogOut className="h-4 w-4 text-slate-400 group-hover:text-rose-500" />
           <span>Sign Out</span>
         </button>
       </div>
